@@ -46,6 +46,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String _firstNumberLength = "1";
   String _secondNumberLength = "1";
 
+  var _numberPairList = [];
+
   final String FIRST_NUMBER_LENGTH = "firstNumberLength";
   final String SECOND_NUMBER_LENGTH = "secondNumberLength";
 
@@ -62,6 +64,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //숫자 계산
   void _calculateNumber() {
+    _numberPairList = [];
+
     var inputText = _magicNumber.text;
 
     if (!isInt(inputText)) {
@@ -73,14 +77,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
     var inputNumber = int.parse(inputText);
 
-    var list = [];
-
     int startNumber = 1;
     int endNumber = 9;
     for (int idx = 1; idx < int.parse(_firstNumberLength); idx++) {
       startNumber *= 10;
       endNumber = endNumber * 10 + 9;
     }
+    endNumber = (endNumber / 2).toInt();
 
     String resultFirstNumber = "";
     String resultSecondNumber = "";
@@ -112,15 +115,15 @@ class _MyHomePageState extends State<MyHomePage> {
             }
           }
 
-          list.add([resultFirstNumber, resultSecondNumber]);
-          list.add([resultSecondNumber, resultFirstNumber]);
+          _numberPairList.add([resultFirstNumber, resultSecondNumber]);
+          _numberPairList.add([resultSecondNumber, resultFirstNumber]);
         }
       }
     }
 
     _resultMessage = "";
-    for (int idx = 0; idx < list.length; idx++) {
-      var pairList = list[idx];
+    for (int idx = 0; idx < _numberPairList.length; idx++) {
+      var pairList = _numberPairList[idx];
       _resultMessage +=
           pairList[0].toString() + "/" + pairList[1].toString() + "\n";
     }
@@ -152,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
         await db.selectKeyValueMap(SECOND_NUMBER_LENGTH);
     if (secondKeyValueMap.key != null) {
       setState(() {
-        _firstNumberLength = keyValueMap.value!;
+        _secondNumberLength = secondKeyValueMap.value!;
       });
     }
   }
@@ -162,10 +165,17 @@ class _MyHomePageState extends State<MyHomePage> {
     var db = DatabaseHelper.instance;
     KeyValueMap keyValueMap = await db.selectKeyValueMap(paramKey);
     if (keyValueMap.key == null) {
-      db.insertKeyValueMap(paramKey, paramValue);
+      await db.insertKeyValueMap(paramKey, paramValue);
     } else {
-      db.updateKeyValueMap(paramKey, paramValue);
+      await db.updateKeyValueMap(paramKey, paramValue);
     }
+    // await db.deleteKeyValueMap(paramKey);
+    // await db.insertKeyValueMap(paramKey, paramValue);
+  }
+
+  _getTitleTextStyle() {
+    return TextStyle(
+        fontSize: 14, fontWeight: FontWeight.bold);
   }
 
   @override
@@ -251,7 +261,29 @@ class _MyHomePageState extends State<MyHomePage> {
                   _calculateNumber();
                 },
                 child: const Text('계산하기')),
-            Text(_resultMessage)
+            SizedBox(
+              width: double.infinity,
+              height: 200,
+              child: ListView.builder(
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      children: [
+                        Text(_numberPairList[index][0],
+                          style: _getTitleTextStyle()),
+                        Text("-",
+                            style: _getTitleTextStyle()),
+                        Text(_numberPairList[index][1],
+                            style: _getTitleTextStyle())
+                      ],
+                    ),
+                  );
+                },
+                scrollDirection: Axis.vertical,
+                itemCount: _numberPairList.length,
+              ),
+            )
           ],
         ),
       ),
