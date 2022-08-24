@@ -75,14 +75,12 @@ class _MyHomePageState extends State<MyHomePage> {
       return;
     }
 
-    FocusManager.instance.primaryFocus?.unfocus();
-
     var inputNumber = int.parse(inputText);
 
     int startNumber = 1;
     int endNumber = 9;
     for (int idx = 1; idx < int.parse(_firstNumberLength); idx++) {
-      startNumber *= 10;
+      //startNumber *= 10;
       endNumber = endNumber * 10 + 9;
     }
 
@@ -95,38 +93,48 @@ class _MyHomePageState extends State<MyHomePage> {
       if (inputNumber % firstNumber == 0) {
         var secondNumber = (inputNumber / firstNumber).toInt();
 
-        if (firstNumber.toString().length <= int.parse(_firstNumberLength) &&
-            secondNumber.toString().length <= int.parse(_firstNumberLength)) {
-          resultFirstNumber = firstNumber.toString();
-          if (resultFirstNumber.length < int.parse(_firstNumberLength)) {
-            for (int idx2 = resultFirstNumber.length;
-                idx2 < int.parse(_firstNumberLength);
-                idx2++) {
-              resultFirstNumber = "0" + resultFirstNumber;
-            }
-          }
-
-          resultSecondNumber = secondNumber.toString();
-
-          if (resultSecondNumber.length < int.parse(_firstNumberLength)) {
-            for (int idx2 = resultSecondNumber.length;
-                idx2 < int.parse(_firstNumberLength);
-                idx2++) {
-              resultSecondNumber = "0" + resultSecondNumber;
-            }
-          }
-
-          _numberPairList.add([resultFirstNumber, resultSecondNumber]);
-          _numberPairList.add([resultSecondNumber, resultFirstNumber]);
+        if (firstNumber.toString().length > int.parse(_firstNumberLength) ||
+            firstNumber.toString().length > int.parse(_secondNumberLength) ||
+            secondNumber.toString().length > int.parse(_firstNumberLength) ||
+            secondNumber.toString().length > int.parse(_secondNumberLength)) {
+          continue;
         }
+
+        resultFirstNumber = firstNumber.toString();
+        if (resultFirstNumber.length < int.parse(_firstNumberLength)) {
+          for (int idx2 = resultFirstNumber.length;
+              idx2 < int.parse(_firstNumberLength);
+              idx2++) {
+            resultFirstNumber = "0" + resultFirstNumber;
+          }
+        }
+
+        resultSecondNumber = secondNumber.toString();
+
+        if (resultSecondNumber.length < int.parse(_secondNumberLength)) {
+          for (int idx2 = resultSecondNumber.length;
+              idx2 < int.parse(_secondNumberLength);
+              idx2++) {
+            resultSecondNumber = "0" + resultSecondNumber;
+          }
+        }
+
+        _numberPairList.add([resultFirstNumber, resultSecondNumber]);
+        //_numberPairList.add([resultSecondNumber, resultFirstNumber]);
       }
     }
-    
-    if(_numberPairList.isEmpty){
+
+    if (_numberPairList.isEmpty) {
       setState(() {
         _resultMessage = "계산결과값이 없습니다";
       });
     }
+
+    setState(() {
+      _numberPairList.sort((a, b) => int.parse(b[0]) - int.parse(a[0]));
+    });
+
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 
   //숫자인지 검사
@@ -262,13 +270,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 200,
                     child: Center(
                         child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(40.0),
-                              child: Text(_resultMessage, style: _getTitleTextStyle()),
-                            ),
-                          ],
-                        )))
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(40.0),
+                          child:
+                              Text(_resultMessage, style: _getTitleTextStyle()),
+                        ),
+                      ],
+                    )))
                 : SizedBox(
                     width: double.infinity,
                     height: 200,
