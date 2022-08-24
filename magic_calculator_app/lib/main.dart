@@ -75,6 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
       return;
     }
 
+    FocusManager.instance.primaryFocus?.unfocus();
+
     var inputNumber = int.parse(inputText);
 
     int startNumber = 1;
