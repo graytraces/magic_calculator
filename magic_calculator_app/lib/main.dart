@@ -94,8 +94,6 @@ class _MyHomePageState extends State<MyHomePage> {
         var secondNumber = (inputNumber / firstNumber).toInt();
 
         if (firstNumber.toString().length > int.parse(_firstNumberLength) ||
-            firstNumber.toString().length > int.parse(_secondNumberLength) ||
-            secondNumber.toString().length > int.parse(_firstNumberLength) ||
             secondNumber.toString().length > int.parse(_secondNumberLength)) {
           continue;
         }
