@@ -49,3 +49,4 @@ app.*.map.json
 
 /magic_calculator_app/build
 magic_calculator_app/build/*
+/magic_calculator_app/build/
