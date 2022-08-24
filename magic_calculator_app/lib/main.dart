@@ -83,7 +83,6 @@ class _MyHomePageState extends State<MyHomePage> {
       startNumber *= 10;
       endNumber = endNumber * 10 + 9;
     }
-    endNumber = (endNumber / 2).toInt();
 
     String resultFirstNumber = "";
     String resultSecondNumber = "";
