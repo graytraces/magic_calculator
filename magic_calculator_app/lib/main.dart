@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     if (!isInt(inputText)) {
       setState(() {
-        _resultMessage = "정수 숫자만 입력해주세요";
+        _resultMessage = "정수 숫자를 입력해주세요";
       });
       return;
     }
@@ -121,17 +121,12 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       }
     }
-
-    _resultMessage = "";
-    for (int idx = 0; idx < _numberPairList.length; idx++) {
-      var pairList = _numberPairList[idx];
-      _resultMessage +=
-          pairList[0].toString() + "/" + pairList[1].toString() + "\n";
+    
+    if(_numberPairList.isEmpty){
+      setState(() {
+        _resultMessage = "계산결과값이 없습니다";
+      });
     }
-
-    setState(() {
-      _resultMessage += "";
-    });
   }
 
   //숫자인지 검사
@@ -175,8 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _getTitleTextStyle() {
-    return TextStyle(
-        fontSize: 14, fontWeight: FontWeight.bold);
+    return TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
   }
 
   @override
@@ -262,29 +256,42 @@ class _MyHomePageState extends State<MyHomePage> {
                   _calculateNumber();
                 },
                 child: const Text('계산하기')),
-            SizedBox(
-              width: double.infinity,
-              height: 200,
-              child: ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Row(
-                      children: [
-                        Text(_numberPairList[index][0],
-                          style: _getTitleTextStyle()),
-                        Text("-",
-                            style: _getTitleTextStyle()),
-                        Text(_numberPairList[index][1],
-                            style: _getTitleTextStyle())
-                      ],
+            _numberPairList.length == 0
+                ? SizedBox(
+                    width: double.infinity,
+                    height: 200,
+                    child: Center(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(40.0),
+                              child: Text(_resultMessage, style: _getTitleTextStyle()),
+                            ),
+                          ],
+                        )))
+                : SizedBox(
+                    width: double.infinity,
+                    height: 200,
+                    child: ListView.builder(
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(_numberPairList[index][0],
+                                  style: _getTitleTextStyle()),
+                              Text("-", style: _getTitleTextStyle()),
+                              Text(_numberPairList[index][1],
+                                  style: _getTitleTextStyle())
+                            ],
+                          ),
+                        );
+                      },
+                      scrollDirection: Axis.vertical,
+                      itemCount: _numberPairList.length,
                     ),
-                  );
-                },
-                scrollDirection: Axis.vertical,
-                itemCount: _numberPairList.length,
-              ),
-            )
+                  )
           ],
         ),
       ),
