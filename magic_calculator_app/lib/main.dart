@@ -47,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String _secondNumberLength = "1";
 
   var _numberPairList = [];
+  var _numberPairListReverse = [];
 
   final String FIRST_NUMBER_LENGTH = "firstNumberLength";
   final String SECOND_NUMBER_LENGTH = "secondNumberLength";
@@ -65,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //숫자 계산
   void _calculateNumber() {
     _numberPairList = [];
+    _numberPairListReverse = [];
 
     var inputText = _magicNumber.text;
 
@@ -117,7 +119,12 @@ class _MyHomePageState extends State<MyHomePage> {
           }
         }
 
-        _numberPairList.add([resultFirstNumber, resultSecondNumber]);
+        setState(() {
+          _numberPairList.add([resultFirstNumber, resultSecondNumber]);
+          _numberPairListReverse.add([resultSecondNumber, resultFirstNumber]);
+        });
+
+        endNumber = secondNumber-1;
         //_numberPairList.add([resultSecondNumber, resultFirstNumber]);
       }
     }
@@ -128,9 +135,10 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
 
-    setState(() {
-      _numberPairList.sort((a, b) => int.parse(b[0]) - int.parse(a[0]));
-    });
+    // setState(() {
+    //   _numberPairList.sort((a, b) => int.parse(b[0]) - int.parse(a[0]));
+    //   _numberPairListReverse.sort((a, b) => int.parse(b[0]) - int.parse(a[0]));
+    // });
 
     FocusManager.instance.primaryFocus?.unfocus();
   }
@@ -284,13 +292,30 @@ class _MyHomePageState extends State<MyHomePage> {
                         return Padding(
                           padding: const EdgeInsets.all(4.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Text(_numberPairList[index][0],
-                                  style: _getTitleTextStyle()),
-                              Text("-", style: _getTitleTextStyle()),
-                              Text(_numberPairList[index][1],
-                                  style: _getTitleTextStyle())
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("010-", style: _getTitleTextStyle()),
+                                  Text(_numberPairListReverse[index][0],
+                                      style: _getTitleTextStyle()),
+                                  Text("-", style: _getTitleTextStyle()),
+                                  Text(_numberPairListReverse[index][1],
+                                      style: _getTitleTextStyle())
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("010-", style: _getTitleTextStyle()),
+                                  Text(_numberPairList[index][0],
+                                      style: _getTitleTextStyle()),
+                                  Text("-", style: _getTitleTextStyle()),
+                                  Text(_numberPairList[index][1],
+                                      style: _getTitleTextStyle())
+                                ],
+                              ),
                             ],
                           ),
                         );
