@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
           _numberPairListReverse.add([resultSecondNumber, resultFirstNumber]);
         });
 
-        endNumber = secondNumber-1;
+        endNumber = secondNumber - 1;
         //_numberPairList.add([resultSecondNumber, resultFirstNumber]);
       }
     }
@@ -270,10 +270,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   _calculateNumber();
                 },
                 child: const Text('계산하기')),
+            SizedBox(
+              height: 20,
+            ),
             _numberPairList.length == 0
                 ? SizedBox(
                     width: double.infinity,
-                    height: 200,
+                    height: 180,
                     child: Center(
                         child: Column(
                       children: [
@@ -286,42 +289,46 @@ class _MyHomePageState extends State<MyHomePage> {
                     )))
                 : SizedBox(
                     width: double.infinity,
-                    height: 200,
-                    child: ListView.builder(
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("010-", style: _getTitleTextStyle()),
-                                  Text(_numberPairListReverse[index][0],
-                                      style: _getTitleTextStyle()),
-                                  Text("-", style: _getTitleTextStyle()),
-                                  Text(_numberPairListReverse[index][1],
-                                      style: _getTitleTextStyle())
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("010-", style: _getTitleTextStyle()),
-                                  Text(_numberPairList[index][0],
-                                      style: _getTitleTextStyle()),
-                                  Text("-", style: _getTitleTextStyle()),
-                                  Text(_numberPairList[index][1],
-                                      style: _getTitleTextStyle())
-                                ],
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      scrollDirection: Axis.vertical,
-                      itemCount: _numberPairList.length,
+                    height: 180,
+                    child: Scrollbar(
+                      thickness: 4,
+                      isAlwaysShown: true,
+                      child: ListView.builder(
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("010-", style: _getTitleTextStyle()),
+                                    Text(_numberPairListReverse[index][0],
+                                        style: _getTitleTextStyle()),
+                                    Text("-", style: _getTitleTextStyle()),
+                                    Text(_numberPairListReverse[index][1],
+                                        style: _getTitleTextStyle())
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("010-", style: _getTitleTextStyle()),
+                                    Text(_numberPairList[index][0],
+                                        style: _getTitleTextStyle()),
+                                    Text("-", style: _getTitleTextStyle()),
+                                    Text(_numberPairList[index][1],
+                                        style: _getTitleTextStyle())
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        scrollDirection: Axis.vertical,
+                        itemCount: _numberPairList.length,
+                      ),
                     ),
                   )
           ],
