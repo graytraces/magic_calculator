@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:magic_calculator_app/config_screen.dart';
 
 import 'database_helper.dart';
 import 'key_value_map.dart';
@@ -16,15 +17,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Magic Calculator',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Magic Calculator'),
@@ -190,9 +182,17 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(title: Text(widget.title), actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ConfigScreen()),
+            );},
+          style: TextButton.styleFrom(primary: Colors.white),
+          child: const Icon(Icons.settings),
+        ),
+      ]),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
