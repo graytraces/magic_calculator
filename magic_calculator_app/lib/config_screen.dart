@@ -26,6 +26,16 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
   final String FIRST_NUMBER_LENGTH = "firstNumberLength";
   final String SECOND_NUMBER_LENGTH = "secondNumberLength";
 
+  TextEditingController countryCodeController = TextEditingController();
+  bool _isUseCountryCode = false;
+
+  TextEditingController prefixCodeController = TextEditingController();
+  bool _isUsePrefixCode = false;
+
+  bool _isSendBulk = false;
+  TextEditingController smsTextController = TextEditingController();
+  TextEditingController smsSendDelayController = TextEditingController();
+
   @override
   void initState() {
     loadSavedLength();
@@ -61,88 +71,209 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
     }
   }
 
+  _getTitleTextStyle() {
+    return TextStyle(
+        fontSize: 18, color: Colors.blueAccent, fontWeight: FontWeight.bold);
+  }
+
   @override
   Widget build(BuildContext context) {
+    var inputNumberLength = <String>[
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9'
+    ];
     return Scaffold(
         appBar: AppBar(title: Text('설정')),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text("첫번째 자릿수"),
-                  SizedBox(
-                    width: 50,
-                    child: DropdownButton(
-                      isExpanded: true,
-                      items: <String>[
-                        '1',
-                        '2',
-                        '3',
-                        '4',
-                        '5',
-                        '6',
-                        '7',
-                        '8',
-                        '9'
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Center(child: Text(value)),
-                        );
-                      }).toList(),
-                      value: _firstNumberLength,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _firstNumberLength = newValue!;
-                        });
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    "○ 숫자 자릿수",
+                    style: _getTitleTextStyle(),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text("첫번째 자릿수"),
+                    SizedBox(
+                      width: 50,
+                      child: DropdownButton(
+                        isExpanded: true,
+                        items: inputNumberLength
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Center(child: Text(value)),
+                          );
+                        }).toList(),
+                        value: _firstNumberLength,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _firstNumberLength = newValue!;
+                          });
 
-                        saveKeyValue(FIRST_NUMBER_LENGTH, newValue!);
-                      },
+                          saveKeyValue(FIRST_NUMBER_LENGTH, newValue!);
+                        },
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text("두번째 자릿수"),
+                    SizedBox(
+                      width: 50,
+                      child: DropdownButton(
+                        isExpanded: true,
+                        items: inputNumberLength
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Center(child: Text(value)),
+                          );
+                        }).toList(),
+                        value: _secondNumberLength,
+                        onChanged: (String? newValue) async {
+                          setState(() {
+                            _secondNumberLength = newValue!;
+                          });
+                          saveKeyValue(SECOND_NUMBER_LENGTH, newValue!);
+                        },
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    '○ 국가코드',
+                    style: _getTitleTextStyle(),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("사용여부 : "),
+                    Switch(
+                      value: _isUseCountryCode,
+                      onChanged: (value) => setState(() {
+                        _isUseCountryCode = value;
+                      }),
                     ),
-                  )
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text("두번째 자릿수"),
-                  SizedBox(
-                    width: 50,
-                    child: DropdownButton(
-                      isExpanded: true,
-                      items: <String>[
-                        '1',
-                        '2',
-                        '3',
-                        '4',
-                        '5',
-                        '6',
-                        '7',
-                        '8',
-                        '9'
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Center(child: Text(value)),
-                        );
-                      }).toList(),
-                      value: _secondNumberLength,
-                      onChanged: (String? newValue) async {
-                        setState(() {
-                          _secondNumberLength = newValue!;
-                        });
-                        saveKeyValue(SECOND_NUMBER_LENGTH, newValue!);
-                      },
+                    Text("코드 : "),
+                    SizedBox(
+                      width: 120,
+                      height: 50,
+                      child: TextField(
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: '국가코드(+82)'),
+                        controller: countryCodeController,
+                      ),
                     ),
-                  )
-                ],
-              ),
-            ],
+                  ],
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    '○ 자동입력 앞자리',
+                    style: _getTitleTextStyle(),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("사용여부 : "),
+                    Switch(
+                      value: _isUsePrefixCode,
+                      onChanged: (value) => setState(() {
+                        _isUsePrefixCode = value;
+                      }),
+                    ),
+                    Text("코드 : "),
+                    SizedBox(
+                      width: 120,
+                      height: 50,
+                      child: TextField(
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: '자동입력 앞자리(010)'),
+                        controller: prefixCodeController,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    "○ SMS 발송",
+                    style: _getTitleTextStyle(),
+                  ),
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("대량전송 여부 : "),
+                      Switch(
+                        value: _isSendBulk,
+                        onChanged: (value) => setState(() {
+                          _isSendBulk = value;
+                        }),
+                      ),
+                      Text("/"),
+                      Text("전송 딜레이(초)"),
+                      SizedBox(
+                        width: 80,
+                        height: 50,
+                        child: TextField(
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(), hintText: '초'),
+                            controller: smsSendDelayController,
+                            keyboardType: TextInputType.number),
+                      ),
+                    ]),
+                SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    "○ SMS 문구",
+                    style: _getTitleTextStyle(),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: TextField(
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(), hintText: 'SMS 문구'),
+                    keyboardType: TextInputType.multiline,
+                    minLines: 4,
+                    maxLines: 4,
+                    controller: smsTextController,
+                  ),
+                ),
+              ],
+            ),
           ),
         ));
   }
