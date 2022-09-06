@@ -181,50 +181,52 @@ class _MyHomePageState extends State<MyHomePage> {
           child: const Icon(Icons.settings),
         ),
       ]),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-                controller: _magicNumber,
-                keyboardType: TextInputType.number),
-            SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 30),
-                ),
-                onPressed: () {
-                  _calculateNumber();
-                },
-                child: const Text('계산하기')),
-            SizedBox(
-              height: 20,
-            ),
-            _numberPairList.length == 0
-                ? SizedBox(
-                    width: double.infinity,
-                    height: 180,
-                    child: Center(
-                        child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(40.0),
-                          child:
-                              Text(_resultMessage, style: _getTitleTextStyle()),
-                        ),
-                      ],
-                    )))
-                : SizedBox(
-                    width: double.infinity,
-                    height: 180,
-                    child: Scrollbar(
-                      thickness: 4,
-                      isAlwaysShown: true,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                height: 40,
+              ),
+              TextField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                  ),
+                  controller: _magicNumber,
+                  keyboardType: TextInputType.number),
+              SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 40),
+                  ),
+                  onPressed: () {
+                    _calculateNumber();
+                  },
+                  child: const Text('계산하기')),
+              SizedBox(
+                height: 20,
+              ),
+              _numberPairList.length == 0
+                  ? SizedBox(
+                      width: double.infinity,
+                      height: 180,
+                      child: Center(
+                          child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(40.0),
+                            child:
+                                Text(_resultMessage, style: _getTitleTextStyle()),
+                          ),
+                        ],
+                      )))
+                  : SizedBox(
+                      width: double.infinity,
+                      height: 400,
                       child: ListView.builder(
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
@@ -261,9 +263,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         scrollDirection: Axis.vertical,
                         itemCount: _numberPairList.length,
                       ),
-                    ),
-                  )
-          ],
+                    )
+            ],
+          ),
         ),
       ),
     );
