@@ -162,19 +162,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  //길이 저장
-  saveKeyValue(String paramKey, String paramValue) async {
-    var db = DatabaseHelper.instance;
-    KeyValueMap keyValueMap = await db.selectKeyValueMap(paramKey);
-    if (keyValueMap.key == null) {
-      await db.insertKeyValueMap(paramKey, paramValue);
-    } else {
-      await db.updateKeyValueMap(paramKey, paramValue);
-    }
-    // await db.deleteKeyValueMap(paramKey);
-    // await db.insertKeyValueMap(paramKey, paramValue);
-  }
-
   _getTitleTextStyle() {
     return TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
   }
@@ -188,7 +175,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => ConfigScreen()),
-            );},
+            ).then((value) => loadSavedLength());
+          },
           style: TextButton.styleFrom(primary: Colors.white),
           child: const Icon(Icons.settings),
         ),
@@ -203,62 +191,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 controller: _magicNumber,
                 keyboardType: TextInputType.number),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text("첫번째 자릿수"),
-                SizedBox(
-                  width: 50,
-                  child: DropdownButton(
-                    isExpanded: true,
-                    items: <String>['1', '2', '3', '4', '5', '6', '7', '8', '9']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Center(child: Text(value)),
-                      );
-                    }).toList(),
-                    value: _firstNumberLength,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _firstNumberLength = newValue!;
-                      });
-
-                      saveKeyValue(FIRST_NUMBER_LENGTH, newValue!);
-                    },
-                  ),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text("두번째 자릿수"),
-                SizedBox(
-                  width: 50,
-                  child: DropdownButton(
-                    isExpanded: true,
-                    items: <String>['1', '2', '3', '4', '5', '6', '7', '8', '9']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Center(child: Text(value)),
-                      );
-                    }).toList(),
-                    value: _secondNumberLength,
-                    onChanged: (String? newValue) async {
-                      setState(() {
-                        _secondNumberLength = newValue!;
-                      });
-                      saveKeyValue(SECOND_NUMBER_LENGTH, newValue!);
-                    },
-                  ),
-                )
-              ],
-            ),
             SizedBox(
               height: 20,
             ),
