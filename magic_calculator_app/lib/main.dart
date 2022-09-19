@@ -3,6 +3,7 @@ import 'package:magic_calculator_app/config_screen.dart';
 
 import 'database_helper.dart';
 import 'key_value_map.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const MyApp());
@@ -166,6 +167,13 @@ class _MyHomePageState extends State<MyHomePage> {
     return TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
   }
 
+  _launchCall(String phoneNumber) async {
+    final Uri _url = Uri.parse('tel' + phoneNumber);
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -219,8 +227,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(40.0),
-                            child:
-                                Text(_resultMessage, style: _getTitleTextStyle()),
+                            child: Text(_resultMessage,
+                                style: _getTitleTextStyle()),
                           ),
                         ],
                       )))
@@ -230,7 +238,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: ListView.builder(
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(0.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -242,7 +250,37 @@ class _MyHomePageState extends State<MyHomePage> {
                                         style: _getTitleTextStyle()),
                                     Text("-", style: _getTitleTextStyle()),
                                     Text(_numberPairListReverse[index][1],
-                                        style: _getTitleTextStyle())
+                                        style: _getTitleTextStyle()),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    SizedBox(
+                                        width: 30,
+                                        height: 30,
+                                        child: ElevatedButton(
+                                          onPressed: () => {
+                                            _launchCall("010" +
+                                                _numberPairListReverse[index]
+                                                    [0] +
+                                                _numberPairListReverse[index]
+                                                    [1])
+                                          },
+                                          child: Icon(Icons.call),
+                                          style: ElevatedButton.styleFrom(
+                                              padding: EdgeInsets.all(0)),
+                                        )),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    SizedBox(
+                                        width: 30,
+                                        height: 30,
+                                        child: ElevatedButton(
+                                          onPressed: () => {},
+                                          child: Icon(Icons.sms),
+                                          style: ElevatedButton.styleFrom(
+                                              padding: EdgeInsets.all(0)),
+                                        )),
                                   ],
                                 ),
                                 Row(
@@ -253,7 +291,35 @@ class _MyHomePageState extends State<MyHomePage> {
                                         style: _getTitleTextStyle()),
                                     Text("-", style: _getTitleTextStyle()),
                                     Text(_numberPairList[index][1],
-                                        style: _getTitleTextStyle())
+                                        style: _getTitleTextStyle()),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    SizedBox(
+                                        width: 30,
+                                        height: 30,
+                                        child: ElevatedButton(
+                                          onPressed: () => {
+                                            _launchCall("010" +
+                                                _numberPairList[index][0] +
+                                                _numberPairList[index][1])
+                                          },
+                                          child: Icon(Icons.call),
+                                          style: ElevatedButton.styleFrom(
+                                              padding: EdgeInsets.all(0)),
+                                        )),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    SizedBox(
+                                        width: 30,
+                                        height: 30,
+                                        child: ElevatedButton(
+                                          onPressed: () => {},
+                                          child: Icon(Icons.sms),
+                                          style: ElevatedButton.styleFrom(
+                                              padding: EdgeInsets.all(0)),
+                                        )),
                                   ],
                                 ),
                               ],
