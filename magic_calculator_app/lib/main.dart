@@ -5,6 +5,8 @@ import 'database_helper.dart';
 import 'key_value_map.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'number_analysis/question_helper.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -42,6 +44,9 @@ class _MyHomePageState extends State<MyHomePage> {
   var _numberPairList = [];
   var _numberPairListReverse = [];
 
+  List<List<int>> _pairListInt = [];
+  List<QuestionCase> _bestQuestionSet = [];
+
   final String FIRST_NUMBER_LENGTH = "firstNumberLength";
   final String SECOND_NUMBER_LENGTH = "secondNumberLength";
 
@@ -60,6 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _calculateNumber() {
     _numberPairList = [];
     _numberPairListReverse = [];
+    _pairListInt = [];
+    _bestQuestionSet = [];
 
     var inputText = _magicNumber.text;
 
@@ -116,6 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
           _numberPairList.add([resultFirstNumber, resultSecondNumber]);
           _numberPairListReverse.add([resultSecondNumber, resultFirstNumber]);
         });
+        _pairListInt.add([firstNumber, secondNumber]);
 
         endNumber = secondNumber - 1;
         //_numberPairList.add([resultSecondNumber, resultFirstNumber]);
@@ -128,11 +136,23 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
 
-    // setState(() {
-    //   _numberPairList.sort((a, b) => int.parse(b[0]) - int.parse(a[0]));
-    //   _numberPairListReverse.sort((a, b) => int.parse(b[0]) - int.parse(a[0]));
-    // });
+    List<QuestionCase> resultList = [];
+    QuestionMaker questionMaker = QuestionMaker(_pairListInt);
 
+    questionMaker.getFirstDepthQuestionCase(resultList);
+    _bestQuestionSet = questionMaker.getBestQuestionSet(resultList);
+    if(_bestQuestionSet.isEmpty){
+      questionMaker.getSecondDepthQuestionCase(resultList);
+      _bestQuestionSet = questionMaker.getBestQuestionSet(resultList);
+      if(_bestQuestionSet.isEmpty){
+        questionMaker.getThirdDepthQuestionCase(resultList);
+        _bestQuestionSet = questionMaker.getBestQuestionSet(resultList);
+        if(_bestQuestionSet.isEmpty){
+          questionMaker.getFourthDepthQuestionCase(resultList);
+          _bestQuestionSet = questionMaker.getBestQuestionSet(resultList);
+        }
+      }
+    }
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
@@ -234,7 +254,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       )))
                   : SizedBox(
                       width: double.infinity,
-                      height: 400,
+                      height: 180,
                       child: ListView.builder(
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
@@ -329,7 +349,40 @@ class _MyHomePageState extends State<MyHomePage> {
                         scrollDirection: Axis.vertical,
                         itemCount: _numberPairList.length,
                       ),
-                    )
+                    ),
+              Text("최적질문",
+                  style: _getTitleTextStyle()),
+              _bestQuestionSet.isEmpty
+                  ? SizedBox(
+                  width: double.infinity,
+                  height: 180,
+                  child: Center(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(40.0),
+                            child: Text("최적질문이 없습니다",
+                                style: _getTitleTextStyle()),
+                          ),
+                        ],
+                      )))
+                  : SizedBox(
+                width: double.infinity,
+                height: 180,
+                child: ListView.builder(
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child:
+                        Text(
+                            _bestQuestionSet[index].toString()
+                      ),
+                    );
+                  },
+                  scrollDirection: Axis.vertical,
+                  itemCount: _bestQuestionSet.length,
+                ),
+              )
             ],
           ),
         ),
