@@ -11,26 +11,20 @@ class NumberStatistics {
   ];
   List<int> greenRedBlueCnt = List.filled(
       (QuestionCandidate.values.length - QuestionCandidate.green.index), 0);
-  int green = 0;
-  List<int> red = List.filled(0, 4);
-  List<int> blue = List.filled(0, 4);
   int pairSize = 0;
 
-  List<List<double>> cosSimMatrix = [];
   List<List<int>> greenRedBlueMatrix = [];
 
   NumberStatistics(this.pairSize) {
     for (int i = 0;
         i < QuestionCandidate.values.length - QuestionCandidate.green.index;
         i++) {
-      cosSimMatrix.add(List.filled(pairSize, 0));
       greenRedBlueMatrix.add(List.filled(pairSize, 0));
     }
 
     for (int i = 0; i < greenRedBlueMatrix.length; i++) {
       for (int j = 0; j < greenRedBlueMatrix[i].length; j++) {
         greenRedBlueMatrix[i][j] = 0;
-        cosSimMatrix[i][j] = 0;
       }
       greenRedBlueCnt[i] = 0;
     }
@@ -53,17 +47,14 @@ class NumberStatistics {
     for (int i = 0; i < pairList.length; i++) {
       List<int> pair = pairList[i];
 
-      int firstPositionFirstNumber =
-          (pair[0] / firstPositionFirstNumberDevider) as int;
+      int firstPositionFirstNumber = pair[0] ~/ firstPositionFirstNumberDevider;
       if (firstPositionFirstNumber % 2 == 1) {
-        red[0]++;
         greenRedBlueCnt[QuestionCandidate.red1.index - correctionValue]++;
         greenRedBlueMatrix[QuestionCandidate.red1.index - correctionValue][i] =
             1;
       }
 
       if (firstPositionFirstNumber > 4) {
-        blue[0]++;
         greenRedBlueCnt[QuestionCandidate.blue1.index - correctionValue]++;
         greenRedBlueMatrix[QuestionCandidate.blue1.index - correctionValue][i] =
             1;
@@ -72,30 +63,25 @@ class NumberStatistics {
 
       int firstPositionLastNumber = pair[0] % 10;
       if (firstPositionLastNumber % 2 == 1) {
-        red[1]++;
         greenRedBlueCnt[QuestionCandidate.red9.index - correctionValue]++;
         greenRedBlueMatrix[QuestionCandidate.red9.index - correctionValue][i] =
             1;
       }
 
       if (firstPositionLastNumber > 4) {
-        blue[1]++;
         greenRedBlueCnt[QuestionCandidate.blue9.index - correctionValue]++;
         greenRedBlueMatrix[QuestionCandidate.blue9.index - correctionValue][i] =
             1;
       }
       black[1][firstPositionLastNumber]++;
 
-      int lastPositionFirstNumber =
-          (pair[1] / lastPositionFirstNumberDevider) as int;
+      int lastPositionFirstNumber = pair[1] ~/ lastPositionFirstNumberDevider;
       if (lastPositionFirstNumber % 2 == 1) {
-        red[2]++;
         greenRedBlueCnt[QuestionCandidate.red11.index - correctionValue]++;
         greenRedBlueMatrix[QuestionCandidate.red11.index - correctionValue][i] =
             1;
       }
       if (lastPositionFirstNumber > 4) {
-        blue[2]++;
         greenRedBlueCnt[QuestionCandidate.blue11.index - correctionValue]++;
         greenRedBlueMatrix[QuestionCandidate.blue11.index - correctionValue]
             [i] = 1;
@@ -104,13 +90,11 @@ class NumberStatistics {
 
       int lastPositionLastNumber = pair[1] % 10;
       if (lastPositionLastNumber % 2 == 1) {
-        red[3]++;
         greenRedBlueCnt[QuestionCandidate.red19.index - correctionValue]++;
         greenRedBlueMatrix[QuestionCandidate.red19.index - correctionValue][i] =
             1;
       }
       if (lastPositionLastNumber > 4) {
-        blue[3]++;
         greenRedBlueCnt[QuestionCandidate.blue19.index - correctionValue]++;
         greenRedBlueMatrix[QuestionCandidate.blue19.index - correctionValue]
             [i] = 1;
@@ -118,7 +102,6 @@ class NumberStatistics {
       black[3][lastPositionLastNumber]++;
 
       if (pair[0] > pair[1]) {
-        green++;
         greenRedBlueCnt[QuestionCandidate.green.index - correctionValue]++;
         greenRedBlueMatrix[QuestionCandidate.green.index - correctionValue][i] =
             1;
@@ -153,8 +136,8 @@ class NumberStatistics {
     }
 
     for (int i = 0; i < pairSize; i++) {
-      for (int j = 0; j < filterList.length; j++) {
-        stringArray[i] += (greenRedBlueMatrix[j - modifier][i]).toString();
+      for (QuestionCandidate questionCandidate in filterList) {
+        stringArray[i] += (greenRedBlueMatrix[questionCandidate.index - modifier][i]).toString();
       }
     }
 
