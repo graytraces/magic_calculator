@@ -37,6 +37,15 @@ class QuestionCase {
   void setWorstCount(int worstCount) {
     this.worstCount = worstCount;
   }
+
+  @override
+  String toString() {
+    String str = "";
+    for(int i=0; i < questionList.length; i++){
+      str += questionList[i].name + " " ;
+    }
+    return str;
+  }
 }
 
 class QuestionMaker {
@@ -48,7 +57,7 @@ class QuestionMaker {
     this.modifier = QuestionCandidate.green.index;
     this.matrixSize = QuestionCandidate.values.length - modifier;
 
-    NumberStatistics numberStatistics = new NumberStatistics(pairList.length);
+    numberStatistics = NumberStatistics(pairList.length);
     numberStatistics.makeStatistics(pairList, 4, 4);
   }
 
