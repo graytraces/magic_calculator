@@ -9,16 +9,12 @@ class NumberStatistics {
     List.filled(10, 0),
     List.filled(10, 0)
   ];
-  List<int> greenRedBlueCnt = List.filled(
-      (QuestionCandidate.values.length - QuestionCandidate.green.index), 0);
-  int pairSize = 0;
 
+  int pairSize = 0;
   List<List<int>> greenRedBlueMatrix = [];
 
   NumberStatistics(this.pairSize) {
-    for (int i = 0;
-        i < QuestionCandidate.values.length - QuestionCandidate.green.index;
-        i++) {
+    for (int i = 0; i < QuestionCandidate.values.length - QuestionCandidate.green.index; i++) {
       greenRedBlueMatrix.add(List.filled(pairSize, 0));
     }
 
@@ -26,12 +22,10 @@ class NumberStatistics {
       for (int j = 0; j < greenRedBlueMatrix[i].length; j++) {
         greenRedBlueMatrix[i][j] = 0;
       }
-      greenRedBlueCnt[i] = 0;
     }
   }
 
-  makeStatistics(List<List<int>> pairList, int firstPositionLength,
-      int lastPositionLength) {
+  makeStatistics(List<List<int>> pairList, int firstPositionLength, int lastPositionLength) {
     int firstPositionFirstNumberDevider = 1;
     for (int i = 0; i < firstPositionLength - 1; i++) {
       firstPositionFirstNumberDevider *= 10;
@@ -49,62 +43,44 @@ class NumberStatistics {
 
       int firstPositionFirstNumber = pair[0] ~/ firstPositionFirstNumberDevider;
       if (firstPositionFirstNumber % 2 == 1) {
-        greenRedBlueCnt[QuestionCandidate.red1.index - correctionValue]++;
-        greenRedBlueMatrix[QuestionCandidate.red1.index - correctionValue][i] =
-            1;
+        greenRedBlueMatrix[QuestionCandidate.red1.index - correctionValue][i] = 1;
       }
 
       if (firstPositionFirstNumber > 4) {
-        greenRedBlueCnt[QuestionCandidate.blue1.index - correctionValue]++;
-        greenRedBlueMatrix[QuestionCandidate.blue1.index - correctionValue][i] =
-            1;
+        greenRedBlueMatrix[QuestionCandidate.blue1.index - correctionValue][i] = 1;
       }
       black[0][firstPositionFirstNumber]++;
 
       int firstPositionLastNumber = pair[0] % 10;
       if (firstPositionLastNumber % 2 == 1) {
-        greenRedBlueCnt[QuestionCandidate.red9.index - correctionValue]++;
-        greenRedBlueMatrix[QuestionCandidate.red9.index - correctionValue][i] =
-            1;
+        greenRedBlueMatrix[QuestionCandidate.red9.index - correctionValue][i] = 1;
       }
 
       if (firstPositionLastNumber > 4) {
-        greenRedBlueCnt[QuestionCandidate.blue9.index - correctionValue]++;
-        greenRedBlueMatrix[QuestionCandidate.blue9.index - correctionValue][i] =
-            1;
+        greenRedBlueMatrix[QuestionCandidate.blue9.index - correctionValue][i] = 1;
       }
       black[1][firstPositionLastNumber]++;
 
       int lastPositionFirstNumber = pair[1] ~/ lastPositionFirstNumberDevider;
       if (lastPositionFirstNumber % 2 == 1) {
-        greenRedBlueCnt[QuestionCandidate.red11.index - correctionValue]++;
-        greenRedBlueMatrix[QuestionCandidate.red11.index - correctionValue][i] =
-            1;
+        greenRedBlueMatrix[QuestionCandidate.red11.index - correctionValue][i] = 1;
       }
       if (lastPositionFirstNumber > 4) {
-        greenRedBlueCnt[QuestionCandidate.blue11.index - correctionValue]++;
-        greenRedBlueMatrix[QuestionCandidate.blue11.index - correctionValue]
-            [i] = 1;
+        greenRedBlueMatrix[QuestionCandidate.blue11.index - correctionValue][i] = 1;
       }
       black[2][lastPositionFirstNumber]++;
 
       int lastPositionLastNumber = pair[1] % 10;
       if (lastPositionLastNumber % 2 == 1) {
-        greenRedBlueCnt[QuestionCandidate.red19.index - correctionValue]++;
-        greenRedBlueMatrix[QuestionCandidate.red19.index - correctionValue][i] =
-            1;
+        greenRedBlueMatrix[QuestionCandidate.red19.index - correctionValue][i] = 1;
       }
       if (lastPositionLastNumber > 4) {
-        greenRedBlueCnt[QuestionCandidate.blue19.index - correctionValue]++;
-        greenRedBlueMatrix[QuestionCandidate.blue19.index - correctionValue]
-            [i] = 1;
+        greenRedBlueMatrix[QuestionCandidate.blue19.index - correctionValue][i] = 1;
       }
       black[3][lastPositionLastNumber]++;
 
       if (pair[0] > pair[1]) {
-        greenRedBlueCnt[QuestionCandidate.green.index - correctionValue]++;
-        greenRedBlueMatrix[QuestionCandidate.green.index - correctionValue][i] =
-            1;
+        greenRedBlueMatrix[QuestionCandidate.green.index - correctionValue][i] = 1;
       }
     }
   }
@@ -147,8 +123,7 @@ class NumberStatistics {
       if (counter.containsKey(stringArray[i]) == false) {
         counter.addAll({stringArray[i]: 1});
       } else {
-        counter.update(
-            stringArray[i], (value) => (counter[stringArray[i]]! + 1));
+        counter.update(stringArray[i], (value) => (counter[stringArray[i]]! + 1));
       }
     }
 
