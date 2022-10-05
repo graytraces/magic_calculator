@@ -77,7 +77,6 @@ class QuestionMaker {
       //resultMap.put(candidateList, maxValue);
       resultList.add(new QuestionCase(candidateList, worstCount));
     }
-    print(resultList);
   }
 
   getSecondDepthQuestionCase(List<QuestionCase> resultList) {
