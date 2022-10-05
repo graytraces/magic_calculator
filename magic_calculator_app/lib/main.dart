@@ -89,9 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
     String resultFirstNumber = "";
     String resultSecondNumber = "";
 
-    for (int firstNumber = startNumber;
-        firstNumber <= endNumber;
-        firstNumber++) {
+    for (int firstNumber = startNumber; firstNumber <= endNumber; firstNumber++) {
+
       if (inputNumber % firstNumber == 0) {
         var secondNumber = (inputNumber / firstNumber).toInt();
 
@@ -102,9 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
         resultFirstNumber = firstNumber.toString();
         if (resultFirstNumber.length < int.parse(_firstNumberLength)) {
-          for (int idx2 = resultFirstNumber.length;
-              idx2 < int.parse(_firstNumberLength);
-              idx2++) {
+          for (int idx2 = resultFirstNumber.length; idx2 < int.parse(_firstNumberLength); idx2++) {
             resultFirstNumber = "0" + resultFirstNumber;
           }
         }
@@ -123,6 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
           _numberPairList.add([resultFirstNumber, resultSecondNumber]);
           _numberPairListReverse.add([resultSecondNumber, resultFirstNumber]);
         });
+        _pairListInt.add([secondNumber, firstNumber]);
         _pairListInt.add([firstNumber, secondNumber]);
 
         endNumber = secondNumber - 1;
@@ -141,13 +139,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
     questionMaker.getFirstDepthQuestionCase(resultList);
     _bestQuestionSet = questionMaker.getBestQuestionSet(resultList);
-    if(_bestQuestionSet.isEmpty){
+    if (_bestQuestionSet.isEmpty) {
       questionMaker.getSecondDepthQuestionCase(resultList);
       _bestQuestionSet = questionMaker.getBestQuestionSet(resultList);
-      if(_bestQuestionSet.isEmpty){
+      if (_bestQuestionSet.isEmpty) {
         questionMaker.getThirdDepthQuestionCase(resultList);
         _bestQuestionSet = questionMaker.getBestQuestionSet(resultList);
-        if(_bestQuestionSet.isEmpty){
+        if (_bestQuestionSet.isEmpty) {
           questionMaker.getFourthDepthQuestionCase(resultList);
           _bestQuestionSet = questionMaker.getBestQuestionSet(resultList);
         }
@@ -174,8 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
 
-    KeyValueMap secondKeyValueMap =
-        await db.selectKeyValueMap(SECOND_NUMBER_LENGTH);
+    KeyValueMap secondKeyValueMap = await db.selectKeyValueMap(SECOND_NUMBER_LENGTH);
     if (secondKeyValueMap.key != null) {
       setState(() {
         _secondNumberLength = secondKeyValueMap.value!;
@@ -247,8 +244,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(40.0),
-                            child: Text(_resultMessage,
-                                style: _getTitleTextStyle()),
+                            child: Text(_resultMessage, style: _getTitleTextStyle()),
                           ),
                         ],
                       )))
@@ -265,7 +261,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text("010-", style: _getTitleTextStyle()),
+                                    //Text("010-", style: _getTitleTextStyle()),
                                     Text(_numberPairListReverse[index][0],
                                         style: _getTitleTextStyle()),
                                     Text("-", style: _getTitleTextStyle()),
@@ -280,14 +276,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                         child: ElevatedButton(
                                           onPressed: () => {
                                             _launchCall("010" +
-                                                _numberPairListReverse[index]
-                                                    [0] +
-                                                _numberPairListReverse[index]
-                                                    [1])
+                                                _numberPairListReverse[index][0] +
+                                                _numberPairListReverse[index][1])
                                           },
                                           child: Icon(Icons.call),
-                                          style: ElevatedButton.styleFrom(
-                                              padding: EdgeInsets.all(0)),
+                                          style:
+                                              ElevatedButton.styleFrom(padding: EdgeInsets.all(0)),
                                         )),
                                     SizedBox(
                                       width: 5,
@@ -298,20 +292,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                         child: ElevatedButton(
                                           onPressed: () => {},
                                           child: Icon(Icons.sms),
-                                          style: ElevatedButton.styleFrom(
-                                              padding: EdgeInsets.all(0)),
+                                          style:
+                                              ElevatedButton.styleFrom(padding: EdgeInsets.all(0)),
                                         )),
                                   ],
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text("010-", style: _getTitleTextStyle()),
-                                    Text(_numberPairList[index][0],
-                                        style: _getTitleTextStyle()),
+                                    //Text("010-", style: _getTitleTextStyle()),
+                                    Text(_numberPairList[index][0], style: _getTitleTextStyle()),
                                     Text("-", style: _getTitleTextStyle()),
-                                    Text(_numberPairList[index][1],
-                                        style: _getTitleTextStyle()),
+                                    Text(_numberPairList[index][1], style: _getTitleTextStyle()),
                                     SizedBox(
                                       width: 5,
                                     ),
@@ -325,8 +317,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 _numberPairList[index][1])
                                           },
                                           child: Icon(Icons.call),
-                                          style: ElevatedButton.styleFrom(
-                                              padding: EdgeInsets.all(0)),
+                                          style:
+                                              ElevatedButton.styleFrom(padding: EdgeInsets.all(0)),
                                         )),
                                     SizedBox(
                                       width: 5,
@@ -337,8 +329,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                         child: ElevatedButton(
                                           onPressed: () => {},
                                           child: Icon(Icons.sms),
-                                          style: ElevatedButton.styleFrom(
-                                              padding: EdgeInsets.all(0)),
+                                          style:
+                                              ElevatedButton.styleFrom(padding: EdgeInsets.all(0)),
                                         )),
                                   ],
                                 ),
@@ -350,39 +342,34 @@ class _MyHomePageState extends State<MyHomePage> {
                         itemCount: _numberPairList.length,
                       ),
                     ),
-              Text("최적질문",
-                  style: _getTitleTextStyle()),
+              Text("최적질문", style: _getTitleTextStyle()),
               _bestQuestionSet.isEmpty
                   ? SizedBox(
-                  width: double.infinity,
-                  height: 180,
-                  child: Center(
-                      child: Column(
+                      width: double.infinity,
+                      height: 180,
+                      child: Center(
+                          child: Column(
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(40.0),
-                            child: Text("최적질문이 없습니다",
-                                style: _getTitleTextStyle()),
+                            child: Text("최적질문이 없습니다", style: _getTitleTextStyle()),
                           ),
                         ],
                       )))
                   : SizedBox(
-                width: double.infinity,
-                height: 180,
-                child: ListView.builder(
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(0.0),
-                      child:
-                        Text(
-                            _bestQuestionSet[index].toString()
+                      width: double.infinity,
+                      height: 180,
+                      child: ListView.builder(
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(0.0),
+                            child: Text(_bestQuestionSet[index].toString()),
+                          );
+                        },
+                        scrollDirection: Axis.vertical,
+                        itemCount: _bestQuestionSet.length,
                       ),
-                    );
-                  },
-                  scrollDirection: Axis.vertical,
-                  itemCount: _bestQuestionSet.length,
-                ),
-              )
+                    )
             ],
           ),
         ),
