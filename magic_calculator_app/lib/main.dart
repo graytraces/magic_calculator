@@ -47,6 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
   List<List<int>> _pairListInt = [];
   List<QuestionCase> _bestQuestionSet = [];
 
+  QuestionCase _bestQuestion = QuestionCase([], 0);
+
   final String FIRST_NUMBER_LENGTH = "firstNumberLength";
   final String SECOND_NUMBER_LENGTH = "secondNumberLength";
 
@@ -67,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _numberPairListReverse = [];
     _pairListInt = [];
     _bestQuestionSet = [];
+    _bestQuestion = QuestionCase([], 0);
 
     var inputText = _magicNumber.text;
 
@@ -90,7 +93,6 @@ class _MyHomePageState extends State<MyHomePage> {
     String resultSecondNumber = "";
 
     for (int firstNumber = startNumber; firstNumber <= endNumber; firstNumber++) {
-
       if (inputNumber % firstNumber == 0) {
         var secondNumber = (inputNumber / firstNumber).toInt();
 
@@ -151,6 +153,13 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       }
     }
+
+    for (QuestionCase qCase in _bestQuestionSet) {
+      qCase.questionList.sort((a, b)=> a.index - b.index);
+    }
+
+    _bestQuestion = _bestQuestionSet[0];
+
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
@@ -363,11 +372,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: const EdgeInsets.all(0.0),
-                            child: Text(_bestQuestionSet[index].toString()),
+                            child: Text(_bestQuestion.questionList[index].name),
                           );
                         },
                         scrollDirection: Axis.vertical,
-                        itemCount: _bestQuestionSet.length,
+                        itemCount: _bestQuestion.questionList.length,
                       ),
                     )
             ],
