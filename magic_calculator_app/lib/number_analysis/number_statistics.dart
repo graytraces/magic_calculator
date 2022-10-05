@@ -14,7 +14,7 @@ class NumberStatistics {
   List<List<int>> greenRedBlueMatrix = [];
 
   NumberStatistics(this.pairSize) {
-    for (int i = 0; i < QuestionCandidate.values.length - QuestionCandidate.green.index; i++) {
+    for (int i = 0; i < QuestionCandidate.values.length; i++) {
       greenRedBlueMatrix.add(List.filled(pairSize, 0));
     }
 
@@ -36,51 +36,53 @@ class NumberStatistics {
       lastPositionFirstNumberDevider *= 10;
     }
 
-    int correctionValue = QuestionCandidate.green.index;
-
     for (int i = 0; i < pairList.length; i++) {
       List<int> pair = pairList[i];
 
       int firstPositionFirstNumber = pair[0] ~/ firstPositionFirstNumberDevider;
       if (firstPositionFirstNumber % 2 == 1) {
-        greenRedBlueMatrix[QuestionCandidate.red1.index - correctionValue][i] = 1;
+        greenRedBlueMatrix[QuestionCandidate.red1.index][i] = 1;
       }
 
       if (firstPositionFirstNumber > 4) {
-        greenRedBlueMatrix[QuestionCandidate.blue1.index - correctionValue][i] = 1;
+        greenRedBlueMatrix[QuestionCandidate.blue1.index][i] = 1;
       }
       black[0][firstPositionFirstNumber]++;
+      greenRedBlueMatrix[QuestionCandidate.black1.index][i] = firstPositionFirstNumber;
 
       int firstPositionLastNumber = pair[0] % 10;
       if (firstPositionLastNumber % 2 == 1) {
-        greenRedBlueMatrix[QuestionCandidate.red9.index - correctionValue][i] = 1;
+        greenRedBlueMatrix[QuestionCandidate.red9.index][i] = 1;
       }
 
       if (firstPositionLastNumber > 4) {
-        greenRedBlueMatrix[QuestionCandidate.blue9.index - correctionValue][i] = 1;
+        greenRedBlueMatrix[QuestionCandidate.blue9.index][i] = 1;
       }
       black[1][firstPositionLastNumber]++;
+      greenRedBlueMatrix[QuestionCandidate.black9.index][i] = firstPositionLastNumber;
 
       int lastPositionFirstNumber = pair[1] ~/ lastPositionFirstNumberDevider;
       if (lastPositionFirstNumber % 2 == 1) {
-        greenRedBlueMatrix[QuestionCandidate.red11.index - correctionValue][i] = 1;
+        greenRedBlueMatrix[QuestionCandidate.red11.index][i] = 1;
       }
       if (lastPositionFirstNumber > 4) {
-        greenRedBlueMatrix[QuestionCandidate.blue11.index - correctionValue][i] = 1;
+        greenRedBlueMatrix[QuestionCandidate.blue11.index][i] = 1;
       }
       black[2][lastPositionFirstNumber]++;
+      greenRedBlueMatrix[QuestionCandidate.black11.index][i] = lastPositionFirstNumber;
 
       int lastPositionLastNumber = pair[1] % 10;
       if (lastPositionLastNumber % 2 == 1) {
-        greenRedBlueMatrix[QuestionCandidate.red19.index - correctionValue][i] = 1;
+        greenRedBlueMatrix[QuestionCandidate.red19.index][i] = 1;
       }
       if (lastPositionLastNumber > 4) {
-        greenRedBlueMatrix[QuestionCandidate.blue19.index - correctionValue][i] = 1;
+        greenRedBlueMatrix[QuestionCandidate.blue19.index][i] = 1;
       }
       black[3][lastPositionLastNumber]++;
+      greenRedBlueMatrix[QuestionCandidate.black19.index][i] = lastPositionFirstNumber;
 
       if (pair[0] > pair[1]) {
-        greenRedBlueMatrix[QuestionCandidate.green.index - correctionValue][i] = 1;
+        greenRedBlueMatrix[QuestionCandidate.green.index][i] = 1;
       }
     }
   }
@@ -103,7 +105,8 @@ class NumberStatistics {
     return null;
   }
 
-  makeOptimalQuestion(List<QuestionCandidate> filterList) {
+  //주어진 filterList의 worstCount를 구한다.
+  getWorstCount(List<QuestionCandidate> filterList) {
     int modifier = QuestionCandidate.green.index;
     List<String> stringArray = List.filled(pairSize, "");
 
@@ -113,7 +116,7 @@ class NumberStatistics {
 
     for (int i = 0; i < pairSize; i++) {
       for (QuestionCandidate questionCandidate in filterList) {
-        stringArray[i] += (greenRedBlueMatrix[questionCandidate.index - modifier][i]).toString();
+        stringArray[i] += (greenRedBlueMatrix[questionCandidate.index][i]).toString();
       }
     }
 
