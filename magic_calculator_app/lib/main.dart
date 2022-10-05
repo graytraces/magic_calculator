@@ -37,17 +37,20 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _magicNumber = TextEditingController();
+  TextEditingController _blackAnswer = TextEditingController();
+
   String _resultMessage = "";
   String _firstNumberLength = "1";
   String _secondNumberLength = "1";
 
-  var _numberPairList = [];
-  var _numberPairListReverse = [];
+  List<List<String>> _strNumberPairList = [];
 
-  List<List<int>> _pairListInt = [];
+  List<List<int>> _intNumberPairList = [];
   List<QuestionCase> _bestQuestionSet = [];
 
   QuestionCase _bestQuestion = QuestionCase([], 0);
+  List<String> _answerList = [];
+  QuestionMaker _questionMaker = QuestionMaker([]);
 
   final String FIRST_NUMBER_LENGTH = "firstNumberLength";
   final String SECOND_NUMBER_LENGTH = "secondNumberLength";
@@ -61,13 +64,13 @@ class _MyHomePageState extends State<MyHomePage> {
   void dispose() {
     super.dispose();
     _magicNumber.dispose();
+    _blackAnswer.dispose();
   }
 
   //숫자 계산
   void _calculateNumber() {
-    _numberPairList = [];
-    _numberPairListReverse = [];
-    _pairListInt = [];
+    _strNumberPairList = [];
+    _intNumberPairList = [];
     _bestQuestionSet = [];
     _bestQuestion = QuestionCase([], 0);
 
@@ -89,8 +92,8 @@ class _MyHomePageState extends State<MyHomePage> {
       endNumber = endNumber * 10 + 9;
     }
 
-    String resultFirstNumber = "";
-    String resultSecondNumber = "";
+    String strFirstNumber = "";
+    String strSecondNumber = "";
 
     for (int firstNumber = startNumber; firstNumber <= endNumber; firstNumber++) {
       if (inputNumber % firstNumber == 0) {
@@ -101,64 +104,58 @@ class _MyHomePageState extends State<MyHomePage> {
           continue;
         }
 
-        resultFirstNumber = firstNumber.toString();
-        if (resultFirstNumber.length < int.parse(_firstNumberLength)) {
-          for (int idx2 = resultFirstNumber.length; idx2 < int.parse(_firstNumberLength); idx2++) {
-            resultFirstNumber = "0" + resultFirstNumber;
+        strFirstNumber = firstNumber.toString();
+        if (strFirstNumber.length < int.parse(_firstNumberLength)) {
+          for (int idx2 = strFirstNumber.length; idx2 < int.parse(_firstNumberLength); idx2++) {
+            strFirstNumber = "0" + strFirstNumber;
           }
         }
 
-        resultSecondNumber = secondNumber.toString();
+        strSecondNumber = secondNumber.toString();
 
-        if (resultSecondNumber.length < int.parse(_secondNumberLength)) {
-          for (int idx2 = resultSecondNumber.length;
-              idx2 < int.parse(_secondNumberLength);
-              idx2++) {
-            resultSecondNumber = "0" + resultSecondNumber;
+        if (strSecondNumber.length < int.parse(_secondNumberLength)) {
+          for (int idx2 = strSecondNumber.length; idx2 < int.parse(_secondNumberLength); idx2++) {
+            strSecondNumber = "0" + strSecondNumber;
           }
         }
 
-        setState(() {
-          _numberPairList.add([resultFirstNumber, resultSecondNumber]);
-          _numberPairListReverse.add([resultSecondNumber, resultFirstNumber]);
-        });
-        _pairListInt.add([secondNumber, firstNumber]);
-        _pairListInt.add([firstNumber, secondNumber]);
-
-        endNumber = secondNumber - 1;
-        //_numberPairList.add([resultSecondNumber, resultFirstNumber]);
+        _strNumberPairList.add([strFirstNumber, strSecondNumber]);
+        _intNumberPairList.add([firstNumber, secondNumber]);
       }
     }
 
-    if (_numberPairList.isEmpty) {
+    if (_strNumberPairList.isEmpty) {
       setState(() {
         _resultMessage = "계산결과값이 없습니다";
       });
     }
 
     List<QuestionCase> resultList = [];
-    QuestionMaker questionMaker = QuestionMaker(_pairListInt);
+    _questionMaker = QuestionMaker(_intNumberPairList);
 
-    questionMaker.getFirstDepthQuestionCase(resultList);
-    _bestQuestionSet = questionMaker.getBestQuestionSet(resultList);
+    _questionMaker.getFirstDepthQuestionCase(resultList);
+    _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
     if (_bestQuestionSet.isEmpty) {
-      questionMaker.getSecondDepthQuestionCase(resultList);
-      _bestQuestionSet = questionMaker.getBestQuestionSet(resultList);
+      _questionMaker.getSecondDepthQuestionCase(resultList);
+      _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
       if (_bestQuestionSet.isEmpty) {
-        questionMaker.getThirdDepthQuestionCase(resultList);
-        _bestQuestionSet = questionMaker.getBestQuestionSet(resultList);
+        _questionMaker.getThirdDepthQuestionCase(resultList);
+        _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
         if (_bestQuestionSet.isEmpty) {
-          questionMaker.getFourthDepthQuestionCase(resultList);
-          _bestQuestionSet = questionMaker.getBestQuestionSet(resultList);
+          _questionMaker.getFourthDepthQuestionCase(resultList);
+          _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
         }
       }
     }
 
     for (QuestionCase qCase in _bestQuestionSet) {
-      qCase.questionList.sort((a, b)=> a.index - b.index);
+      qCase.questionList.sort((a, b) => a.index - b.index);
     }
 
     _bestQuestion = _bestQuestionSet[0];
+    if (_bestQuestion.questionList.length != 0) {
+      _answerList = List.filled(_bestQuestion.questionList.length, "false");
+    }
 
     FocusManager.instance.primaryFocus?.unfocus();
   }
@@ -198,6 +195,14 @@ class _MyHomePageState extends State<MyHomePage> {
     if (!await launchUrl(_url)) {
       throw 'Could not launch $_url';
     }
+  }
+
+  void _applyFilter() {
+    // _bestQuestion
+    // _answerList
+
+    print(_bestQuestion);
+    print(_answerList);
   }
 
   @override
@@ -244,118 +249,25 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(
                 height: 20,
               ),
-              _numberPairList.length == 0
+              _strNumberPairList.length == 0
                   ? SizedBox(
                       width: double.infinity,
-                      height: 180,
+                      height: 60,
                       child: Center(
                           child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(40.0),
-                            child: Text(_resultMessage, style: _getTitleTextStyle()),
-                          ),
+                          Text(_resultMessage, style: _getTitleTextStyle()),
                         ],
                       )))
                   : SizedBox(
                       width: double.infinity,
-                      height: 180,
-                      child: ListView.builder(
-                        itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(0.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    //Text("010-", style: _getTitleTextStyle()),
-                                    Text(_numberPairListReverse[index][0],
-                                        style: _getTitleTextStyle()),
-                                    Text("-", style: _getTitleTextStyle()),
-                                    Text(_numberPairListReverse[index][1],
-                                        style: _getTitleTextStyle()),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    SizedBox(
-                                        width: 30,
-                                        height: 30,
-                                        child: ElevatedButton(
-                                          onPressed: () => {
-                                            _launchCall("010" +
-                                                _numberPairListReverse[index][0] +
-                                                _numberPairListReverse[index][1])
-                                          },
-                                          child: Icon(Icons.call),
-                                          style:
-                                              ElevatedButton.styleFrom(padding: EdgeInsets.all(0)),
-                                        )),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    SizedBox(
-                                        width: 30,
-                                        height: 30,
-                                        child: ElevatedButton(
-                                          onPressed: () => {},
-                                          child: Icon(Icons.sms),
-                                          style:
-                                              ElevatedButton.styleFrom(padding: EdgeInsets.all(0)),
-                                        )),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    //Text("010-", style: _getTitleTextStyle()),
-                                    Text(_numberPairList[index][0], style: _getTitleTextStyle()),
-                                    Text("-", style: _getTitleTextStyle()),
-                                    Text(_numberPairList[index][1], style: _getTitleTextStyle()),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    SizedBox(
-                                        width: 30,
-                                        height: 30,
-                                        child: ElevatedButton(
-                                          onPressed: () => {
-                                            _launchCall("010" +
-                                                _numberPairList[index][0] +
-                                                _numberPairList[index][1])
-                                          },
-                                          child: Icon(Icons.call),
-                                          style:
-                                              ElevatedButton.styleFrom(padding: EdgeInsets.all(0)),
-                                        )),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    SizedBox(
-                                        width: 30,
-                                        height: 30,
-                                        child: ElevatedButton(
-                                          onPressed: () => {},
-                                          child: Icon(Icons.sms),
-                                          style:
-                                              ElevatedButton.styleFrom(padding: EdgeInsets.all(0)),
-                                        )),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        scrollDirection: Axis.vertical,
-                        itemCount: _numberPairList.length,
-                      ),
-                    ),
+                      height: 60,
+                      child: Text("경우의수 : " + _strNumberPairList.length.toString() + " 가지")),
               Text("최적질문", style: _getTitleTextStyle()),
               _bestQuestionSet.isEmpty
                   ? SizedBox(
                       width: double.infinity,
-                      height: 180,
+                      height: 120,
                       child: Center(
                           child: Column(
                         children: [
@@ -367,18 +279,50 @@ class _MyHomePageState extends State<MyHomePage> {
                       )))
                   : SizedBox(
                       width: double.infinity,
-                      height: 180,
+                      height: 120,
                       child: ListView.builder(
                         itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(0.0),
-                            child: Text(_bestQuestion.questionList[index].name),
+                          return Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(0.0),
+                                child: Text(_bestQuestion.questionList[index].name),
+                              ),
+                              _bestQuestion.questionList[index].name.contains("black")
+                                  ? SizedBox(
+                                      width: 50,
+                                      height: 20,
+                                      child: TextField(
+                                          decoration: const InputDecoration(
+                                            border: OutlineInputBorder(),
+                                          ),
+                                          controller: _blackAnswer,
+                                          onChanged: (value) {
+                                            _answerList[index] = value;
+                                          },
+                                          keyboardType: TextInputType.number),
+                                    )
+                                  : Switch(
+                                      value: _answerList[index].toLowerCase() == "true",
+                                      onChanged: (value) => setState(() {
+                                        _answerList[index] = value.toString();
+                                      }),
+                                    ),
+                            ],
                           );
                         },
                         scrollDirection: Axis.vertical,
                         itemCount: _bestQuestion.questionList.length,
                       ),
-                    )
+                    ),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 40),
+                  ),
+                  onPressed: () {
+                    _applyFilter();
+                  },
+                  child: const Text('필터적용')),
             ],
           ),
         ),
