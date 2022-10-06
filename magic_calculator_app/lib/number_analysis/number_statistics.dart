@@ -79,7 +79,7 @@ class NumberStatistics {
         statisticsMatrix[QuestionCandidate.blue19.index][i] = 1;
       }
       black[3][lastPositionLastNumber]++;
-      statisticsMatrix[QuestionCandidate.black19.index][i] = lastPositionFirstNumber;
+      statisticsMatrix[QuestionCandidate.black19.index][i] = lastPositionLastNumber;
 
       if (pair[0] > pair[1]) {
         statisticsMatrix[QuestionCandidate.green.index][i] = 1;
@@ -107,7 +107,6 @@ class NumberStatistics {
 
   //주어진 filterList의 worstCount를 구한다.
   getWorstCount(List<QuestionCandidate> filterList) {
-    int modifier = QuestionCandidate.green.index;
     List<String> stringArray = List.filled(pairSize, "");
 
     for (int i = 0; i < pairSize; i++) {
@@ -147,6 +146,7 @@ class NumberStatistics {
     String answerStr = "";
 
     for(int i=0; i<bestQuestion.questionList.length; i++){
+
       for(int j=0; j<pairSize; j++) {
         filterMatrix[j] += statisticsMatrix[bestQuestion.questionList[i].index][j].toString();
       }
@@ -158,7 +158,6 @@ class NumberStatistics {
       }else{
         answerStr += answerList[i];
       }
-
     }
 
     List<int> filterIndexes = [];
