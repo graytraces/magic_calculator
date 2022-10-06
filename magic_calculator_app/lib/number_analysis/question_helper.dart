@@ -86,7 +86,11 @@ class QuestionMaker {
       candidateList.add(questionCandidate);
       for (int j = 0; j < matrixSize; j++) {
         QuestionCandidate questionCandidate2 = QuestionCandidate.values[j];
-        if (candidateList.contains(questionCandidate2)) {
+        if (candidateList.contains(questionCandidate2)||
+            candidateList.contains(QuestionCandidate.black1) ||
+            candidateList.contains(QuestionCandidate.black9) ||
+            candidateList.contains(QuestionCandidate.black11) ||
+            candidateList.contains(QuestionCandidate.black19)) {
           continue;
         }
         List<QuestionCandidate> candidateList2 = List<QuestionCandidate>.from(candidateList);
@@ -105,7 +109,11 @@ class QuestionMaker {
       candidateList.add(questionCandidate);
       for (int j = 0; j < matrixSize; j++) {
         QuestionCandidate questionCandidate2 = QuestionCandidate.values[j];
-        if (candidateList.contains(questionCandidate2)) {
+        if (candidateList.contains(questionCandidate2) ||
+            candidateList.contains(QuestionCandidate.black1) ||
+            candidateList.contains(QuestionCandidate.black9) ||
+            candidateList.contains(QuestionCandidate.black11) ||
+            candidateList.contains(QuestionCandidate.black19)) {
           continue;
         }
         List<QuestionCandidate> candidateList2 = List<QuestionCandidate>.from(candidateList);
@@ -113,7 +121,11 @@ class QuestionMaker {
 
         for (int k = 0; k < matrixSize; k++) {
           QuestionCandidate questionCandidate3 = QuestionCandidate.values[k];
-          if (candidateList2.contains(questionCandidate3)) {
+          if (candidateList2.contains(questionCandidate3) ||
+              candidateList2.contains(QuestionCandidate.black1) ||
+              candidateList2.contains(QuestionCandidate.black9) ||
+              candidateList2.contains(QuestionCandidate.black11) ||
+              candidateList2.contains(QuestionCandidate.black19)) {
             continue;
           }
           List<QuestionCandidate> candidateList3 = List<QuestionCandidate>.from(candidateList2);
@@ -134,7 +146,11 @@ class QuestionMaker {
       candidateList.add(questionCandidate);
       for (int j = 0; j < matrixSize; j++) {
         QuestionCandidate questionCandidate2 = QuestionCandidate.values[j];
-        if (candidateList.contains(questionCandidate2)) {
+        if (candidateList.contains(questionCandidate2) ||
+            candidateList.contains(QuestionCandidate.black1) ||
+            candidateList.contains(QuestionCandidate.black9) ||
+            candidateList.contains(QuestionCandidate.black11) ||
+            candidateList.contains(QuestionCandidate.black19)) {
           continue;
         }
         List<QuestionCandidate> candidateList2 = List<QuestionCandidate>.from(candidateList);
@@ -142,7 +158,11 @@ class QuestionMaker {
 
         for (int k = 0; k < matrixSize; k++) {
           QuestionCandidate questionCandidate3 = QuestionCandidate.values[k];
-          if (candidateList2.contains(questionCandidate3)) {
+          if (candidateList2.contains(questionCandidate3) ||
+              candidateList2.contains(QuestionCandidate.black1) ||
+              candidateList2.contains(QuestionCandidate.black9) ||
+              candidateList2.contains(QuestionCandidate.black11) ||
+              candidateList2.contains(QuestionCandidate.black19)) {
             continue;
           }
           List<QuestionCandidate> candidateList3 = List<QuestionCandidate>.from(candidateList2);
@@ -150,7 +170,11 @@ class QuestionMaker {
 
           for (int l = 0; l < matrixSize; l++) {
             QuestionCandidate questionCandidate4 = QuestionCandidate.values[l];
-            if (candidateList3.contains(questionCandidate4)) {
+            if (candidateList3.contains(questionCandidate4) ||
+                candidateList3.contains(QuestionCandidate.black1) ||
+                candidateList3.contains(QuestionCandidate.black9) ||
+                candidateList3.contains(QuestionCandidate.black11) ||
+                candidateList3.contains(QuestionCandidate.black19)) {
               continue;
             }
             List<QuestionCandidate> candidateList4 = List<QuestionCandidate>.from(candidateList3);
