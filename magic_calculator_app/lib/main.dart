@@ -132,6 +132,8 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
 
+    print(_strNumberPairList);
+
     List<QuestionCase> resultList = [];
     _questionMaker = QuestionMaker(_intNumberPairList);
 
@@ -154,11 +156,22 @@ class _MyHomePageState extends State<MyHomePage> {
       qCase.questionList.sort((a, b) => a.index - b.index);
     }
 
-    _bestQuestion = _bestQuestionSet[0];
+    if (_bestQuestionSet.isEmpty) {
+      setState(() {
+        _bestQuestionSet.add(resultList[0]);
+      });
+    }
+    setState(() {
+      _bestQuestion = _bestQuestionSet[0];
+    });
+
+    print(_bestQuestion);
+
     if (_bestQuestion.questionList.length != 0) {
       _answerList = List.filled(_bestQuestion.questionList.length, "false");
     }
 
+    //2840, 1224
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
@@ -203,7 +216,9 @@ class _MyHomePageState extends State<MyHomePage> {
     // _bestQuestion
     // _answerList
 
-    _strFilteredNumberPairList = [];
+    setState(() {
+      _strFilteredNumberPairList = [];
+    });
 
     List<int> applyFilterArray = _questionMaker.getApplyFilterArray(_bestQuestion, _answerList);
 
@@ -216,6 +231,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    var inputNumberLength = <String>[
+      'false',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9'
+    ];
     return Scaffold(
       appBar: AppBar(title: Text(widget.title), actions: [
         TextButton(
@@ -276,7 +304,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _bestQuestionSet.isEmpty
                   ? SizedBox(
                       width: double.infinity,
-                      height: 120,
+                      height: 180,
                       child: Center(
                           child: Column(
                         children: [
@@ -288,7 +316,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       )))
                   : SizedBox(
                       width: double.infinity,
-                      height: 120,
+                      height: 180,
                       child: ListView.builder(
                         itemBuilder: (BuildContext context, int index) {
                           return Row(
@@ -299,17 +327,24 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               _bestQuestion.questionList[index].name.contains("black")
                                   ? SizedBox(
-                                      width: 50,
-                                      height: 20,
-                                      child: TextField(
-                                          decoration: const InputDecoration(
-                                            border: OutlineInputBorder(),
-                                          ),
-                                          controller: _blackAnswer,
-                                          onChanged: (value) {
-                                            _answerList[index] = value;
-                                          },
-                                          keyboardType: TextInputType.number),
+                                      width: 100,
+                                      height: 40,
+                                      child:DropdownButton(
+                                        isExpanded: true,
+                                        items: inputNumberLength
+                                            .map<DropdownMenuItem<String>>((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Center(child: Text(value == "false" ? "선택" : value)),
+                                          );
+                                        }).toList(),
+                                        value: _answerList[index] ,
+                                        onChanged: (String? newValue) async {
+                                          setState(() {
+                                            _answerList[index] = newValue!;
+                                          });
+                                        },
+                                      ),
                                     )
                                   : Switch(
                                       value: _answerList[index].toLowerCase() == "true",
@@ -332,27 +367,33 @@ class _MyHomePageState extends State<MyHomePage> {
                     _applyFilter();
                   },
                   child: const Text('필터적용')),
-              SizedBox(
-                width: double.infinity,
-                height: 120,
-                child: ListView.builder(
-                  itemBuilder: (BuildContext context, int index) {
-                    return Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: Text("010-" +
-                              _strFilteredNumberPairList[index][0] +
-                              "-" +
-                              _strFilteredNumberPairList[index][1]),
-                        ),
-                      ],
-                    );
-                  },
-                  scrollDirection: Axis.vertical,
-                  itemCount: _strFilteredNumberPairList.length,
-                ),
-              )
+              _strFilteredNumberPairList.isEmpty
+                  ? SizedBox(
+                      width: double.infinity,
+                      height: 120,
+                      child: Text("답변이 잘못 입력되었습니다."),
+                    )
+                  : SizedBox(
+                      width: double.infinity,
+                      height: 120,
+                      child: ListView.builder(
+                        itemBuilder: (BuildContext context, int index) {
+                          return Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(0.0),
+                                child: Text("010-" +
+                                    _strFilteredNumberPairList[index][0] +
+                                    "-" +
+                                    _strFilteredNumberPairList[index][1]),
+                              ),
+                            ],
+                          );
+                        },
+                        scrollDirection: Axis.vertical,
+                        itemCount: _strFilteredNumberPairList.length,
+                      ),
+                    )
             ],
           ),
         ),
