@@ -44,6 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String _secondNumberLength = "1";
 
   List<List<String>> _strNumberPairList = [];
+  List<List<String>> _strFilteredNumberPairList = [];
 
   List<List<int>> _intNumberPairList = [];
   List<QuestionCase> _bestQuestionSet = [];
@@ -70,6 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //숫자 계산
   void _calculateNumber() {
     _strNumberPairList = [];
+    _strFilteredNumberPairList = [];
     _intNumberPairList = [];
     _bestQuestionSet = [];
     _bestQuestion = QuestionCase([], 0);
@@ -201,8 +203,15 @@ class _MyHomePageState extends State<MyHomePage> {
     // _bestQuestion
     // _answerList
 
-    print(_bestQuestion);
-    print(_answerList);
+    _strFilteredNumberPairList = [];
+
+    List<int> applyFilterArray = _questionMaker.getApplyFilterArray(_bestQuestion, _answerList);
+
+    for (int i = 0; i < applyFilterArray.length; i++) {
+      setState(() {
+        _strFilteredNumberPairList.add(_strNumberPairList[applyFilterArray[i]]);
+      });
+    }
   }
 
   @override
@@ -323,6 +332,27 @@ class _MyHomePageState extends State<MyHomePage> {
                     _applyFilter();
                   },
                   child: const Text('필터적용')),
+              SizedBox(
+                width: double.infinity,
+                height: 120,
+                child: ListView.builder(
+                  itemBuilder: (BuildContext context, int index) {
+                    return Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Text("010-" +
+                              _strFilteredNumberPairList[index][0] +
+                              "-" +
+                              _strFilteredNumberPairList[index][1]),
+                        ),
+                      ],
+                    );
+                  },
+                  scrollDirection: Axis.vertical,
+                  itemCount: _strFilteredNumberPairList.length,
+                ),
+              )
             ],
           ),
         ),

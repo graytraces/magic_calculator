@@ -11,16 +11,16 @@ class NumberStatistics {
   ];
 
   int pairSize = 0;
-  List<List<int>> greenRedBlueMatrix = [];
+  List<List<int>> statisticsMatrix = [];
 
   NumberStatistics(this.pairSize) {
     for (int i = 0; i < QuestionCandidate.values.length; i++) {
-      greenRedBlueMatrix.add(List.filled(pairSize, 0));
+      statisticsMatrix.add(List.filled(pairSize, 0));
     }
 
-    for (int i = 0; i < greenRedBlueMatrix.length; i++) {
-      for (int j = 0; j < greenRedBlueMatrix[i].length; j++) {
-        greenRedBlueMatrix[i][j] = 0;
+    for (int i = 0; i < statisticsMatrix.length; i++) {
+      for (int j = 0; j < statisticsMatrix[i].length; j++) {
+        statisticsMatrix[i][j] = 0;
       }
     }
   }
@@ -41,48 +41,48 @@ class NumberStatistics {
 
       int firstPositionFirstNumber = pair[0] ~/ firstPositionFirstNumberDevider;
       if (firstPositionFirstNumber % 2 == 1) {
-        greenRedBlueMatrix[QuestionCandidate.red1.index][i] = 1;
+        statisticsMatrix[QuestionCandidate.red1.index][i] = 1;
       }
 
       if (firstPositionFirstNumber > 4) {
-        greenRedBlueMatrix[QuestionCandidate.blue1.index][i] = 1;
+        statisticsMatrix[QuestionCandidate.blue1.index][i] = 1;
       }
       black[0][firstPositionFirstNumber]++;
-      greenRedBlueMatrix[QuestionCandidate.black1.index][i] = firstPositionFirstNumber;
+      statisticsMatrix[QuestionCandidate.black1.index][i] = firstPositionFirstNumber;
 
       int firstPositionLastNumber = pair[0] % 10;
       if (firstPositionLastNumber % 2 == 1) {
-        greenRedBlueMatrix[QuestionCandidate.red9.index][i] = 1;
+        statisticsMatrix[QuestionCandidate.red9.index][i] = 1;
       }
 
       if (firstPositionLastNumber > 4) {
-        greenRedBlueMatrix[QuestionCandidate.blue9.index][i] = 1;
+        statisticsMatrix[QuestionCandidate.blue9.index][i] = 1;
       }
       black[1][firstPositionLastNumber]++;
-      greenRedBlueMatrix[QuestionCandidate.black9.index][i] = firstPositionLastNumber;
+      statisticsMatrix[QuestionCandidate.black9.index][i] = firstPositionLastNumber;
 
       int lastPositionFirstNumber = pair[1] ~/ lastPositionFirstNumberDevider;
       if (lastPositionFirstNumber % 2 == 1) {
-        greenRedBlueMatrix[QuestionCandidate.red11.index][i] = 1;
+        statisticsMatrix[QuestionCandidate.red11.index][i] = 1;
       }
       if (lastPositionFirstNumber > 4) {
-        greenRedBlueMatrix[QuestionCandidate.blue11.index][i] = 1;
+        statisticsMatrix[QuestionCandidate.blue11.index][i] = 1;
       }
       black[2][lastPositionFirstNumber]++;
-      greenRedBlueMatrix[QuestionCandidate.black11.index][i] = lastPositionFirstNumber;
+      statisticsMatrix[QuestionCandidate.black11.index][i] = lastPositionFirstNumber;
 
       int lastPositionLastNumber = pair[1] % 10;
       if (lastPositionLastNumber % 2 == 1) {
-        greenRedBlueMatrix[QuestionCandidate.red19.index][i] = 1;
+        statisticsMatrix[QuestionCandidate.red19.index][i] = 1;
       }
       if (lastPositionLastNumber > 4) {
-        greenRedBlueMatrix[QuestionCandidate.blue19.index][i] = 1;
+        statisticsMatrix[QuestionCandidate.blue19.index][i] = 1;
       }
       black[3][lastPositionLastNumber]++;
-      greenRedBlueMatrix[QuestionCandidate.black19.index][i] = lastPositionFirstNumber;
+      statisticsMatrix[QuestionCandidate.black19.index][i] = lastPositionFirstNumber;
 
       if (pair[0] > pair[1]) {
-        greenRedBlueMatrix[QuestionCandidate.green.index][i] = 1;
+        statisticsMatrix[QuestionCandidate.green.index][i] = 1;
       }
     }
   }
@@ -116,7 +116,7 @@ class NumberStatistics {
 
     for (int i = 0; i < pairSize; i++) {
       for (QuestionCandidate questionCandidate in filterList) {
-        stringArray[i] += (greenRedBlueMatrix[questionCandidate.index][i]).toString();
+        stringArray[i] += (statisticsMatrix[questionCandidate.index][i]).toString();
       }
     }
 
@@ -138,5 +138,37 @@ class NumberStatistics {
     }
 
     return maxValue;
+  }
+
+  List<int> getApplyFilterArray(QuestionCase bestQuestion, List<String> answerList){
+    //두개 순서가 같다는 가정
+
+    List<String> filterMatrix = List.filled(pairSize, "");
+    String answerStr = "";
+
+    for(int i=0; i<bestQuestion.questionList.length; i++){
+      for(int j=0; j<pairSize; j++) {
+        filterMatrix[j] += statisticsMatrix[bestQuestion.questionList[i].index][j].toString();
+      }
+
+      if(answerList[i] == "true"){
+        answerStr += "1";
+      }else if (answerList[i] == "false"){
+        answerStr += "0";
+      }else{
+        answerStr += answerList[i];
+      }
+
+    }
+
+    List<int> filterIndexes = [];
+    for(int i=0; i<pairSize; i++){
+      if(filterMatrix[i] == answerStr){
+        filterIndexes.add(i);
+      }
+    }
+
+    return filterIndexes;
+
   }
 }

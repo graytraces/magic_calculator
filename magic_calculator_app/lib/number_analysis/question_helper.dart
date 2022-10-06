@@ -164,4 +164,8 @@ class QuestionMaker {
       }
     }
   }
+
+  List<int> getApplyFilterArray(QuestionCase bestQuestion, List<String> answerList) {
+    return numberStatistics.getApplyFilterArray(bestQuestion, answerList);
+  }
 }
