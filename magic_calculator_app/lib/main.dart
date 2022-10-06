@@ -231,7 +231,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var inputNumberLength = <String>['false', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    var blackAnswerList = <String>['false', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     return Scaffold(
       appBar: AppBar(title: Text(widget.title), actions: [
         TextButton(
@@ -319,7 +319,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       height: 40,
                                       child: DropdownButton(
                                         isExpanded: true,
-                                        items: inputNumberLength
+                                        items: blackAnswerList
                                             .map<DropdownMenuItem<String>>((String value) {
                                           return DropdownMenuItem<String>(
                                             value: value,
