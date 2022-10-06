@@ -231,19 +231,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
-    var inputNumberLength = <String>[
-      'false',
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9'
-    ];
+    var inputNumberLength = <String>['false', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     return Scaffold(
       appBar: AppBar(title: Text(widget.title), actions: [
         TextButton(
@@ -329,16 +317,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ? SizedBox(
                                       width: 100,
                                       height: 40,
-                                      child:DropdownButton(
+                                      child: DropdownButton(
                                         isExpanded: true,
                                         items: inputNumberLength
                                             .map<DropdownMenuItem<String>>((String value) {
                                           return DropdownMenuItem<String>(
                                             value: value,
-                                            child: Center(child: Text(value == "false" ? "선택" : value)),
+                                            child: Center(
+                                                child: Text(value == "false" ? "선택" : value)),
                                           );
                                         }).toList(),
-                                        value: _answerList[index] ,
+                                        value: _answerList[index],
                                         onChanged: (String? newValue) async {
                                           setState(() {
                                             _answerList[index] = newValue!;
