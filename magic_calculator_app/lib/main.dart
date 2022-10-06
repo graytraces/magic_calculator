@@ -282,8 +282,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       )))
                   : SizedBox(
                       width: double.infinity,
-                      height: 60,
+                      height: 40,
                       child: Text("경우의수 : " + _strNumberPairList.length.toString() + " 가지")),
+              SizedBox(height: 20,),
               Text("최적질문", style: _getTitleTextStyle()),
               _bestQuestionSet.isEmpty
                   ? SizedBox(
@@ -340,7 +341,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ],
                           );
                         },
-                        scrollDirection: Axis.vertical,
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: _bestQuestion.questionList.length,
                       ),
                     ),
@@ -360,7 +361,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     )
                   : SizedBox(
                       width: double.infinity,
-                      height: 120,
+                      height: _strFilteredNumberPairList.length * 20,
                       child: ListView.builder(
                         itemBuilder: (BuildContext context, int index) {
                           return Row(
@@ -375,12 +376,37 @@ class _MyHomePageState extends State<MyHomePage> {
                             ],
                           );
                         },
-                        scrollDirection: Axis.vertical,
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: _strFilteredNumberPairList.length,
                       ),
-                    )
+                    ),
+              SizedBox(height: 20,),
+              Text("검증용 경우의수 출력(추후삭제)", style: _getTitleTextStyle()),
+              SizedBox(height: 20,),
+              SizedBox(
+                width:double.infinity,
+                height: _strNumberPairList.length * 20,
+                child: ListView.builder(
+                  itemBuilder: (BuildContext context, int index) {
+                    return Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Text("010-" +
+                              _strNumberPairList[index][0] +
+                              "-" +
+                              _strNumberPairList[index][1]),
+                        ),
+                      ],
+                    );
+                  },
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _strNumberPairList.length,
+                ),
+              )
             ],
-          ),
+          )
+          ,
         ),
       ),
     );
