@@ -157,15 +157,14 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     if (_bestQuestionSet.isEmpty) {
+      _bestQuestionSet.add(resultList[0]);
       setState(() {
-        _bestQuestionSet.add(resultList[0]);
+        _bestQuestionSet[0].questionList.sort((a, b) => a.index - b.index );
       });
     }
     setState(() {
       _bestQuestion = _bestQuestionSet[0];
     });
-
-    print(_bestQuestion);
 
     if (_bestQuestion.questionList.length != 0) {
       _answerList = List.filled(_bestQuestion.questionList.length, "false");
@@ -213,9 +212,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _applyFilter() {
-    // _bestQuestion
-    // _answerList
-
     setState(() {
       _strFilteredNumberPairList = [];
     });
