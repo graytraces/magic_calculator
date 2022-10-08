@@ -70,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //숫자 계산
   void _calculateNumber() {
+    _answerList = List.filled(_bestQuestion.questionList.length, "false");
     _strNumberPairList = [];
     _strFilteredNumberPairList = [];
     _intNumberPairList = [];
@@ -132,14 +133,34 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
 
-    print(_strNumberPairList);
-
     List<QuestionCase> resultList = [];
     _questionMaker = QuestionMaker(_intNumberPairList);
 
+    QuestionCandidate? blackOneShotQuestion = _questionMaker.getBlackOneShotQuestion();
+
+    QuestionCase blackBestQuestion = QuestionCase([], 0);
+    List<QuestionCase> blackBestQuestionSet = [];
+
+    if (blackOneShotQuestion != null) {
+      List<QuestionCandidate> blackOneshotQuestionCandidateList = [];
+      List<QuestionCase> blackOneshotQuestionCaseList = [];
+      blackOneshotQuestionCandidateList.add(blackOneShotQuestion);
+      blackBestQuestion = QuestionCase(blackOneshotQuestionCandidateList, 1);
+      blackOneshotQuestionCaseList.add(blackBestQuestion);
+      blackBestQuestionSet = blackOneshotQuestionCaseList;
+    }
+
     _questionMaker.getFirstDepthQuestionCase(resultList);
     _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
+
     if (_bestQuestionSet.isEmpty) {
+      if (blackOneShotQuestion != null) {
+        setState(() {
+          _bestQuestion = blackBestQuestion;
+          _bestQuestionSet = blackBestQuestionSet;
+        });
+      }
+
       _questionMaker.getSecondDepthQuestionCase(resultList);
       _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
       if (_bestQuestionSet.isEmpty) {
@@ -159,18 +180,13 @@ class _MyHomePageState extends State<MyHomePage> {
     if (_bestQuestionSet.isEmpty) {
       _bestQuestionSet.add(resultList[0]);
       setState(() {
-        _bestQuestionSet[0].questionList.sort((a, b) => a.index - b.index );
+        _bestQuestionSet[0].questionList.sort((a, b) => a.index - b.index);
       });
     }
     setState(() {
       _bestQuestion = _bestQuestionSet[0];
     });
 
-    if (_bestQuestion.questionList.length != 0) {
-      _answerList = List.filled(_bestQuestion.questionList.length, "false");
-    }
-
-    //2840, 1224
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
@@ -284,12 +300,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       width: double.infinity,
                       height: 40,
                       child: Text("경우의수 : " + _strNumberPairList.length.toString() + " 가지")),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Text("최적질문", style: _getTitleTextStyle()),
               _bestQuestionSet.isEmpty
                   ? SizedBox(
                       width: double.infinity,
-                      height: 180,
+                      height: 100,
                       child: Center(
                           child: Column(
                         children: [
@@ -361,7 +379,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     )
                   : SizedBox(
                       width: double.infinity,
-                      height: _strFilteredNumberPairList.length * 20,
+                      height: 120,
                       child: ListView.builder(
                         itemBuilder: (BuildContext context, int index) {
                           return Row(
@@ -380,11 +398,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         itemCount: _strFilteredNumberPairList.length,
                       ),
                     ),
-              SizedBox(height: 20,),
-              Text("검증용 경우의수 출력(추후삭제)", style: _getTitleTextStyle()),
-              SizedBox(height: 20,),
               SizedBox(
-                width:double.infinity,
+                height: 20,
+              ),
+              Text("검증용 경우의수 출력(추후삭제)", style: _getTitleTextStyle()),
+              SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: double.infinity,
                 height: _strNumberPairList.length * 20,
                 child: ListView.builder(
                   itemBuilder: (BuildContext context, int index) {
@@ -405,8 +427,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               )
             ],
-          )
-          ,
+          ),
         ),
       ),
     );

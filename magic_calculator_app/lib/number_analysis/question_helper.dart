@@ -67,6 +67,10 @@ class QuestionMaker {
     return bestResult;
   }
 
+  QuestionCandidate? getBlackOneShotQuestion(){
+    return numberStatistics.getBlackOneShotQuestion();
+  }
+
   getFirstDepthQuestionCase(List<QuestionCase> resultList) {
     for (int i = 0; i < matrixSize; i++) {
       List<QuestionCandidate> candidateList = [];
