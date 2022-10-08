@@ -42,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String _resultMessage = "";
   String _firstNumberLength = "1";
   String _secondNumberLength = "1";
+  bool _isUseBlackQuestion = false;
 
   List<List<String>> _strNumberPairList = [];
   List<List<String>> _strFilteredNumberPairList = [];
@@ -55,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final String FIRST_NUMBER_LENGTH = "firstNumberLength";
   final String SECOND_NUMBER_LENGTH = "secondNumberLength";
+  final String BLACK_QUESTION_USE_YN = "blackQuestionUseYn";
 
   @override
   void initState() {
@@ -70,7 +72,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //숫자 계산
   void _calculateNumber() {
-    _answerList = List.filled(_bestQuestion.questionList.length, "false");
     _strNumberPairList = [];
     _strFilteredNumberPairList = [];
     _intNumberPairList = [];
@@ -136,7 +137,13 @@ class _MyHomePageState extends State<MyHomePage> {
     List<QuestionCase> resultList = [];
     _questionMaker = QuestionMaker(_intNumberPairList);
 
-    QuestionCandidate? blackOneShotQuestion = _questionMaker.getBlackOneShotQuestion();
+
+
+
+    QuestionCandidate? blackOneShotQuestion;
+    if(_isUseBlackQuestion){
+      blackOneShotQuestion = _questionMaker.getBlackOneShotQuestion();
+    }
 
     QuestionCase blackBestQuestion = QuestionCase([], 0);
     List<QuestionCase> blackBestQuestionSet = [];
@@ -150,28 +157,44 @@ class _MyHomePageState extends State<MyHomePage> {
       blackBestQuestionSet = blackOneshotQuestionCaseList;
     }
 
-    _questionMaker.getFirstDepthQuestionCase(resultList);
-    _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
 
-    if (_bestQuestionSet.isEmpty) {
-      if (blackOneShotQuestion != null) {
-        setState(() {
-          _bestQuestion = blackBestQuestion;
-          _bestQuestionSet = blackBestQuestionSet;
-        });
-      }
-
-      _questionMaker.getSecondDepthQuestionCase(resultList);
+    for(int i=0; i<4; i++){
+      _questionMaker.getQuestionCase(resultList, _isUseBlackQuestion);
       _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
-      if (_bestQuestionSet.isEmpty) {
-        _questionMaker.getThirdDepthQuestionCase(resultList);
-        _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
-        if (_bestQuestionSet.isEmpty) {
-          _questionMaker.getFourthDepthQuestionCase(resultList);
-          _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
+
+      if (i == 0 && _bestQuestionSet.isEmpty) {
+        if (blackOneShotQuestion != null) {
+          setState(() {
+            _bestQuestion = blackBestQuestion;
+            _bestQuestionSet = blackBestQuestionSet;
+          });
         }
+      }else if (_bestQuestionSet.isNotEmpty){
+        break;
       }
     }
+
+    // _questionMaker.getFirstDepthQuestionCase(resultList);
+    // _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
+    // if (_bestQuestionSet.isEmpty) {
+    //   if (blackOneShotQuestion != null) {
+    //     setState(() {
+    //       _bestQuestion = blackBestQuestion;
+    //       _bestQuestionSet = blackBestQuestionSet;
+    //     });
+    //   }
+    //
+    //   _questionMaker.getSecondDepthQuestionCase(resultList);
+    //   _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
+    //   if (_bestQuestionSet.isEmpty) {
+    //     _questionMaker.getThirdDepthQuestionCase(resultList);
+    //     _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
+    //     if (_bestQuestionSet.isEmpty) {
+    //       _questionMaker.getFourthDepthQuestionCase(resultList);
+    //       _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
+    //     }
+    //   }
+    // }
 
     for (QuestionCase qCase in _bestQuestionSet) {
       qCase.questionList.sort((a, b) => a.index - b.index);
@@ -185,7 +208,9 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     setState(() {
       _bestQuestion = _bestQuestionSet[0];
+      _answerList = List.filled(_bestQuestion.questionList.length, "false");
     });
+
 
     FocusManager.instance.primaryFocus?.unfocus();
   }
@@ -213,6 +238,11 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         _secondNumberLength = secondKeyValueMap.value!;
       });
+    }
+
+    KeyValueMap blackKeyValueMap = await db.selectKeyValueMap(BLACK_QUESTION_USE_YN);
+    if (blackKeyValueMap.key != null) {
+      _isUseBlackQuestion = blackKeyValueMap.value == "true";
     }
   }
 
@@ -307,7 +337,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _bestQuestionSet.isEmpty
                   ? SizedBox(
                       width: double.infinity,
-                      height: 100,
+                      height: 180,
                       child: Center(
                           child: Column(
                         children: [
