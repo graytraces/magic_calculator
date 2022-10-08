@@ -25,6 +25,9 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
 
   final String FIRST_NUMBER_LENGTH = "firstNumberLength";
   final String SECOND_NUMBER_LENGTH = "secondNumberLength";
+  final String BLACK_QUESTION_USE_YN = "blackQuestionUseYn";
+
+  bool _isUseBlackQuestion = false;
 
   TextEditingController countryCodeController = TextEditingController();
   bool _isUseCountryCode = false;
@@ -51,11 +54,18 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
       });
     }
 
-    KeyValueMap secondKeyValueMap =
-        await db.selectKeyValueMap(SECOND_NUMBER_LENGTH);
+    KeyValueMap secondKeyValueMap = await db.selectKeyValueMap(SECOND_NUMBER_LENGTH);
     if (secondKeyValueMap.key != null) {
       setState(() {
         _secondNumberLength = secondKeyValueMap.value!;
+      });
+    }
+
+    KeyValueMap blackQuestionUseYn = await db.selectKeyValueMap(BLACK_QUESTION_USE_YN);
+
+    if (secondKeyValueMap.key != null) {
+      setState(() {
+        _isUseBlackQuestion = blackQuestionUseYn.value! == "true";
       });
     }
   }
@@ -72,23 +82,12 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
   }
 
   _getTitleTextStyle() {
-    return TextStyle(
-        fontSize: 18, color: Colors.blueAccent, fontWeight: FontWeight.bold);
+    return TextStyle(fontSize: 18, color: Colors.blueAccent, fontWeight: FontWeight.bold);
   }
 
   @override
   Widget build(BuildContext context) {
-    var inputNumberLength = <String>[
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9'
-    ];
+    var inputNumberLength = <String>['1', '2', '3', '4', '5', '6', '7', '8', '9'];
     return Scaffold(
         appBar: AppBar(title: Text('설정')),
         body: SingleChildScrollView(
@@ -114,8 +113,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                       width: 50,
                       child: DropdownButton(
                         isExpanded: true,
-                        items: inputNumberLength
-                            .map<DropdownMenuItem<String>>((String value) {
+                        items: inputNumberLength.map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Center(child: Text(value)),
@@ -141,8 +139,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                       width: 50,
                       child: DropdownButton(
                         isExpanded: true,
-                        items: inputNumberLength
-                            .map<DropdownMenuItem<String>>((String value) {
+                        items: inputNumberLength.map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Center(child: Text(value)),
@@ -157,6 +154,29 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                         },
                       ),
                     )
+                  ],
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    '○ Black 질문 사용여부',
+                    style: _getTitleTextStyle(),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text("사용여부 : "),
+                    Switch(
+                      value: _isUseBlackQuestion,
+                      onChanged:(newValue) async {
+                        setState(() {
+                          _isUseBlackQuestion = newValue;
+                        });
+                        saveKeyValue(BLACK_QUESTION_USE_YN, newValue.toString());
+                      }),
                   ],
                 ),
                 SizedBox(height: 20),
@@ -184,8 +204,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                       height: 50,
                       child: TextField(
                         decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: '국가코드(+82)'),
+                            border: OutlineInputBorder(), hintText: '국가코드(+82)'),
                         controller: countryCodeController,
                       ),
                     ),
@@ -216,8 +235,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                       height: 50,
                       child: TextField(
                         decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: '자동입력 앞자리(010)'),
+                            border: OutlineInputBorder(), hintText: '자동입력 앞자리(010)'),
                         controller: prefixCodeController,
                       ),
                     ),
@@ -231,28 +249,26 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                     style: _getTitleTextStyle(),
                   ),
                 ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("대량전송 여부 : "),
-                      Switch(
-                        value: _isSendBulk,
-                        onChanged: (value) => setState(() {
-                          _isSendBulk = value;
-                        }),
-                      ),
-                      Text("/"),
-                      Text("전송 딜레이(초)"),
-                      SizedBox(
-                        width: 80,
-                        height: 50,
-                        child: TextField(
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder(), hintText: '초'),
-                            controller: smsSendDelayController,
-                            keyboardType: TextInputType.number),
-                      ),
-                    ]),
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                  Text("대량전송 여부 : "),
+                  Switch(
+                    value: _isSendBulk,
+                    onChanged: (value) => setState(() {
+                      _isSendBulk = value;
+                    }),
+                  ),
+                  Text("/"),
+                  Text("전송 딜레이(초)"),
+                  SizedBox(
+                    width: 80,
+                    height: 50,
+                    child: TextField(
+                        decoration:
+                            const InputDecoration(border: OutlineInputBorder(), hintText: '초'),
+                        controller: smsSendDelayController,
+                        keyboardType: TextInputType.number),
+                  ),
+                ]),
                 SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
@@ -264,8 +280,8 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: TextField(
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(), hintText: 'SMS 문구'),
+                    decoration:
+                        const InputDecoration(border: OutlineInputBorder(), hintText: 'SMS 문구'),
                     keyboardType: TextInputType.multiline,
                     minLines: 4,
                     maxLines: 4,
