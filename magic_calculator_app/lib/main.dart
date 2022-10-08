@@ -137,11 +137,8 @@ class _MyHomePageState extends State<MyHomePage> {
     List<QuestionCase> resultList = [];
     _questionMaker = QuestionMaker(_intNumberPairList);
 
-
-
-
     QuestionCandidate? blackOneShotQuestion;
-    if(_isUseBlackQuestion){
+    if (_isUseBlackQuestion) {
       blackOneShotQuestion = _questionMaker.getBlackOneShotQuestion();
     }
 
@@ -157,20 +154,24 @@ class _MyHomePageState extends State<MyHomePage> {
       blackBestQuestionSet = blackOneshotQuestionCaseList;
     }
 
+    bool findFirstStep = false;
 
-    for(int i=0; i<4; i++){
+    for (int i = 0; i < 4; i++) {
       _questionMaker.getQuestionCase(resultList, _isUseBlackQuestion);
       _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
 
-      if (i == 0 && _bestQuestionSet.isEmpty) {
+      if (_bestQuestionSet.isNotEmpty) {
+        if (i == 0) {
+          findFirstStep = true;
+        }
+        break;
+      } else if (i == 0) {
         if (blackOneShotQuestion != null) {
           setState(() {
             _bestQuestion = blackBestQuestion;
             _bestQuestionSet = blackBestQuestionSet;
           });
         }
-      }else if (_bestQuestionSet.isNotEmpty){
-        break;
       }
     }
 
@@ -205,12 +206,29 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         _bestQuestionSet[0].questionList.sort((a, b) => a.index - b.index);
       });
+    } else {
+      //한방에 찾았고, black을 안쓸수 있는지 확인해본다.
+      if (findFirstStep) {
+        QuestionCase qCase = _bestQuestionSet[_bestQuestionSet.length - 1];
+
+        if (!qCase.questionList[0].name.contains("black")) {
+          //black 외에 질문이 존재함
+
+          for (int i = 0; i < _bestQuestionSet.length; i++) {
+            QuestionCase qCase2 = _bestQuestionSet[i];
+            if (qCase2.questionList[0].name.contains("black")) {
+              _bestQuestionSet.remove(qCase2);
+              i--;
+            }
+          }
+        }
+      }
     }
+
     setState(() {
       _bestQuestion = _bestQuestionSet[0];
       _answerList = List.filled(_bestQuestion.questionList.length, "false");
     });
-
 
     FocusManager.instance.primaryFocus?.unfocus();
   }
