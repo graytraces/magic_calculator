@@ -44,6 +44,9 @@ class _MyHomePageState extends State<MyHomePage> {
   String _secondNumberLength = "1";
   bool _isUseBlackQuestion = false;
 
+  int _hideCount = 0;
+  bool _showHide = false;
+
   List<List<String>> _strNumberPairList = [];
   List<List<String>> _strFilteredNumberPairList = [];
 
@@ -318,162 +321,184 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                   ),
+                  onTap: () {
+                    _hideCount = _hideCount + 1;
+                    print(_hideCount);
+
+                    if (_hideCount == 5) {
+                      _hideCount = 0;
+                      setState(() {
+                        _showHide = !_showHide;
+                      });
+                    }
+                  },
                   controller: _magicNumber,
                   keyboardType: TextInputType.number),
               SizedBox(
                 height: 20,
               ),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 40),
-                  ),
-                  onPressed: () {
-                    _calculateNumber();
-                  },
-                  child: const Text('계산하기')),
-              SizedBox(
-                height: 20,
-              ),
-              _strNumberPairList.length == 0
-                  ? SizedBox(
-                      width: double.infinity,
-                      height: 60,
-                      child: Center(
-                          child: Column(
-                        children: [
-                          Text(_resultMessage, style: _getTitleTextStyle()),
-                        ],
-                      )))
-                  : SizedBox(
-                      width: double.infinity,
-                      height: 40,
-                      child: Text("경우의수 : " + _strNumberPairList.length.toString() + " 가지")),
-              SizedBox(
-                height: 20,
-              ),
-              Text("최적질문", style: _getTitleTextStyle()),
-              _bestQuestionSet.isEmpty
-                  ? SizedBox(
-                      width: double.infinity,
-                      height: 180,
-                      child: Center(
-                          child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(40.0),
-                            child: Text("최적질문이 없습니다", style: _getTitleTextStyle()),
-                          ),
-                        ],
-                      )))
-                  : SizedBox(
-                      width: double.infinity,
-                      height: 180,
-                      child: ListView.builder(
-                        itemBuilder: (BuildContext context, int index) {
-                          return Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(0.0),
-                                child: Text(_bestQuestion.questionList[index].name),
-                              ),
-                              _bestQuestion.questionList[index].name.contains("black")
-                                  ? SizedBox(
-                                      width: 100,
-                                      height: 40,
-                                      child: DropdownButton(
-                                        isExpanded: true,
-                                        items: blackAnswerList
-                                            .map<DropdownMenuItem<String>>((String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Center(
-                                                child: Text(value == "false" ? "선택" : value)),
-                                          );
-                                        }).toList(),
-                                        value: _answerList[index],
-                                        onChanged: (String? newValue) async {
-                                          setState(() {
-                                            _answerList[index] = newValue!;
-                                          });
-                                        },
-                                      ),
-                                    )
-                                  : Switch(
-                                      value: _answerList[index].toLowerCase() == "true",
-                                      onChanged: (value) => setState(() {
-                                        _answerList[index] = value.toString();
-                                      }),
+              _showHide
+                  ? Column(
+                      children: [
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(double.infinity, 40),
+                            ),
+                            onPressed: () {
+                              _calculateNumber();
+                            },
+                            child: const Text('계산하기')),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        _strNumberPairList.length == 0
+                            ? SizedBox(
+                                width: double.infinity,
+                                height: 60,
+                                child: Center(
+                                    child: Column(
+                                  children: [
+                                    Text(_resultMessage, style: _getTitleTextStyle()),
+                                  ],
+                                )))
+                            : SizedBox(
+                                width: double.infinity,
+                                height: 40,
+                                child:
+                                    Text("경우의수 : " + _strNumberPairList.length.toString() + " 가지")),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text("최적질문", style: _getTitleTextStyle()),
+                        _bestQuestionSet.isEmpty
+                            ? SizedBox(
+                                width: double.infinity,
+                                height: 180,
+                                child: Center(
+                                    child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(40.0),
+                                      child: Text("최적질문이 없습니다", style: _getTitleTextStyle()),
                                     ),
-                            ],
-                          );
-                        },
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: _bestQuestion.questionList.length,
-                      ),
-                    ),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 40),
-                  ),
-                  onPressed: () {
-                    _applyFilter();
-                  },
-                  child: const Text('필터적용')),
-              _strFilteredNumberPairList.isEmpty
-                  ? SizedBox(
-                      width: double.infinity,
-                      height: 120,
-                      child: Text("답변이 잘못 입력되었습니다."),
+                                  ],
+                                )))
+                            : SizedBox(
+                                width: double.infinity,
+                                height: 180,
+                                child: ListView.builder(
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(0.0),
+                                          child: Text(_bestQuestion.questionList[index].name),
+                                        ),
+                                        _bestQuestion.questionList[index].name.contains("black")
+                                            ? SizedBox(
+                                                width: 100,
+                                                height: 40,
+                                                child: DropdownButton(
+                                                  isExpanded: true,
+                                                  items: blackAnswerList
+                                                      .map<DropdownMenuItem<String>>(
+                                                          (String value) {
+                                                    return DropdownMenuItem<String>(
+                                                      value: value,
+                                                      child: Center(
+                                                          child: Text(
+                                                              value == "false" ? "선택" : value)),
+                                                    );
+                                                  }).toList(),
+                                                  value: _answerList[index],
+                                                  onChanged: (String? newValue) async {
+                                                    setState(() {
+                                                      _answerList[index] = newValue!;
+                                                    });
+                                                  },
+                                                ),
+                                              )
+                                            : Switch(
+                                                value: _answerList[index].toLowerCase() == "true",
+                                                onChanged: (value) => setState(() {
+                                                  _answerList[index] = value.toString();
+                                                }),
+                                              ),
+                                      ],
+                                    );
+                                  },
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: _bestQuestion.questionList.length,
+                                ),
+                              ),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(double.infinity, 40),
+                            ),
+                            onPressed: () {
+                              _applyFilter();
+                            },
+                            child: const Text('필터적용')),
+                        _strFilteredNumberPairList.isEmpty
+                            ? SizedBox(
+                                width: double.infinity,
+                                height: 160,
+                                child: Text("답변이 잘못 입력되었습니다."),
+                              )
+                            : SizedBox(
+                                width: double.infinity,
+                                height: 160,
+                                child: ListView.builder(
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(0.0),
+                                          child: Text("010-" +
+                                              _strFilteredNumberPairList[index][0] +
+                                              "-" +
+                                              _strFilteredNumberPairList[index][1]),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: _strFilteredNumberPairList.length,
+                                ),
+                              ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text("검증용 경우의수 출력(추후삭제)", style: _getTitleTextStyle()),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          height: _strNumberPairList.length * 20,
+                          child: ListView.builder(
+                            itemBuilder: (BuildContext context, int index) {
+                              return Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(0.0),
+                                    child: Text("010-" +
+                                        _strNumberPairList[index][0] +
+                                        "-" +
+                                        _strNumberPairList[index][1]),
+                                  ),
+                                ],
+                              );
+                            },
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: _strNumberPairList.length,
+                          ),
+                        )
+                      ],
                     )
                   : SizedBox(
-                      width: double.infinity,
-                      height: 120,
-                      child: ListView.builder(
-                        itemBuilder: (BuildContext context, int index) {
-                          return Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(0.0),
-                                child: Text("010-" +
-                                    _strFilteredNumberPairList[index][0] +
-                                    "-" +
-                                    _strFilteredNumberPairList[index][1]),
-                              ),
-                            ],
-                          );
-                        },
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: _strFilteredNumberPairList.length,
-                      ),
-                    ),
-              SizedBox(
-                height: 20,
-              ),
-              Text("검증용 경우의수 출력(추후삭제)", style: _getTitleTextStyle()),
-              SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: _strNumberPairList.length * 20,
-                child: ListView.builder(
-                  itemBuilder: (BuildContext context, int index) {
-                    return Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: Text("010-" +
-                              _strNumberPairList[index][0] +
-                              "-" +
-                              _strNumberPairList[index][1]),
-                        ),
-                      ],
-                    );
-                  },
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _strNumberPairList.length,
-                ),
-              )
+                      height: 20,
+                    )
             ],
           ),
         ),
