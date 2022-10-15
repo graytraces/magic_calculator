@@ -18,11 +18,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Magic Calculator',
+      title: 'Simple Memo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Magic Calculator'),
+      home: const MyHomePage(title: 'Simple Memo'),
     );
   }
 }
@@ -315,25 +315,32 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(
-                height: 40,
+                height: 10,
               ),
               TextField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                  onTap: () {
-                    _hideCount = _hideCount + 1;
-                    print(_hideCount);
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+                onTap: () {
+                  _hideCount = _hideCount + 1;
 
-                    if (_hideCount == 5) {
-                      _hideCount = 0;
-                      setState(() {
-                        _showHide = !_showHide;
-                      });
+                  if (_hideCount == 3) {
+                    _hideCount = 0;
+
+                    if (_showHide == false) {
+                      _calculateNumber();
                     }
-                  },
-                  controller: _magicNumber,
-                  keyboardType: TextInputType.number),
+
+                    setState(() {
+                      _showHide = !_showHide;
+                    });
+                  }
+                },
+                controller: _magicNumber,
+                keyboardType: TextInputType.multiline,
+                minLines: 10,
+                maxLines: 10,
+              ),
               SizedBox(
                 height: 20,
               ),
