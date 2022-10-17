@@ -135,6 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         _resultMessage = "계산결과값이 없습니다";
       });
+      return;
     }
 
     List<QuestionCase> resultList = [];
@@ -268,7 +269,32 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _getTitleTextStyle() {
-    return TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+    return TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
+  }
+
+  _getAlertTextStyle() {
+    return TextStyle(
+        fontSize: 20,
+        backgroundColor: Colors.yellowAccent,
+        color: Colors.red,
+        fontWeight: FontWeight.bold);
+  }
+
+  _getContentTextStyle() {
+    return TextStyle(fontSize: 16);
+  }
+
+  _getQuestionTextStyle(String name) {
+    Color questionColor = Colors.black;
+    if (name.contains("red")) {
+      questionColor = Colors.red;
+    } else if (name.contains("blue")) {
+      questionColor = Colors.blue;
+    } else if (name.contains("green")) {
+      questionColor = Colors.green;
+    }
+
+    return TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: questionColor);
   }
 
   _launchCall(String phoneNumber) async {
@@ -365,18 +391,27 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: Center(
                                     child: Column(
                                   children: [
-                                    Text(_resultMessage, style: _getTitleTextStyle()),
+                                    Text(_resultMessage, style: _getAlertTextStyle()),
                                   ],
                                 )))
                             : SizedBox(
                                 width: double.infinity,
-                                height: 40,
-                                child:
-                                    Text("경우의수 : " + _strNumberPairList.length.toString() + " 가지")),
+                                height: 20,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: Text(
+                                      "경우의수 : " + _strNumberPairList.length.toString() + " 가지",
+                                      style: _getContentTextStyle()),
+                                )),
                         SizedBox(
                           height: 20,
                         ),
-                        Text("최적질문", style: _getTitleTextStyle()),
+                        SizedBox(
+                            width: double.infinity,
+                            child: Text("○ 최적질문", style: _getTitleTextStyle())),
+                        SizedBox(
+                          height: 20,
+                        ),
                         _bestQuestionSet.isEmpty
                             ? SizedBox(
                                 width: double.infinity,
@@ -385,8 +420,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     child: Column(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.all(40.0),
-                                      child: Text("최적질문이 없습니다", style: _getTitleTextStyle()),
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Text("최적질문이 없습니다", style: _getAlertTextStyle()),
                                     ),
                                   ],
                                 )))
@@ -398,8 +433,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                     return Row(
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.all(0.0),
-                                          child: Text(_bestQuestion.questionList[index].name),
+                                          padding: const EdgeInsets.only(left: 20),
+                                          child: Text(_bestQuestion.questionList[index].name,
+                                              style: _getQuestionTextStyle(
+                                                  _bestQuestion.questionList[index].name)),
                                         ),
                                         _bestQuestion.questionList[index].name.contains("black")
                                             ? SizedBox(
@@ -422,14 +459,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     setState(() {
                                                       _answerList[index] = newValue!;
                                                     });
+                                                    _applyFilter();
                                                   },
                                                 ),
                                               )
                                             : Switch(
                                                 value: _answerList[index].toLowerCase() == "true",
-                                                onChanged: (value) => setState(() {
-                                                  _answerList[index] = value.toString();
-                                                }),
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    _answerList[index] = value.toString();
+                                                  });
+                                                  _applyFilter();
+                                                },
                                               ),
                                       ],
                                     );
@@ -438,39 +479,46 @@ class _MyHomePageState extends State<MyHomePage> {
                                   itemCount: _bestQuestion.questionList.length,
                                 ),
                               ),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(double.infinity, 40),
-                            ),
-                            onPressed: () {
-                              _applyFilter();
-                            },
-                            child: const Text('필터적용')),
+                        // ElevatedButton(
+                        //     style: ElevatedButton.styleFrom(
+                        //       minimumSize: const Size(double.infinity, 40),
+                        //     ),
+                        //     onPressed: () {
+                        //       _applyFilter();
+                        //     },
+                        //     child: const Text('필터적용')),
+                        SizedBox(height: 20),
+                        SizedBox(
+                            width: double.infinity,
+                            child: Text("○ 결과", style: _getTitleTextStyle())),
+                        SizedBox(height: 20),
                         _strFilteredNumberPairList.isEmpty
-                            ? SizedBox(
-                                width: double.infinity,
-                                height: 160,
-                                child: Text("답변이 잘못 입력되었습니다."),
-                              )
+                            ? Text(
+                              "답변이 잘못 입력되었습니다.",
+                              style: _getContentTextStyle(),
+                            )
                             : SizedBox(
                                 width: double.infinity,
                                 height: 160,
-                                child: ListView.builder(
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(0.0),
-                                          child: Text("010-" +
-                                              _strFilteredNumberPairList[index][0] +
-                                              "-" +
-                                              _strFilteredNumberPairList[index][1]),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: _strFilteredNumberPairList.length,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: ListView.builder(
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(0.0),
+                                            child: Text("010-" +
+                                                _strFilteredNumberPairList[index][0] +
+                                                "-" +
+                                                _strFilteredNumberPairList[index][1]),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: _strFilteredNumberPairList.length,
+                                  ),
                                 ),
                               ),
                         SizedBox(
