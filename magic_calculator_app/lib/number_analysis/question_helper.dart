@@ -1,19 +1,23 @@
 import 'number_statistics.dart';
 
 enum QuestionCandidate {
+  //green : 앞이 커요?
+  //black : 한자리가 뭐에요?
+  //red : 홀수에요?
+  //blue : 4보다 커요?
+  green,
   black1,
+  red1,
+  blue1,
   black9,
-  black11,
-  black19,
-  green, //앞이 커요?
-  red1, //odd
   red9,
-  red11,
-  red19,
-  blue1, //gt4
   blue9,
+  black11,
+  red11,
   blue11,
-  blue19
+  black19,
+  red19,
+  blue19,
 }
 
 class QuestionCase {
