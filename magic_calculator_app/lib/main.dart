@@ -412,115 +412,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         SizedBox(
                           height: 20,
                         ),
-                        _bestQuestionSet.isEmpty
-                            ? SizedBox(
-                                width: double.infinity,
-                                height: 180,
-                                child: Center(
-                                    child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(20.0),
-                                      child: Text("최적질문이 없습니다", style: _getAlertTextStyle()),
-                                    ),
-                                  ],
-                                )))
-                            : SizedBox(
-                                width: double.infinity,
-                                height: 180,
-                                child: ListView.builder(
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 20),
-                                          child: Text(_bestQuestion.questionList[index].name,
-                                              style: _getQuestionTextStyle(
-                                                  _bestQuestion.questionList[index].name)),
-                                        ),
-                                        _bestQuestion.questionList[index].name.contains("black")
-                                            ? SizedBox(
-                                                width: 100,
-                                                height: 40,
-                                                child: DropdownButton(
-                                                  isExpanded: true,
-                                                  items: blackAnswerList
-                                                      .map<DropdownMenuItem<String>>(
-                                                          (String value) {
-                                                    return DropdownMenuItem<String>(
-                                                      value: value,
-                                                      child: Center(
-                                                          child: Text(
-                                                              value == "false" ? "선택" : value)),
-                                                    );
-                                                  }).toList(),
-                                                  value: _answerList[index],
-                                                  onChanged: (String? newValue) async {
-                                                    setState(() {
-                                                      _answerList[index] = newValue!;
-                                                    });
-                                                    _applyFilter();
-                                                  },
-                                                ),
-                                              )
-                                            : Switch(
-                                                value: _answerList[index].toLowerCase() == "true",
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    _answerList[index] = value.toString();
-                                                  });
-                                                  _applyFilter();
-                                                },
-                                              ),
-                                      ],
-                                    );
-                                  },
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: _bestQuestion.questionList.length,
-                                ),
-                              ),
-                        // ElevatedButton(
-                        //     style: ElevatedButton.styleFrom(
-                        //       minimumSize: const Size(double.infinity, 40),
-                        //     ),
-                        //     onPressed: () {
-                        //       _applyFilter();
-                        //     },
-                        //     child: const Text('필터적용')),
+                        drawOptimalQuestion(),
                         SizedBox(height: 20),
                         SizedBox(
                             width: double.infinity,
                             child: Text("○ 결과", style: _getTitleTextStyle())),
                         SizedBox(height: 20),
-                        _strFilteredNumberPairList.isEmpty
-                            ? Text(
-                              "답변이 잘못 입력되었습니다.",
-                              style: _getContentTextStyle(),
-                            )
-                            : SizedBox(
-                                width: double.infinity,
-                                height: 160,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 20),
-                                  child: ListView.builder(
-                                    itemBuilder: (BuildContext context, int index) {
-                                      return Row(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(0.0),
-                                            child: Text("010-" +
-                                                _strFilteredNumberPairList[index][0] +
-                                                "-" +
-                                                _strFilteredNumberPairList[index][1]),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: _strFilteredNumberPairList.length,
-                                  ),
-                                ),
-                              ),
+                        drawResult(),
                         SizedBox(
                           height: 20,
                         ),
@@ -556,6 +454,113 @@ class _MyHomePageState extends State<MyHomePage> {
                     )
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+
+
+  drawOptimalQuestion(){
+
+    var blackAnswerList = <String>['false', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+    return _bestQuestionSet.isEmpty
+        ? SizedBox(
+        width: double.infinity,
+        height: 180,
+        child: Center(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text("최적질문이 없습니다", style: _getAlertTextStyle()),
+                ),
+              ],
+            )))
+        : SizedBox(
+      width: double.infinity,
+      height: 180,
+      child: ListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          return Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(_bestQuestion.questionList[index].name,
+                    style: _getQuestionTextStyle(
+                        _bestQuestion.questionList[index].name)),
+              ),
+              _bestQuestion.questionList[index].name.contains("black")
+                  ? SizedBox(
+                width: 100,
+                height: 40,
+                child: DropdownButton(
+                  isExpanded: true,
+                  items: blackAnswerList
+                      .map<DropdownMenuItem<String>>(
+                          (String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Center(
+                              child: Text(
+                                  value == "false" ? "선택" : value)),
+                        );
+                      }).toList(),
+                  value: _answerList[index],
+                  onChanged: (String? newValue) async {
+                    setState(() {
+                      _answerList[index] = newValue!;
+                    });
+                    _applyFilter();
+                  },
+                ),
+              )
+                  : Switch(
+                value: _answerList[index].toLowerCase() == "true",
+                onChanged: (value) {
+                  setState(() {
+                    _answerList[index] = value.toString();
+                  });
+                  _applyFilter();
+                },
+              ),
+            ],
+          );
+        },
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: _bestQuestion.questionList.length,
+      ),
+    );
+  }
+
+  drawResult() {
+    return _strFilteredNumberPairList.isEmpty
+        ? Text(
+      "답변이 잘못 입력되었습니다.",
+      style: _getContentTextStyle(),
+    )
+        : SizedBox(
+      width: double.infinity,
+      height: 160,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20),
+        child: ListView.builder(
+          itemBuilder: (BuildContext context, int index) {
+            return Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(0.0),
+                  child: Text("010-" +
+                      _strFilteredNumberPairList[index][0] +
+                      "-" +
+                      _strFilteredNumberPairList[index][1]),
+                ),
+              ],
+            );
+          },
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: _strFilteredNumberPairList.length,
         ),
       ),
     );
