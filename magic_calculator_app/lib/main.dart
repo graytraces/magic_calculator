@@ -368,7 +368,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: _strNumberPairList.length == 0
                             ? SizedBox(
                                 width: double.infinity,
-                                height: 60,
+                                height: 40,
                                 child: Center(
                                     child: Column(
                                   children: [
@@ -379,14 +379,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 width: double.infinity,
                                 height: 20,
                                 child: Text(
-                                    "경우의수 : " + _strNumberPairList.length.toString() + " 가지",
+                                    "○ 경우의수 : " + _strNumberPairList.length.toString() + " 가지",
                                     style: _getContentTextStyle())),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: SizedBox(
-                            width: double.infinity,
-                            child: Text("○ 최적질문", style: _getTitleTextStyle())),
                       ),
 
                       Padding(
@@ -394,12 +388,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: SizedBox(
                             width: double.infinity,
                             child: drawOptimalQuestion(),),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: SizedBox(
-                            width: double.infinity,
-                            child: Text("○ 결과", style: _getTitleTextStyle())),
                       ),
 
                       Padding(
@@ -453,7 +441,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return _bestQuestionSet.isEmpty
         ? SizedBox(
             width: double.infinity,
-            height: 180,
+            height: 90,
             child: Center(
                 child: Column(
               children: [
@@ -465,7 +453,7 @@ class _MyHomePageState extends State<MyHomePage> {
             )))
         : SizedBox(
             width: double.infinity,
-            height: 400,
+            height: (90 * _bestQuestion.questionList.length).toDouble(),
             child: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
                 return Row(
@@ -579,7 +567,7 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         : SizedBox(
             width: double.infinity,
-            height: 160,
+            height: (20 * _strFilteredNumberPairList.length).toDouble(),
             child: Padding(
               padding: const EdgeInsets.only(left: 20),
               child: ListView.builder(
