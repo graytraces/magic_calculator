@@ -293,7 +293,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _getQuestionTextStyle() {
-    return const TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.white);
+    return const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white);
   }
 
   _getQuestionExplainTextStyle() {
@@ -496,7 +496,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
                       child: SizedBox(
-                        width: 120,
+                        width: 140,
                         height: 80,
                         child: DecoratedBox(
                           decoration: BoxDecoration(
@@ -558,7 +558,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                   });
                                   _applyFilter();
                                 },
-                                borderRadius: const BorderRadius.all(Radius.circular(8)),
                                 selectedBorderColor: getToggleButtonSelectedColor(
                                     _bestQuestion.questionList[index].name),
                                 selectedColor: getToggleButtonSelectedColor(
