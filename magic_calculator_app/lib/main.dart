@@ -80,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _intNumberPairList = [];
     _bestQuestionSet = [];
     _bestQuestion = QuestionCase([], 0);
+    _answerList = [];
 
     var inputText = _magicNumber.text;
 
@@ -257,7 +258,7 @@ class _MyHomePageState extends State<MyHomePage> {
     } else if (name.contains("blue")) {
       questionText = name.replaceAll("blue", "");
     } else if (name.contains("green")) {
-      questionText = name.replaceAll("green", "");
+      questionText = "xxxx > yyyy";
     } else if (name.contains("black")) {
       questionText = name.replaceAll("black", "");
     }
@@ -265,8 +266,38 @@ class _MyHomePageState extends State<MyHomePage> {
     return questionText;
   }
 
+  _getQuestionExplainText(String name) {
+    String questionExplainText = "";
+
+    String questionNumber = name.replaceAll(RegExp("[^0-9]"), "");
+
+    if (questionNumber.isNotEmpty) {
+      if (questionNumber == "1") {
+        //questionExplainText = "@000-0000";
+        questionExplainText = "?xxx-yyyy";
+      } else if (questionNumber == "9") {
+        //questionExplainText = "000@-0000";
+        questionExplainText = "xxx?-yyyy";
+      } else if (questionNumber == "11") {
+        //questionExplainText = "0000-@000";
+        questionExplainText = "xxxx-?yyy";
+      } else if (questionNumber == "19") {
+        //questionExplainText = "0000-000@";
+        questionExplainText = "xxxx-yyy?";
+      }
+    } else {
+      questionExplainText = "xxxx-yyyy";
+    }
+
+    return questionExplainText;
+  }
+
   _getQuestionTextStyle() {
-    return const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white);
+    return const TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.white);
+  }
+
+  _getQuestionExplainTextStyle() {
+    return const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white);
   }
 
   Color _getQuestionBackgroundColor(String name) {
@@ -343,6 +374,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     });
                   }
                 },
+                onChanged: (value) {
+                  _hideCount = 0;
+                },
                 controller: _magicNumber,
                 keyboardType: TextInputType.multiline,
                 minLines: 10,
@@ -382,20 +416,21 @@ class _MyHomePageState extends State<MyHomePage> {
                                     "○ 경우의수 : " + _strNumberPairList.length.toString() + " 가지",
                                     style: _getContentTextStyle())),
                       ),
-
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: SizedBox(
-                            width: double.infinity,
-                            child: drawOptimalQuestion(),),
-                      ),
-
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: SizedBox(
                           width: double.infinity,
-                          child: drawResult(),),
+                          child: drawOptimalQuestion(),
+                        ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: drawResult(),
+                        ),
+                      ),
+                      SizedBox(height: 200,),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Text("검증용 경우의수 출력(추후삭제)", style: _getTitleTextStyle()),
@@ -461,67 +496,88 @@ class _MyHomePageState extends State<MyHomePage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
                       child: SizedBox(
-                        width: 80,
+                        width: 120,
                         height: 80,
                         child: DecoratedBox(
                           decoration: BoxDecoration(
                               color: _getQuestionBackgroundColor(
                                   _bestQuestion.questionList[index].name)),
                           child: Center(
-                            child: Text(_getQuestionText(_bestQuestion.questionList[index].name),
-                                style: _getQuestionTextStyle()),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text(
+                                      _getQuestionText(_bestQuestion.questionList[index].name),
+                                      style: _getQuestionTextStyle()),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text(
+                                    _getQuestionExplainText(_bestQuestion.questionList[index].name),
+                                    style: _getQuestionExplainTextStyle(),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    _bestQuestion.questionList[index].name.contains("black")
-                        ? SizedBox(
-                            width: 100,
-                            height: 40,
-                            child: DropdownButton(
-                              isExpanded: true,
-                              items: blackAnswerList.map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Center(child: Text(value == "false" ? "선택" : value)),
-                                );
-                              }).toList(),
-                              value: _answerList[index],
-                              onChanged: (String? newValue) async {
-                                setState(() {
-                                  _answerList[index] = newValue!;
-                                });
-                                _applyFilter();
-                              },
-                            ),
-                          )
-                        : ToggleButtons(
-                            direction: Axis.horizontal,
-                            onPressed: (int toggleIndex) {
-                              setState(() {
-                                // The button that is tapped is set to true, and the others to false.
-                                _answerList[index] = (1 == toggleIndex).toString();
-                              });
-                              _applyFilter();
-                            },
-                            borderRadius: const BorderRadius.all(Radius.circular(8)),
-                            selectedBorderColor: getToggleButtonSelectedColor(
-                                _bestQuestion.questionList[index].name),
-                            selectedColor: getToggleButtonSelectedColor(
-                                _bestQuestion.questionList[index].name),
-                            fillColor: Colors.white,
-                            color: Colors.grey,
-                            constraints: const BoxConstraints(
-                              minHeight: 40.0,
-                              minWidth: 80.0,
-                            ),
-                            isSelected: [
-                              _answerList[index].toLowerCase() == "false",
-                              _answerList[index].toLowerCase() == "true"
-                            ],
-                            children:
-                                getToggleButtonTextList(_bestQuestion.questionList[index].name),
-                          ),
+                    Expanded(
+                      child: Center(
+                        child: _bestQuestion.questionList[index].name.contains("black")
+                            ? SizedBox(
+                                width: 100,
+                                height: 40,
+                                child: DropdownButton(
+                                  isExpanded: true,
+                                  items:
+                                      blackAnswerList.map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Center(child: Text(value == "false" ? "선택" : value)),
+                                    );
+                                  }).toList(),
+                                  value: _answerList[index],
+                                  onChanged: (String? newValue) async {
+                                    setState(() {
+                                      _answerList[index] = newValue!;
+                                    });
+                                    _applyFilter();
+                                  },
+                                ),
+                              )
+                            : ToggleButtons(
+                                direction: Axis.horizontal,
+                                onPressed: (int toggleIndex) {
+                                  setState(() {
+                                    // The button that is tapped is set to true, and the others to false.
+                                    _answerList[index] = (0 == toggleIndex).toString();
+                                  });
+                                  _applyFilter();
+                                },
+                                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                selectedBorderColor: getToggleButtonSelectedColor(
+                                    _bestQuestion.questionList[index].name),
+                                selectedColor: getToggleButtonSelectedColor(
+                                    _bestQuestion.questionList[index].name),
+                                fillColor: Colors.white,
+                                color: Colors.grey,
+                                constraints: const BoxConstraints(
+                                  minHeight: 40.0,
+                                  minWidth: 80.0,
+                                ),
+                                isSelected: [
+                                  _answerList[index].toLowerCase() == "true",
+                                  _answerList[index].toLowerCase() == "false"
+                                ],
+                                children:
+                                    getToggleButtonTextList(_bestQuestion.questionList[index].name),
+                              ),
+                      ),
+                    ),
                   ],
                 );
               },
@@ -549,11 +605,38 @@ class _MyHomePageState extends State<MyHomePage> {
     List<Widget> questionAnswers = [];
 
     if (name.contains("red")) {
-      questionAnswers = <Widget>[Text('홀'), Text('짝')];
+      questionAnswers = <Widget>[
+        Text(
+          '홀',
+          style: _getContentTextStyle(),
+        ),
+        Text(
+          '짝',
+          style: _getContentTextStyle(),
+        )
+      ];
     } else if (name.contains("blue")) {
-      questionAnswers = <Widget>[Text('0~4'), Text('5~9')];
+      questionAnswers = <Widget>[
+        Text(
+          '0~4',
+          style: _getContentTextStyle(),
+        ),
+        Text(
+          '5~9',
+          style: _getContentTextStyle(),
+        )
+      ];
     } else if (name.contains("green")) {
-      questionAnswers = <Widget>[Text('앞'), Text('뒤')];
+      questionAnswers = <Widget>[
+        Text(
+          '앞',
+          style: _getContentTextStyle(),
+        ),
+        Text(
+          '뒤',
+          style: _getContentTextStyle(),
+        )
+      ];
     } else if (name.contains("black")) {}
 
     return questionAnswers;
