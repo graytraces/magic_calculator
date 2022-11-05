@@ -40,9 +40,9 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _blackAnswer = TextEditingController();
 
   String _resultMessage = "";
-  String _firstNumberLength = "1";
-  String _secondNumberLength = "1";
-  bool _isUseBlackQuestion = false;
+  String _firstNumberLength = "4";
+  String _secondNumberLength = "4";
+  bool _isUseBlackQuestion = true;
 
   int _hideCount = 0;
   bool _showHide = false;
@@ -57,8 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> _answerList = [];
   QuestionMaker _questionMaker = QuestionMaker([]);
 
-  final String FIRST_NUMBER_LENGTH = "firstNumberLength";
-  final String SECOND_NUMBER_LENGTH = "secondNumberLength";
+  // final String FIRST_NUMBER_LENGTH = "firstNumberLength";
+  // final String SECOND_NUMBER_LENGTH = "secondNumberLength";
   final String BLACK_QUESTION_USE_YN = "blackQuestionUseYn";
 
   @override
@@ -248,19 +248,6 @@ class _MyHomePageState extends State<MyHomePage> {
   //저장된 길이 세팅
   loadSavedLength() async {
     var db = DatabaseHelper.instance;
-    KeyValueMap keyValueMap = await db.selectKeyValueMap(FIRST_NUMBER_LENGTH);
-    if (keyValueMap.key != null) {
-      setState(() {
-        _firstNumberLength = keyValueMap.value!;
-      });
-    }
-
-    KeyValueMap secondKeyValueMap = await db.selectKeyValueMap(SECOND_NUMBER_LENGTH);
-    if (secondKeyValueMap.key != null) {
-      setState(() {
-        _secondNumberLength = secondKeyValueMap.value!;
-      });
-    }
 
     KeyValueMap blackKeyValueMap = await db.selectKeyValueMap(BLACK_QUESTION_USE_YN);
     if (blackKeyValueMap.key != null) {
@@ -284,9 +271,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return const TextStyle(fontSize: 16);
   }
 
-
-  _getQuestionText(String name){
-
+  _getQuestionText(String name) {
     String questionText = "";
 
     if (name.contains("red")) {
@@ -295,19 +280,18 @@ class _MyHomePageState extends State<MyHomePage> {
       questionText = name.replaceAll("blue", "");
     } else if (name.contains("green")) {
       questionText = name.replaceAll("green", "");
-    }else if (name.contains("black")) {
+    } else if (name.contains("black")) {
       questionText = name.replaceAll("black", "");
     }
 
     return questionText;
-
   }
 
   _getQuestionTextStyle() {
     return const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white);
   }
 
-  Color _getQuestionBackgroundColor(String name){
+  Color _getQuestionBackgroundColor(String name) {
     Color questionColor = Colors.black;
     if (name.contains("red")) {
       questionColor = Colors.red;
@@ -511,11 +495,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         width: 80,
                         height: 80,
                         child: DecoratedBox(
-                          decoration: BoxDecoration(color: _getQuestionBackgroundColor(_bestQuestion.questionList[index].name)),
+                          decoration: BoxDecoration(
+                              color: _getQuestionBackgroundColor(
+                                  _bestQuestion.questionList[index].name)),
                           child: Center(
-                            child: Text(_getQuestionText (_bestQuestion.questionList[index].name),
-                                style:
-                                    _getQuestionTextStyle()),
+                            child: Text(_getQuestionText(_bestQuestion.questionList[index].name),
+                                style: _getQuestionTextStyle()),
                           ),
                         ),
                       ),
