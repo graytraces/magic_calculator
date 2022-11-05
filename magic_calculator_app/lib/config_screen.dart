@@ -61,9 +61,11 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
     return TextStyle(fontSize: 18, color: Colors.blueAccent, fontWeight: FontWeight.bold);
   }
 
-
   _getSubTitleTextStyle() {
-    return const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, );
+    return const TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.bold,
+    );
   }
 
   _getContentTextStyle() {
@@ -99,15 +101,30 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text("사용여부 : "),
-                      Switch(
-                          value: _isUseBlackQuestion,
-                          onChanged: (newValue) async {
-                            setState(() {
-                              _isUseBlackQuestion = newValue;
-                            });
-                            saveKeyValue(BLACK_QUESTION_USE_YN, newValue.toString());
-                          }),
+                      Text("사용여부 : ", style: _getContentTextStyle(),),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                            child: Text("N"),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                            child: Switch(
+                                value: _isUseBlackQuestion,
+                                onChanged: (newValue) async {
+                                  setState(() {
+                                    _isUseBlackQuestion = newValue;
+                                  });
+                                  saveKeyValue(BLACK_QUESTION_USE_YN, newValue.toString());
+                                }),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                            child: Text("Y"),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -122,7 +139,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 8, 8),
+                  padding: const EdgeInsets.fromLTRB(16, 0, 8, 8),
                   child: SizedBox(
                     width: double.infinity,
                     child: Text(
@@ -160,7 +177,8 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                       style: _getContentTextStyle(),
                     ),
                   ),
-                ),Padding(
+                ),
+                Padding(
                   padding: const EdgeInsets.fromLTRB(24, 2, 8, 2),
                   child: SizedBox(
                     width: double.infinity,
@@ -169,7 +187,8 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                       style: _getContentTextStyle(),
                     ),
                   ),
-                ),Padding(
+                ),
+                Padding(
                   padding: const EdgeInsets.fromLTRB(24, 2, 8, 2),
                   child: SizedBox(
                     width: double.infinity,
@@ -358,7 +377,11 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                             height: 20,
                             child: DecoratedBox(
                               decoration: BoxDecoration(color: Colors.black),
-                              child: Center(child: Text('1', style: _getQuestionTextStyle(),)),
+                              child: Center(
+                                  child: Text(
+                                '1',
+                                style: _getQuestionTextStyle(),
+                              )),
                             ),
                           ),
                         ),
@@ -383,7 +406,11 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                             height: 20,
                             child: DecoratedBox(
                               decoration: BoxDecoration(color: Colors.red),
-                              child: Center(child: Text('19', style: _getQuestionTextStyle(),)),
+                              child: Center(
+                                  child: Text(
+                                '19',
+                                style: _getQuestionTextStyle(),
+                              )),
                             ),
                           ),
                         ),
