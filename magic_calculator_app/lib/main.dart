@@ -508,7 +508,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             onPressed: (int toggleIndex) {
                               setState(() {
                                 // The button that is tapped is set to true, and the others to false.
-                                _answerList[index] = (0 == toggleIndex).toString();
+                                _answerList[index] = (1 == toggleIndex).toString();
                               });
                               _applyFilter();
                             },
@@ -524,8 +524,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               minWidth: 80.0,
                             ),
                             isSelected: [
-                              _answerList[index].toLowerCase() == "true",
-                              _answerList[index].toLowerCase() == "false"
+                              _answerList[index].toLowerCase() == "false",
+                              _answerList[index].toLowerCase() == "true"
                             ],
                             children:
                                 getToggleButtonTextList(_bestQuestion.questionList[index].name),
