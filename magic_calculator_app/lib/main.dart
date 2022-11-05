@@ -57,9 +57,9 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> _answerList = [];
   QuestionMaker _questionMaker = QuestionMaker([]);
 
-  // final String FIRST_NUMBER_LENGTH = "firstNumberLength";
-  // final String SECOND_NUMBER_LENGTH = "secondNumberLength";
   final String BLACK_QUESTION_USE_YN = "blackQuestionUseYn";
+
+  final List<bool> _selectedAnswer = <bool>[true, false];
 
   @override
   void initState() {
@@ -178,28 +178,6 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       }
     }
-
-    // _questionMaker.getFirstDepthQuestionCase(resultList);
-    // _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
-    // if (_bestQuestionSet.isEmpty) {
-    //   if (blackOneShotQuestion != null) {
-    //     setState(() {
-    //       _bestQuestion = blackBestQuestion;
-    //       _bestQuestionSet = blackBestQuestionSet;
-    //     });
-    //   }
-    //
-    //   _questionMaker.getSecondDepthQuestionCase(resultList);
-    //   _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
-    //   if (_bestQuestionSet.isEmpty) {
-    //     _questionMaker.getThirdDepthQuestionCase(resultList);
-    //     _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
-    //     if (_bestQuestionSet.isEmpty) {
-    //       _questionMaker.getFourthDepthQuestionCase(resultList);
-    //       _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
-    //     }
-    //   }
-    // }
 
     for (QuestionCase qCase in _bestQuestionSet) {
       qCase.questionList.sort((a, b) => a.index - b.index);
@@ -327,7 +305,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var blackAnswerList = <String>['false', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     return Scaffold(
       appBar: AppBar(title: Text(widget.title), actions: [
         TextButton(
@@ -526,14 +503,32 @@ class _MyHomePageState extends State<MyHomePage> {
                               },
                             ),
                           )
-                        : Switch(
-                            value: _answerList[index].toLowerCase() == "true",
-                            onChanged: (value) {
+                        : ToggleButtons(
+                            direction: Axis.horizontal,
+                            onPressed: (int toggleIndex) {
                               setState(() {
-                                _answerList[index] = value.toString();
+                                // The button that is tapped is set to true, and the others to false.
+                                _answerList[index] = (0 == toggleIndex).toString();
                               });
                               _applyFilter();
                             },
+                            borderRadius: const BorderRadius.all(Radius.circular(8)),
+                            selectedBorderColor: getToggleButtonSelectedColor(
+                                _bestQuestion.questionList[index].name),
+                            selectedColor: getToggleButtonSelectedColor(
+                                _bestQuestion.questionList[index].name),
+                            fillColor: Colors.white,
+                            color: Colors.grey,
+                            constraints: const BoxConstraints(
+                              minHeight: 40.0,
+                              minWidth: 80.0,
+                            ),
+                            isSelected: [
+                              _answerList[index].toLowerCase() == "true",
+                              _answerList[index].toLowerCase() == "false"
+                            ],
+                            children:
+                                getToggleButtonTextList(_bestQuestion.questionList[index].name),
                           ),
                   ],
                 );
@@ -542,6 +537,34 @@ class _MyHomePageState extends State<MyHomePage> {
               itemCount: _bestQuestion.questionList.length,
             ),
           );
+  }
+
+  getToggleButtonSelectedColor(String name) {
+    Color returnColor = Colors.white;
+
+    if (name.contains("red")) {
+      returnColor = Colors.red;
+    } else if (name.contains("blue")) {
+      returnColor = Colors.blue;
+    } else if (name.contains("green")) {
+      returnColor = Colors.green;
+    } else if (name.contains("black")) {}
+
+    return returnColor;
+  }
+
+  getToggleButtonTextList(String name) {
+    List<Widget> questionAnswers = [];
+
+    if (name.contains("red")) {
+      questionAnswers = <Widget>[Text('홀'), Text('짝')];
+    } else if (name.contains("blue")) {
+      questionAnswers = <Widget>[Text('0~4'), Text('5~9')];
+    } else if (name.contains("green")) {
+      questionAnswers = <Widget>[Text('앞'), Text('뒤')];
+    } else if (name.contains("black")) {}
+
+    return questionAnswers;
   }
 
   drawResult() {
