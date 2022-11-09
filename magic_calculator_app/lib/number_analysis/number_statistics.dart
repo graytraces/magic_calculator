@@ -44,7 +44,7 @@ class NumberStatistics {
         statisticsMatrix[QuestionCandidate.red1.index][i] = 1;
       }
 
-      if (firstPositionFirstNumber > 4) {
+      if (firstPositionFirstNumber <= 4) {
         statisticsMatrix[QuestionCandidate.blue1.index][i] = 1;
       }
       black[0][firstPositionFirstNumber]++;
@@ -55,7 +55,7 @@ class NumberStatistics {
         statisticsMatrix[QuestionCandidate.red9.index][i] = 1;
       }
 
-      if (firstPositionLastNumber > 4) {
+      if (firstPositionLastNumber <= 4) {
         statisticsMatrix[QuestionCandidate.blue9.index][i] = 1;
       }
       black[1][firstPositionLastNumber]++;
@@ -65,7 +65,7 @@ class NumberStatistics {
       if (lastPositionFirstNumber % 2 == 1) {
         statisticsMatrix[QuestionCandidate.red11.index][i] = 1;
       }
-      if (lastPositionFirstNumber > 4) {
+      if (lastPositionFirstNumber <= 4) {
         statisticsMatrix[QuestionCandidate.blue11.index][i] = 1;
       }
       black[2][lastPositionFirstNumber]++;
@@ -75,7 +75,7 @@ class NumberStatistics {
       if (lastPositionLastNumber % 2 == 1) {
         statisticsMatrix[QuestionCandidate.red19.index][i] = 1;
       }
-      if (lastPositionLastNumber > 4) {
+      if (lastPositionLastNumber <= 4) {
         statisticsMatrix[QuestionCandidate.blue19.index][i] = 1;
       }
       black[3][lastPositionLastNumber]++;
