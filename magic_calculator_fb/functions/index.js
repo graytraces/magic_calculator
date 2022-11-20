@@ -4,13 +4,6 @@ const cors = require("cors");
 
 const admin = require("firebase-admin");
 admin.initializeApp();
-
-exports.addMessage = functions
-  .region("asia-northeast3")
-  .https.onRequest(async (req, res) => {
-    res.json({ result: `Message with ID: added.` });
-  });
-
 const db = admin.firestore();
 
 app.use(cors());
@@ -22,9 +15,9 @@ app.post("/check_key", (req, res) => {
     return res.status(400).json({ comment: "필수정보가 없습니다." });
   }
 
-  let authKeys = req.body;
+  let authKeyObject = req.body;
 
-  let firestorAuthKeyDocu = db.doc(`/auth_keys/${authKeys.key}`);
+  let firestorAuthKeyDocu = db.doc(`/auth_keys/${authKeyObject.key}`);
 
   firestorAuthKeyDocu
     .get()
@@ -35,20 +28,21 @@ app.post("/check_key", (req, res) => {
 
       let authKeyData = authKeyDocuContent.data();
 
-      if (authKeyData.deviceId != null) {
+      if (authKeyData.deviceId != undefined && authKeyData.deviceId != authKeyObject.deviceId) {
         return res
           .status(409)
           .json({
-            error: "이미 사용중입니다.\nblahblah@blah.com으로 문의주세요",
+            error: "이미 " + authKeyData.deviceModel + "에서 사용중입니다.\nblahblah@blah.com으로 문의주세요",
           });
       }
 
       return firestorAuthKeyDocu.update({
         authDate: new Date().toISOString(),
-        deviceId: "test",
+        deviceId: authKeyObject.deviceId,
+        deviceModel : authKeyObject.deviceModel
       });
     })
     .then(() => {
-      return res.json({ authKeys });
+      return res.json({ authKeyObject });
     });
 });

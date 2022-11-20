@@ -1,5 +1,9 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
+import 'package:flutter/material.dart';
+import 'package:magic_calculator_app/common_functions.dart';
+
+import 'common_constants.dart';
 import 'database_helper.dart';
 import 'key_value_map.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +30,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
   final String BLACK_QUESTION_USE_YN = "blackQuestionUseYn";
 
   bool _isUseBlackQuestion = false;
+  bool _showHideMenu = false;
 
   TextEditingController _authKeyController = TextEditingController();
 
@@ -54,6 +59,18 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
       //초기값은 true
       _isUseBlackQuestion = true;
       await db.insertKeyValueMap(BLACK_QUESTION_USE_YN, true.toString());
+    }
+    //db.deleteKeyValueMap(CommonConstants.authKeyLocalKey);  테스트할때 필요하면 지워라
+
+    KeyValueMap authKeyMap = await db.selectKeyValueMap(CommonConstants.authKeyLocalKey);
+    if (authKeyMap.key != null) {
+      String authKey = authKeyMap.value ?? authKeyMap.value.toString();
+      if (authKey.isNotEmpty) {
+        setState(() {
+          _authKeyController.text = authKey;
+          _showHideMenu = true;
+        });
+      }
     }
   }
 
@@ -98,28 +115,39 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text("인증키 : "),
-                      SizedBox(
-                        width: 160,
-                        height: 50,
-                        child: TextField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          controller: _authKeyController,
-                          keyboardType: TextInputType.multiline,
-                          maxLines: 1,
+                  children: [
+                    Text("인증키 : "),
+                    SizedBox(
+                      width: 160,
+                      height: 50,
+                      child: TextField(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
                         ),
+                        controller: _authKeyController,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 1,
+                        enabled: !_showHideMenu,
+                        style: _showHideMenu
+                            ? TextStyle(color: Colors.grey)
+                            : TextStyle(color: Colors.black),
                       ),
-                      ElevatedButton(
-                          onPressed: () {
-                            widget._appStatProvider.checkAuthKey(_authKeyController.text);
-                          },
-                          child: Text("인증하기"))
-                    ],),
-                !widget._appStatProvider.getIsAuthorized()
-                    ? SizedBox(width: double.infinity,)
+                    ),
+                    ElevatedButton(
+                        onPressed: () async {
+                          UserDeviceInfo userDeviceInfo = await CommonFunctions.getUserDeviceInfo();
+                          await widget._appStatProvider.checkAuthKey(_authKeyController.text, userDeviceInfo);
+                          setState(() {
+                            _showHideMenu = widget._appStatProvider.getIsAuthorized();
+                          });
+                        },
+                        child: Text("인증하기"))
+                  ],
+                ),
+                !_showHideMenu
+                    ? SizedBox(
+                        width: double.infinity,
+                      )
                     : Column(
                         children: [
                           SizedBox(

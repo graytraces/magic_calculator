@@ -4,26 +4,26 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:magic_calculator_app/common_constants.dart';
 
 import 'common_functions.dart';
+import 'database_helper.dart';
 
 class AppStatProvider extends ChangeNotifier{
-
 
   bool _isAuthorized = false;
   String _authKey = "";
 
   bool getIsAuthorized() => _isAuthorized;
+  String getAuthKey() => _authKey;
 
-  void checkAuthKey(String authKey) async{
+  checkAuthKey(String authKey, UserDeviceInfo userDeviceInfo) async{
 
     var uri = CommonFunctions.getUri("check_key");
 
-    print(uri);
-
     var response = await http.post(uri,
         headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-        body: jsonEncode({"key" : authKey}));
+        body: jsonEncode({"key" : authKey, "deviceId" : userDeviceInfo.deviceId, "deviceModel" : userDeviceInfo.deviceModel}));
 
     if (response.statusCode.toString().substring(0, 1) != "2") {
       if (response.body.length != 0) {
@@ -33,6 +33,7 @@ class AppStatProvider extends ChangeNotifier{
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
             fontSize: 16.0);
+        return;
       } else {
         Fluttertoast.showToast(
             msg: "ERROR : " + response.statusCode.toString(),
@@ -40,10 +41,14 @@ class AppStatProvider extends ChangeNotifier{
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
             fontSize: 16.0);
+        return;
       }
     }else{
       _isAuthorized = true;
       _authKey = authKey;
+
+      var db = DatabaseHelper.instance;
+      await db.insertKeyValueMap(CommonConstants.authKeyLocalKey, authKey);
     }
 
   }
