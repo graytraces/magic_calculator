@@ -36,6 +36,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   sqflite: ^2.0.2
   url_launcher: ^6.1.5
+  device_info: ^2.0.3
+  http: ^0.13.4
+  provider: ^6.0.4
+  fluttertoast: ^8.0.8
 
 dev_dependencies:
   flutter_test:

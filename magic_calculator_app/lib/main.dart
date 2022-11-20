@@ -6,9 +6,14 @@ import 'key_value_map.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'number_analysis/question_helper.dart';
+import 'package:provider/provider.dart';
+import 'app_stat_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+        create: (BuildContext context) => AppStatProvider()),
+  ], child: const MyApp() ));
 }
 
 class MyApp extends StatelessWidget {
@@ -22,13 +27,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Simple Memo'),
+      home: MyHomePage(Provider.of<AppStatProvider>(context, listen:false), title: 'Simple Memo'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage(this._appStatProvider, {Key? key, required this.title}) : super(key: key);
+  final AppStatProvider _appStatProvider;
   final String title;
 
   @override
@@ -58,8 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
   QuestionMaker _questionMaker = QuestionMaker([]);
 
   final String BLACK_QUESTION_USE_YN = "blackQuestionUseYn";
-
-  final List<bool> _selectedAnswer = <bool>[true, false];
 
   @override
   void initState() {
@@ -365,13 +369,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (_hideCount == 3) {
                     _hideCount = 0;
 
-                    if (_showHide == false) {
-                      _calculateNumber();
-                    }
+                    if(widget._appStatProvider.getIsAuthorized()) {
+                      if (_showHide == false) {
+                        _calculateNumber();
+                      }
 
-                    setState(() {
-                      _showHide = !_showHide;
-                    });
+                      setState(() {
+                        _showHide = !_showHide;
+                      });
+                    }
                   }
                 },
                 onChanged: (value) {
