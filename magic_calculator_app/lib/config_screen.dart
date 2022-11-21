@@ -27,7 +27,6 @@ class ConfigScreenStateful extends StatefulWidget {
 }
 
 class _ConfigScreenState extends State<ConfigScreenStateful> {
-  final String BLACK_QUESTION_USE_YN = "blackQuestionUseYn";
 
   bool _isUseBlackQuestion = false;
   bool _showHideMenu = false;
@@ -49,7 +48,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
   loadSavedData() async {
     var db = DatabaseHelper.instance;
 
-    KeyValueMap blackQuestionUseYn = await db.selectKeyValueMap(BLACK_QUESTION_USE_YN);
+    KeyValueMap blackQuestionUseYn = await db.selectKeyValueMap(CommonConstants.blackQuestionUseYn);
 
     if (blackQuestionUseYn.key != null) {
       setState(() {
@@ -58,7 +57,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
     } else {
       //초기값은 true
       _isUseBlackQuestion = true;
-      await db.insertKeyValueMap(BLACK_QUESTION_USE_YN, true.toString());
+      await db.insertKeyValueMap(CommonConstants.blackQuestionUseYn, true.toString());
     }
     //db.deleteKeyValueMap(CommonConstants.authKeyLocalKey);  테스트할때 필요하면 지워라
 
@@ -187,7 +186,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                                               _isUseBlackQuestion = newValue;
                                             });
                                             saveKeyValue(
-                                                BLACK_QUESTION_USE_YN, newValue.toString());
+                                                CommonConstants.blackQuestionUseYn, newValue.toString());
                                           }),
                                     ),
                                     Padding(

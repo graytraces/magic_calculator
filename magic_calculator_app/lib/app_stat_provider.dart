@@ -8,22 +8,26 @@ import 'package:magic_calculator_app/common_constants.dart';
 
 import 'common_functions.dart';
 import 'database_helper.dart';
+import 'key_value_map.dart';
 
-class AppStatProvider extends ChangeNotifier{
-
+class AppStatProvider extends ChangeNotifier {
   bool _isAuthorized = false;
   String _authKey = "";
 
   bool getIsAuthorized() => _isAuthorized;
+
   String getAuthKey() => _authKey;
 
-  checkAuthKey(String authKey, UserDeviceInfo userDeviceInfo) async{
-
+  checkAuthKey(String authKey, UserDeviceInfo userDeviceInfo) async {
     var uri = CommonFunctions.getUri("check_key");
 
     var response = await http.post(uri,
         headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-        body: jsonEncode({"key" : authKey, "deviceId" : userDeviceInfo.deviceId, "deviceModel" : userDeviceInfo.deviceModel}));
+        body: jsonEncode({
+          "key": authKey,
+          "deviceId": userDeviceInfo.deviceId,
+          "deviceModel": userDeviceInfo.deviceModel
+        }));
 
     if (response.statusCode.toString().substring(0, 1) != "2") {
       if (response.body.length != 0) {
@@ -43,13 +47,19 @@ class AppStatProvider extends ChangeNotifier{
             fontSize: 16.0);
         return;
       }
-    }else{
+    } else {
       _isAuthorized = true;
       _authKey = authKey;
 
       var db = DatabaseHelper.instance;
-      await db.insertKeyValueMap(CommonConstants.authKeyLocalKey, authKey);
-    }
 
+      KeyValueMap authKeyMap = await db.selectKeyValueMap(CommonConstants.authKeyLocalKey);
+      if (authKeyMap.key != null) {
+        String authKey = authKeyMap.value ?? authKeyMap.value.toString();
+        if (authKey.isEmpty) {
+          await db.insertKeyValueMap(CommonConstants.authKeyLocalKey, authKey);
+        }
+      }
+    }
   }
 }

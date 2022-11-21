@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:magic_calculator_app/config_screen.dart';
 
+import 'common_constants.dart';
+import 'common_functions.dart';
 import 'database_helper.dart';
 import 'key_value_map.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -63,11 +65,9 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> _answerList = [];
   QuestionMaker _questionMaker = QuestionMaker([]);
 
-  final String BLACK_QUESTION_USE_YN = "blackQuestionUseYn";
-
   @override
   void initState() {
-    loadSavedLength();
+    loadSavedData();
   }
 
   @override
@@ -229,12 +229,21 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   //저장된 길이 세팅
-  loadSavedLength() async {
+  loadSavedData() async {
     var db = DatabaseHelper.instance;
 
-    KeyValueMap blackKeyValueMap = await db.selectKeyValueMap(BLACK_QUESTION_USE_YN);
+    KeyValueMap blackKeyValueMap = await db.selectKeyValueMap(CommonConstants.blackQuestionUseYn);
     if (blackKeyValueMap.key != null) {
       _isUseBlackQuestion = blackKeyValueMap.value == "true";
+    }
+
+    KeyValueMap authKeyMap = await db.selectKeyValueMap(CommonConstants.authKeyLocalKey);
+    if (authKeyMap.key != null) {
+      String authKey = authKeyMap.value ?? authKeyMap.value.toString();
+      if (authKey.isNotEmpty) {
+        UserDeviceInfo userDeviceInfo = await CommonFunctions.getUserDeviceInfo();
+        await widget._appStatProvider.checkAuthKey(authKey, userDeviceInfo);
+      }
     }
   }
 
@@ -347,7 +356,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => ConfigScreen()),
-            ).then((value) => loadSavedLength());
+            ).then((value) => loadSavedData());
           },
           style: TextButton.styleFrom(primary: Colors.white),
           child: const Icon(Icons.settings),
