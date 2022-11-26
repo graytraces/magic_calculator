@@ -13,9 +13,8 @@ import 'app_stat_provider.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-        create: (BuildContext context) => AppStatProvider()),
-  ], child: const MyApp() ));
+    ChangeNotifierProvider(create: (BuildContext context) => AppStatProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(Provider.of<AppStatProvider>(context, listen:false), title: 'Simple Memo'),
+      home: MyHomePage(Provider.of<AppStatProvider>(context, listen: false), title: 'Simple Memo'),
     );
   }
 }
@@ -378,7 +377,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (_hideCount == 3) {
                     _hideCount = 0;
 
-                    if(widget._appStatProvider.getIsAuthorized()) {
+                    if (widget._appStatProvider.getIsAuthorized()) {
                       if (_showHide == false) {
                         _calculateNumber();
                       }
@@ -445,7 +444,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: drawResult(),
                         ),
                       ),
-                      SizedBox(height: 200,),
+                      SizedBox(
+                        height: 200,
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Text("검증용 경우의수 출력(추후삭제)", style: _getTitleTextStyle()),
@@ -670,6 +671,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
                   return Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(0.0),
@@ -678,6 +680,20 @@ class _MyHomePageState extends State<MyHomePage> {
                             "-" +
                             _strFilteredNumberPairList[index][1]),
                       ),
+                      SizedBox(
+                        height: 20,
+                        child: IconButton(
+                            padding: const EdgeInsets.all(0),
+                            onPressed: () async {
+                              String sendNum = "010-" +
+                                  _strFilteredNumberPairList[index][0] +
+                                  "-" +
+                                  _strFilteredNumberPairList[index][1];
+                              Uri sms = Uri.parse('sms:' + sendNum + '?body=안녕하세요');
+                              await launchUrl(sms);
+                            },
+                            icon: const Icon(Icons.sms)),
+                      )
                     ],
                   );
                 },
