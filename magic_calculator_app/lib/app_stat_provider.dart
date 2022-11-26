@@ -59,6 +59,8 @@ class AppStatProvider extends ChangeNotifier {
         if (authKey.isEmpty) {
           await db.insertKeyValueMap(CommonConstants.authKeyLocalKey, authKey);
         }
+      }else{
+        await db.insertKeyValueMap(CommonConstants.authKeyLocalKey, authKey);
       }
     }
   }
