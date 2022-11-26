@@ -27,11 +27,11 @@ class ConfigScreenStateful extends StatefulWidget {
 }
 
 class _ConfigScreenState extends State<ConfigScreenStateful> {
-
   bool _isUseBlackQuestion = false;
   bool _showHideMenu = false;
 
   TextEditingController _authKeyController = TextEditingController();
+  TextEditingController _sendMessageController = TextEditingController();
 
   @override
   void initState() {
@@ -42,6 +42,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
   void dispose() {
     super.dispose();
     _authKeyController.dispose();
+    _sendMessageController.dispose();
   }
 
   //저장된 길이 세팅
@@ -59,7 +60,8 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
       _isUseBlackQuestion = true;
       await db.insertKeyValueMap(CommonConstants.blackQuestionUseYn, true.toString());
     }
-    //db.deleteKeyValueMap(CommonConstants.authKeyLocalKey);  테스트할때 필요하면 지워라
+
+    //db.deleteKeyValueMap(CommonConstants.authKeyLocalKey);  //테스트할때 필요하면 지워라
 
     KeyValueMap authKeyMap = await db.selectKeyValueMap(CommonConstants.authKeyLocalKey);
     if (authKeyMap.key != null) {
@@ -68,6 +70,16 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
         setState(() {
           _authKeyController.text = authKey;
           _showHideMenu = true;
+        });
+      }
+    }
+
+    KeyValueMap sendMessageMap = await db.selectKeyValueMap(CommonConstants.sendMessageKeyForDB);
+    if (sendMessageMap.key != null) {
+      String sendMessage = sendMessageMap.value ?? sendMessageMap.value.toString();
+      if (sendMessage.isNotEmpty) {
+        setState(() {
+          _sendMessageController.text = sendMessage;
         });
       }
     }
@@ -135,7 +147,8 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                     ElevatedButton(
                         onPressed: () async {
                           UserDeviceInfo userDeviceInfo = await CommonFunctions.getUserDeviceInfo();
-                          await widget._appStatProvider.checkAuthKey(_authKeyController.text, userDeviceInfo);
+                          await widget._appStatProvider
+                              .checkAuthKey(_authKeyController.text, userDeviceInfo);
                           setState(() {
                             _showHideMenu = widget._appStatProvider.getIsAuthorized();
                           });
@@ -185,8 +198,8 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                                             setState(() {
                                               _isUseBlackQuestion = newValue;
                                             });
-                                            saveKeyValue(
-                                                CommonConstants.blackQuestionUseYn, newValue.toString());
+                                            saveKeyValue(CommonConstants.blackQuestionUseYn,
+                                                newValue.toString());
                                           }),
                                     ),
                                     Padding(
@@ -196,6 +209,51 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                                   ],
                                 )
                               ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Text(
+                                '○ 발송메세지',
+                                style: _getTitleTextStyle(),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                            child: TextField(
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                ),
+                                controller: _sendMessageController,
+                                keyboardType: TextInputType.multiline,
+                                maxLines: 5,
+                                minLines: 5),
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                              child: ElevatedButton(
+                                  onPressed: () async {
+                                    var db = DatabaseHelper.instance;
+
+                                    String message = _sendMessageController.text;
+                                    widget._appStatProvider.setSendMessage(message);
+
+                                    KeyValueMap sendMessageMap = await db
+                                        .selectKeyValueMap(CommonConstants.sendMessageKeyForDB);
+                                    if (sendMessageMap.key != null) {
+                                      await db.updateKeyValueMap(
+                                          CommonConstants.sendMessageKeyForDB, message);
+                                    } else {
+                                      await db.insertKeyValueMap(
+                                          CommonConstants.sendMessageKeyForDB, message);
+                                    }
+                                  },
+                                  child: Text("저장하기")),
                             ),
                           ),
                           Padding(

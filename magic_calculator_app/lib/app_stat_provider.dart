@@ -13,10 +13,15 @@ import 'key_value_map.dart';
 class AppStatProvider extends ChangeNotifier {
   bool _isAuthorized = false;
   String _authKey = "";
+  String _sendMessage = "";
 
   bool getIsAuthorized() => _isAuthorized;
 
   String getAuthKey() => _authKey;
+  String getSendMessage() => _sendMessage;
+  setSendMessage(String sendMessage){
+    _sendMessage = sendMessage;
+  }
 
   checkAuthKey(String authKey, UserDeviceInfo userDeviceInfo) async {
     var uri = CommonFunctions.getUri("check_key");

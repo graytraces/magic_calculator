@@ -244,6 +244,14 @@ class _MyHomePageState extends State<MyHomePage> {
         await widget._appStatProvider.checkAuthKey(authKey, userDeviceInfo);
       }
     }
+
+    KeyValueMap sendMessageMap = await db.selectKeyValueMap(CommonConstants.sendMessageKeyForDB);
+
+    var defaultMessage = "안녕하세요";
+    if (sendMessageMap.key == null) {
+      widget._appStatProvider.setSendMessage(defaultMessage);
+      await db.insertKeyValueMap(CommonConstants.sendMessageKeyForDB, defaultMessage);
+    }
   }
 
   _getTitleTextStyle() {
@@ -689,7 +697,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                   _strFilteredNumberPairList[index][0] +
                                   "-" +
                                   _strFilteredNumberPairList[index][1];
-                              Uri sms = Uri.parse('sms:' + sendNum + '?body=안녕하세요');
+                              Uri sms = Uri.parse('sms:' +
+                                  sendNum +
+                                  '?body=' +
+                                  widget._appStatProvider.getSendMessage());
                               await launchUrl(sms);
                             },
                             icon: const Icon(Icons.sms)),
