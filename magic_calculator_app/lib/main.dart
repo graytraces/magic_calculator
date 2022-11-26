@@ -97,12 +97,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
     var inputNumber = int.parse(inputText);
 
-    int startNumber = 1;
-    int endNumber = 9;
-    for (int idx = 1; idx < int.parse(_firstNumberLength); idx++) {
-      //startNumber *= 10;
-      endNumber = endNumber * 10 + 9;
-    }
+    int startNumber = 2000;
+    int endNumber = 9999;
+    // for (int idx = 1; idx < int.parse(_firstNumberLength); idx++) {
+    //   //startNumber *= 10;
+    //   endNumber = endNumber * 10 + 9;
+    // }
 
     String strFirstNumber = "";
     String strSecondNumber = "";
