@@ -9,15 +9,15 @@ enum QuestionCandidate {
   black1,
   red1,
   blue1,
-  black9,
-  red9,
-  blue9,
-  black11,
-  red11,
-  blue11,
-  black19,
-  red19,
-  blue19,
+  black4,
+  red4,
+  blue4,
+  black5,
+  red5,
+  blue5,
+  black8,
+  red8,
+  blue8,
 }
 
 class QuestionCase {
@@ -85,9 +85,9 @@ class QuestionMaker {
         //blackQuestion 미사용
         if (!isUseBlackQuestion) {
           if (questionCandidate == QuestionCandidate.black1 ||
-              questionCandidate == QuestionCandidate.black9 ||
-              questionCandidate == QuestionCandidate.black11 ||
-              questionCandidate == QuestionCandidate.black19) {
+              questionCandidate == QuestionCandidate.black4 ||
+              questionCandidate == QuestionCandidate.black5 ||
+              questionCandidate == QuestionCandidate.black8) {
             continue;
           }
         }
@@ -110,9 +110,9 @@ class QuestionMaker {
           //blackQuestion 미사용
           if (!isUseBlackQuestion) {
             if (questionCandidate == QuestionCandidate.black1 ||
-                questionCandidate == QuestionCandidate.black9 ||
-                questionCandidate == QuestionCandidate.black11 ||
-                questionCandidate == QuestionCandidate.black19) {
+                questionCandidate == QuestionCandidate.black4 ||
+                questionCandidate == QuestionCandidate.black5 ||
+                questionCandidate == QuestionCandidate.black8) {
               continue;
             }
           }
@@ -121,9 +121,9 @@ class QuestionMaker {
           if (existList.contains(questionCandidate) ||
               (questionCandidate.name.contains("black") &&
                   (existList.contains(QuestionCandidate.black1) ||
-                      existList.contains(QuestionCandidate.black9) ||
-                      existList.contains(QuestionCandidate.black11) ||
-                      existList.contains(QuestionCandidate.black19)))) {
+                      existList.contains(QuestionCandidate.black4) ||
+                      existList.contains(QuestionCandidate.black5) ||
+                      existList.contains(QuestionCandidate.black8)))) {
             continue;
           }
 
@@ -158,9 +158,9 @@ class QuestionMaker {
         if (candidateList.contains(questionCandidate2) ||
             (questionCandidate.name.contains("black") &&
                 (candidateList.contains(QuestionCandidate.black1) ||
-                    candidateList.contains(QuestionCandidate.black9) ||
-                    candidateList.contains(QuestionCandidate.black11) ||
-                    candidateList.contains(QuestionCandidate.black19)))) {
+                    candidateList.contains(QuestionCandidate.black4) ||
+                    candidateList.contains(QuestionCandidate.black5) ||
+                    candidateList.contains(QuestionCandidate.black8)))) {
           continue;
         }
         List<QuestionCandidate> candidateList2 = List<QuestionCandidate>.from(candidateList);
@@ -182,9 +182,9 @@ class QuestionMaker {
         if (candidateList.contains(questionCandidate2) ||
             (questionCandidate2.name.contains("black") &&
                 (candidateList.contains(QuestionCandidate.black1) ||
-                    candidateList.contains(QuestionCandidate.black9) ||
-                    candidateList.contains(QuestionCandidate.black11) ||
-                    candidateList.contains(QuestionCandidate.black19)))) {
+                    candidateList.contains(QuestionCandidate.black4) ||
+                    candidateList.contains(QuestionCandidate.black5) ||
+                    candidateList.contains(QuestionCandidate.black8)))) {
           continue;
         }
         List<QuestionCandidate> candidateList2 = List<QuestionCandidate>.from(candidateList);
@@ -195,9 +195,9 @@ class QuestionMaker {
           if (candidateList2.contains(questionCandidate3) ||
               (questionCandidate3.name.contains("black") &&
                   (candidateList2.contains(QuestionCandidate.black1) ||
-                      candidateList2.contains(QuestionCandidate.black9) ||
-                      candidateList2.contains(QuestionCandidate.black11) ||
-                      candidateList2.contains(QuestionCandidate.black19)))) {
+                      candidateList2.contains(QuestionCandidate.black4) ||
+                      candidateList2.contains(QuestionCandidate.black5) ||
+                      candidateList2.contains(QuestionCandidate.black8)))) {
             continue;
           }
           List<QuestionCandidate> candidateList3 = List<QuestionCandidate>.from(candidateList2);
@@ -221,9 +221,9 @@ class QuestionMaker {
         if (candidateList.contains(questionCandidate2) ||
             (questionCandidate2.name.contains("black") &&
                 (candidateList.contains(QuestionCandidate.black1) ||
-                    candidateList.contains(QuestionCandidate.black9) ||
-                    candidateList.contains(QuestionCandidate.black11) ||
-                    candidateList.contains(QuestionCandidate.black19)))) {
+                    candidateList.contains(QuestionCandidate.black4) ||
+                    candidateList.contains(QuestionCandidate.black5) ||
+                    candidateList.contains(QuestionCandidate.black8)))) {
           continue;
         }
         List<QuestionCandidate> candidateList2 = List<QuestionCandidate>.from(candidateList);
@@ -234,9 +234,9 @@ class QuestionMaker {
           if (candidateList2.contains(questionCandidate3) ||
               (questionCandidate3.name.contains("black") &&
                   (candidateList2.contains(QuestionCandidate.black1) ||
-                      candidateList2.contains(QuestionCandidate.black9) ||
-                      candidateList2.contains(QuestionCandidate.black11) ||
-                      candidateList2.contains(QuestionCandidate.black19)))) {
+                      candidateList2.contains(QuestionCandidate.black4) ||
+                      candidateList2.contains(QuestionCandidate.black5) ||
+                      candidateList2.contains(QuestionCandidate.black8)))) {
             continue;
           }
           List<QuestionCandidate> candidateList3 = List<QuestionCandidate>.from(candidateList2);
@@ -247,9 +247,9 @@ class QuestionMaker {
             if (candidateList3.contains(questionCandidate4) ||
                 (questionCandidate4.name.contains("black") &&
                     (candidateList3.contains(QuestionCandidate.black1) ||
-                        candidateList3.contains(QuestionCandidate.black9) ||
-                        candidateList3.contains(QuestionCandidate.black11) ||
-                        candidateList3.contains(QuestionCandidate.black19)))) {
+                        candidateList3.contains(QuestionCandidate.black4) ||
+                        candidateList3.contains(QuestionCandidate.black5) ||
+                        candidateList3.contains(QuestionCandidate.black8)))) {
               continue;
             }
             List<QuestionCandidate> candidateList4 = List<QuestionCandidate>.from(candidateList3);

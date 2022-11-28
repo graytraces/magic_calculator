@@ -52,34 +52,34 @@ class NumberStatistics {
 
       int firstPositionLastNumber = pair[0] % 10;
       if (firstPositionLastNumber % 2 == 1) {
-        statisticsMatrix[QuestionCandidate.red9.index][i] = 1;
+        statisticsMatrix[QuestionCandidate.red4.index][i] = 1;
       }
 
       if (firstPositionLastNumber <= 4) {
-        statisticsMatrix[QuestionCandidate.blue9.index][i] = 1;
+        statisticsMatrix[QuestionCandidate.blue4.index][i] = 1;
       }
       black[1][firstPositionLastNumber]++;
-      statisticsMatrix[QuestionCandidate.black9.index][i] = firstPositionLastNumber;
+      statisticsMatrix[QuestionCandidate.black4.index][i] = firstPositionLastNumber;
 
       int lastPositionFirstNumber = pair[1] ~/ lastPositionFirstNumberDevider;
       if (lastPositionFirstNumber % 2 == 1) {
-        statisticsMatrix[QuestionCandidate.red11.index][i] = 1;
+        statisticsMatrix[QuestionCandidate.red5.index][i] = 1;
       }
       if (lastPositionFirstNumber <= 4) {
-        statisticsMatrix[QuestionCandidate.blue11.index][i] = 1;
+        statisticsMatrix[QuestionCandidate.blue5.index][i] = 1;
       }
       black[2][lastPositionFirstNumber]++;
-      statisticsMatrix[QuestionCandidate.black11.index][i] = lastPositionFirstNumber;
+      statisticsMatrix[QuestionCandidate.black5.index][i] = lastPositionFirstNumber;
 
       int lastPositionLastNumber = pair[1] % 10;
       if (lastPositionLastNumber % 2 == 1) {
-        statisticsMatrix[QuestionCandidate.red19.index][i] = 1;
+        statisticsMatrix[QuestionCandidate.red8.index][i] = 1;
       }
       if (lastPositionLastNumber <= 4) {
-        statisticsMatrix[QuestionCandidate.blue19.index][i] = 1;
+        statisticsMatrix[QuestionCandidate.blue8.index][i] = 1;
       }
       black[3][lastPositionLastNumber]++;
-      statisticsMatrix[QuestionCandidate.black19.index][i] = lastPositionLastNumber;
+      statisticsMatrix[QuestionCandidate.black8.index][i] = lastPositionLastNumber;
 
       if (pair[0] > pair[1]) {
         statisticsMatrix[QuestionCandidate.green.index][i] = 1;
