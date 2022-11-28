@@ -28,15 +28,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(Provider.of<AppStatProvider>(context, listen: false), title: 'Simple Memo'),
+      home: MyHomePage(Provider.of<AppStatProvider>(context, listen: false)),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage(this._appStatProvider, {Key? key, required this.title}) : super(key: key);
+  const MyHomePage(this._appStatProvider, {Key? key}) : super(key: key);
   final AppStatProvider _appStatProvider;
-  final String title;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -63,6 +62,9 @@ class _MyHomePageState extends State<MyHomePage> {
   QuestionCase _bestQuestion = QuestionCase([], 0);
   List<String> _answerList = [];
   QuestionMaker _questionMaker = QuestionMaker([]);
+
+  String pageTitle = '제목';
+  Icon greenIcon = Icon(Icons.bookmark_border);
 
   @override
   void initState() {
@@ -217,6 +219,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     FocusManager.instance.primaryFocus?.unfocus();
+
+    drawMarks();
   }
 
   //숫자인지 검사
@@ -295,13 +299,13 @@ class _MyHomePageState extends State<MyHomePage> {
       if (questionNumber == "1") {
         //questionExplainText = "@000-0000";
         questionExplainText = "?xxx-yyyy";
-      } else if (questionNumber == "9") {
+      } else if (questionNumber == "4") {
         //questionExplainText = "000@-0000";
         questionExplainText = "xxx?-yyyy";
-      } else if (questionNumber == "11") {
+      } else if (questionNumber == "5") {
         //questionExplainText = "0000-@000";
         questionExplainText = "xxxx-?yyy";
-      } else if (questionNumber == "19") {
+      } else if (questionNumber == "8") {
         //questionExplainText = "0000-000@";
         questionExplainText = "xxxx-yyy?";
       }
@@ -357,18 +361,24 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title), actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ConfigScreen()),
-            ).then((value) => loadSavedData());
-          },
-          style: TextButton.styleFrom(primary: Colors.white),
-          child: const Icon(Icons.settings),
-        ),
-      ]),
+      appBar: AppBar(
+          title: Text(pageTitle),
+          leading: IconButton(
+              onPressed: () {
+                print(11);
+              },
+              icon: Icon(Icons.arrow_back_ios)),
+          actions: [
+            IconButton(onPressed: () {
+
+            }, icon: greenIcon),
+            IconButton(onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ConfigScreen()),
+              ).then((value) => loadSavedData());
+            }, icon: Icon(Icons.settings))
+          ]),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -492,6 +502,22 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  drawMarks() {
+    pageTitle = '제목';
+
+    for (int index = 0; index < _bestQuestion.questionList.length; index++) {
+      if (_bestQuestion.questionList[index].name.contains("black")) {
+        setState(() {
+          pageTitle = "제목 (" + _getQuestionText(_bestQuestion.questionList[index].name) + ")";
+        });
+      }else if (_bestQuestion.questionList[index].name.contains("green")) {
+        setState(() {
+          greenIcon = Icon(Icons.bookmark);
+        });
+      }
+    }
   }
 
   drawOptimalQuestion() {
