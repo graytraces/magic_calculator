@@ -358,6 +358,15 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  _getAboveKeyboardStyle() {
+    return TextButton.styleFrom(
+      foregroundColor: Colors.black,
+      backgroundColor: Colors.white,
+      minimumSize: Size(40, 40),
+      maximumSize: Size(40, 40),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -369,137 +378,189 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               icon: Icon(Icons.arrow_back_ios)),
           actions: [
-            IconButton(onPressed: () {
-
-            }, icon: greenIcon),
-            IconButton(onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ConfigScreen()),
-              ).then((value) => loadSavedData());
-            }, icon: Icon(Icons.settings))
+            IconButton(onPressed: () {}, icon: greenIcon),
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ConfigScreen()),
+                  ).then((value) => loadSavedData());
+                },
+                icon: Icon(Icons.settings))
           ]),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-                onTap: () {
-                  _hideCount = _hideCount + 1;
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                      onTap: () {
+                        _hideCount = _hideCount + 1;
 
-                  if (_hideCount == 3) {
-                    _hideCount = 0;
+                        if (_hideCount == 3) {
+                          _hideCount = 0;
 
-                    if (widget._appStatProvider.getIsAuthorized()) {
-                      if (_showHide == false) {
-                        _calculateNumber();
-                      }
+                          if (widget._appStatProvider.getIsAuthorized()) {
+                            if (_showHide == false) {
+                              _calculateNumber();
+                            }
 
-                      setState(() {
-                        _showHide = !_showHide;
-                      });
-                    }
-                  }
-                },
-                onChanged: (value) {
-                  _hideCount = 0;
-                },
-                controller: _magicNumber,
-                keyboardType: TextInputType.multiline,
-                minLines: 10,
-                maxLines: 10,
+                            setState(() {
+                              _showHide = !_showHide;
+                            });
+                          }
+                        }
+                      },
+                      onChanged: (value) {
+                        _hideCount = 0;
+                      },
+                      controller: _magicNumber,
+                      keyboardType: TextInputType.multiline,
+                      minLines: 10,
+                      maxLines: 10,
+                    ),
+                  ),
+                  _showHide
+                      ? Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize: const Size(double.infinity, 40),
+                                  ),
+                                  onPressed: () {
+                                    _calculateNumber();
+                                  },
+                                  child: const Text('계산하기')),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: _strNumberPairList.length == 0
+                                  ? SizedBox(
+                                      width: double.infinity,
+                                      height: 40,
+                                      child: Center(
+                                          child: Column(
+                                        children: [
+                                          Text(_resultMessage, style: _getAlertTextStyle()),
+                                        ],
+                                      )))
+                                  : SizedBox(
+                                      width: double.infinity,
+                                      height: 20,
+                                      child: Text(
+                                          "○ 경우의수 : " +
+                                              _strNumberPairList.length.toString() +
+                                              " 가지",
+                                          style: _getContentTextStyle())),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: drawOptimalQuestion(),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: drawResult(),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 200,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text("검증용 경우의수 출력(추후삭제)", style: _getTitleTextStyle()),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: _strNumberPairList.length * 20,
+                                child: ListView.builder(
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(0.0),
+                                          child: Text("010-" +
+                                              _strNumberPairList[index][0] +
+                                              "-" +
+                                              _strNumberPairList[index][1]),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: _strNumberPairList.length,
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                      : SizedBox(
+                          height: 20,
+                        )
+                ],
               ),
             ),
-            _showHide
-                ? Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(double.infinity, 40),
-                            ),
-                            onPressed: () {
-                              _calculateNumber();
-                            },
-                            child: const Text('계산하기')),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: _strNumberPairList.length == 0
-                            ? SizedBox(
-                                width: double.infinity,
-                                height: 40,
-                                child: Center(
-                                    child: Column(
-                                  children: [
-                                    Text(_resultMessage, style: _getAlertTextStyle()),
-                                  ],
-                                )))
-                            : SizedBox(
-                                width: double.infinity,
-                                height: 20,
-                                child: Text(
-                                    "○ 경우의수 : " + _strNumberPairList.length.toString() + " 가지",
-                                    style: _getContentTextStyle())),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: drawOptimalQuestion(),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: drawResult(),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 200,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text("검증용 경우의수 출력(추후삭제)", style: _getTitleTextStyle()),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: _strNumberPairList.length * 20,
-                          child: ListView.builder(
-                            itemBuilder: (BuildContext context, int index) {
-                              return Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(0.0),
-                                    child: Text("010-" +
-                                        _strNumberPairList[index][0] +
-                                        "-" +
-                                        _strNumberPairList[index][1]),
-                                  ),
-                                ],
-                              );
-                            },
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: _strNumberPairList.length,
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                : SizedBox(
-                    height: 20,
-                  )
-          ],
-        ),
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                TextButton(
+                  style: _getAboveKeyboardStyle(),
+                  onPressed: () {},
+                  child: (Icon(Icons.color_lens)),
+                ),
+                TextButton(style: _getAboveKeyboardStyle(), onPressed: () {}, child: Text('11')),
+                TextButton(
+                  style: _getAboveKeyboardStyle(),
+                  onPressed: () {},
+                  child: (Icon(Icons.format_bold)),
+                ),
+                TextButton(
+                  style: _getAboveKeyboardStyle(),
+                  onPressed: () {},
+                  child: (Icon(Icons.format_italic)),
+                ),
+                TextButton(
+                  style: _getAboveKeyboardStyle(),
+                  onPressed: () {},
+                  child: (Icon(Icons.padding)),
+                ),
+                TextButton(style: _getAboveKeyboardStyle(), onPressed: () {}, child: Text('11')),
+                TextButton(
+                  style: _getAboveKeyboardStyle(),
+                  onPressed: () {},
+                  child: (Icon(Icons.undo)),
+                ),
+                TextButton(
+                  style: _getAboveKeyboardStyle(),
+                  onPressed: () {},
+                  child: (Icon(Icons.redo)),
+                ),
+                TextButton(
+                  style: _getAboveKeyboardStyle(),
+                  onPressed: () {},
+                  child: (Icon(Icons.redo)),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
@@ -512,7 +573,7 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
           pageTitle = "제목 (" + _getQuestionText(_bestQuestion.questionList[index].name) + ")";
         });
-      }else if (_bestQuestion.questionList[index].name.contains("green")) {
+      } else if (_bestQuestion.questionList[index].name.contains("green")) {
         setState(() {
           greenIcon = Icon(Icons.bookmark);
         });
