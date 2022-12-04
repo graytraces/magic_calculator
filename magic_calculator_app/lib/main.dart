@@ -65,6 +65,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String pageTitle = '제목';
   Icon greenIcon = Icon(Icons.bookmark_border);
+  String redQuestionNumbers = "0";
+  String blueQuestionNumbers = "0";
+
+  _setDefaultState(){
+    setState(() {
+      pageTitle = '제목';
+      greenIcon = Icon(Icons.bookmark_border);
+      redQuestionNumbers = "0";
+      blueQuestionNumbers = "0";
+    } );
+  }
 
   @override
   void initState() {
@@ -79,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   //숫자 계산
-  void _calculateNumber() {
+  void _calculateNumber( bool hideKeyboard) {
     _strNumberPairList = [];
     _strFilteredNumberPairList = [];
     _intNumberPairList = [];
@@ -141,6 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         _resultMessage = "계산결과값이 없습니다";
       });
+      _setDefaultState();
       return;
     }
 
@@ -218,7 +230,10 @@ class _MyHomePageState extends State<MyHomePage> {
       _answerList = List.filled(_bestQuestion.questionList.length, "false");
     });
 
-    FocusManager.instance.primaryFocus?.unfocus();
+
+    if(hideKeyboard) {
+      FocusManager.instance.primaryFocus?.unfocus();
+    }
 
     drawMarks();
   }
@@ -337,13 +352,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return questionColor;
   }
 
-  _launchCall(String phoneNumber) async {
-    final Uri _url = Uri.parse('tel' + phoneNumber);
-    if (!await launchUrl(_url)) {
-      throw 'Could not launch $_url';
-    }
-  }
-
   void _applyFilter() {
     setState(() {
       _strFilteredNumberPairList = [];
@@ -409,7 +417,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                           if (widget._appStatProvider.getIsAuthorized()) {
                             if (_showHide == false) {
-                              _calculateNumber();
+                              _calculateNumber(true);
                             }
 
                             setState(() {
@@ -420,6 +428,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                       onChanged: (value) {
                         _hideCount = 0;
+
+                        if (widget._appStatProvider.getIsAuthorized() &&
+                            value.length > 4) {
+                          _calculateNumber(false);
+                        }
                       },
                       controller: _magicNumber,
                       keyboardType: TextInputType.multiline,
@@ -437,7 +450,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     minimumSize: const Size(double.infinity, 40),
                                   ),
                                   onPressed: () {
-                                    _calculateNumber();
+                                    _calculateNumber(true);
                                   },
                                   child: const Text('계산하기')),
                             ),
@@ -525,7 +538,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () {},
                   child: (Icon(Icons.color_lens)),
                 ),
-                TextButton(style: _getAboveKeyboardStyle(), onPressed: () {}, child: Text('11')),
+                TextButton(style: _getAboveKeyboardStyle(), onPressed: () {}, child: Text(redQuestionNumbers)),
                 TextButton(
                   style: _getAboveKeyboardStyle(),
                   onPressed: () {},
@@ -541,7 +554,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () {},
                   child: (Icon(Icons.padding)),
                 ),
-                TextButton(style: _getAboveKeyboardStyle(), onPressed: () {}, child: Text('11')),
+                TextButton(style: _getAboveKeyboardStyle(), onPressed: () {}, child: Text(blueQuestionNumbers)),
                 TextButton(
                   style: _getAboveKeyboardStyle(),
                   onPressed: () {},
@@ -568,16 +581,50 @@ class _MyHomePageState extends State<MyHomePage> {
   drawMarks() {
     pageTitle = '제목';
 
+    String redString = "";
+    String blueString = "";
+
     for (int index = 0; index < _bestQuestion.questionList.length; index++) {
       if (_bestQuestion.questionList[index].name.contains("black")) {
         setState(() {
           pageTitle = "제목 (" + _getQuestionText(_bestQuestion.questionList[index].name) + ")";
         });
-      } else if (_bestQuestion.questionList[index].name.contains("green")) {
+      }else{
+        setState(() {
+          pageTitle = "제목";
+        });
+      }
+
+      if (_bestQuestion.questionList[index].name.contains("green")) {
         setState(() {
           greenIcon = Icon(Icons.bookmark);
         });
+      }else{
+        setState(() {
+          greenIcon = Icon(Icons.bookmark_border);
+        });
       }
+
+      if (_bestQuestion.questionList[index].name.contains("red")) {
+        redString += _bestQuestion.questionList[index].name.replaceAll("red", "");
+      }
+
+      if (_bestQuestion.questionList[index].name.contains("blue")) {
+        blueString += _bestQuestion.questionList[index].name.replaceAll("blue", "");
+      }
+
+      if(redString == ""){
+        redQuestionNumbers = "0";
+      }else{
+        redQuestionNumbers = redString;
+      }
+
+      if(blueString == ""){
+        blueQuestionNumbers = "0";
+      }else{
+        blueQuestionNumbers = blueString;
+      }
+
     }
   }
 
