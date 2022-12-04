@@ -552,7 +552,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 TextButton(
                   style: _getAboveKeyboardStyle(),
                   onPressed: () {},
-                  child: (Icon(Icons.padding)),
+                  child: (Icon(Icons.list_rounded)),
                 ),
                 TextButton(style: _getAboveKeyboardStyle(), onPressed: () {}, child: Text(blueQuestionNumbers)),
                 TextButton(
