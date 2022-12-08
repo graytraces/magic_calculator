@@ -3,6 +3,7 @@ import 'package:magic_calculator_app/config_screen.dart';
 
 import 'common_constants.dart';
 import 'common_functions.dart';
+import 'custom_widget/above_keyboard.dart';
 import 'database_helper.dart';
 import 'key_value_map.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -25,9 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Simple Memo',
-      theme: ThemeData(
-        brightness: Brightness.dark
-      ),
+      theme: ThemeData(brightness: Brightness.dark),
       home: MyHomePage(Provider.of<AppStatProvider>(context, listen: false)),
     );
   }
@@ -68,13 +67,13 @@ class _MyHomePageState extends State<MyHomePage> {
   String redQuestionNumbers = "0";
   String blueQuestionNumbers = "0";
 
-  _setDefaultState(){
+  _setDefaultState() {
     setState(() {
       pageTitle = '제목';
       greenIcon = Icon(Icons.bookmark_border);
       redQuestionNumbers = "0";
       blueQuestionNumbers = "0";
-    } );
+    });
   }
 
   @override
@@ -90,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   //숫자 계산
-  void _calculateNumber( bool hideKeyboard) {
+  void _calculateNumber(bool hideKeyboard) {
     _strNumberPairList = [];
     _strFilteredNumberPairList = [];
     _intNumberPairList = [];
@@ -230,8 +229,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _answerList = List.filled(_bestQuestion.questionList.length, "false");
     });
 
-
-    if(hideKeyboard) {
+    if (hideKeyboard) {
       FocusManager.instance.primaryFocus?.unfocus();
     }
 
@@ -366,15 +364,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  _getAboveKeyboardStyle() {
-    return TextButton.styleFrom(
-      foregroundColor: Colors.black,
-      backgroundColor: Colors.white,
-      minimumSize: Size(40, 40),
-      maximumSize: Size(40, 40),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -429,8 +418,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       onChanged: (value) {
                         _hideCount = 0;
 
-                        if (widget._appStatProvider.getIsAuthorized() &&
-                            value.length > 4) {
+                        if (widget._appStatProvider.getIsAuthorized() && value.length > 4) {
                           _calculateNumber(false);
                         }
                       },
@@ -529,50 +517,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                TextButton(
-                  style: _getAboveKeyboardStyle(),
-                  onPressed: () {},
-                  child: (Icon(Icons.color_lens)),
-                ),
-                TextButton(style: _getAboveKeyboardStyle(), onPressed: () {}, child: Text(redQuestionNumbers)),
-                TextButton(
-                  style: _getAboveKeyboardStyle(),
-                  onPressed: () {},
-                  child: (Icon(Icons.format_bold)),
-                ),
-                TextButton(
-                  style: _getAboveKeyboardStyle(),
-                  onPressed: () {},
-                  child: (Icon(Icons.format_italic)),
-                ),
-                TextButton(
-                  style: _getAboveKeyboardStyle(),
-                  onPressed: () {},
-                  child: (Icon(Icons.list_rounded)),
-                ),
-                TextButton(style: _getAboveKeyboardStyle(), onPressed: () {}, child: Text(blueQuestionNumbers)),
-                TextButton(
-                  style: _getAboveKeyboardStyle(),
-                  onPressed: () {},
-                  child: (Icon(Icons.undo)),
-                ),
-                TextButton(
-                  style: _getAboveKeyboardStyle(),
-                  onPressed: () {},
-                  child: (Icon(Icons.redo)),
-                ),
-                TextButton(
-                  style: _getAboveKeyboardStyle(),
-                  onPressed: () {},
-                  child: (Icon(Icons.redo)),
-                ),
-              ],
-            ),
-          )
+          AboveKeyboard(
+              redQuestionNumbers: redQuestionNumbers, blueQuestionNumbers: blueQuestionNumbers)
         ],
       ),
     );
@@ -589,7 +535,7 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
           pageTitle = "제목 (" + _getQuestionText(_bestQuestion.questionList[index].name) + ")";
         });
-      }else{
+      } else {
         setState(() {
           pageTitle = "제목";
         });
@@ -599,7 +545,7 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
           greenIcon = Icon(Icons.bookmark);
         });
-      }else{
+      } else {
         setState(() {
           greenIcon = Icon(Icons.bookmark_border);
         });
@@ -613,18 +559,17 @@ class _MyHomePageState extends State<MyHomePage> {
         blueString += _bestQuestion.questionList[index].name.replaceAll("blue", "");
       }
 
-      if(redString == ""){
+      if (redString == "") {
         redQuestionNumbers = "0";
-      }else{
+      } else {
         redQuestionNumbers = redString;
       }
 
-      if(blueString == ""){
+      if (blueString == "") {
         blueQuestionNumbers = "0";
-      }else{
+      } else {
         blueQuestionNumbers = blueString;
       }
-
     }
   }
 
