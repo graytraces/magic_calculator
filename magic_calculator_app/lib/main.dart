@@ -383,14 +383,31 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(pageTitle, style: TextStyle(color: Colors.grey)),
           leading: IconButton(
             onPressed: () {
-              print(11);
             },
             icon: Icon(Icons.arrow_back_ios),
             color: Colors.grey,
           ),
           actions: [
             IconButton(onPressed: () {}, icon: greenIcon),
-            IconButton(onPressed: () {}, icon: Icon(Icons.attach_file)),
+            IconButton(onPressed: () {
+
+              _hideCount = _hideCount + 1;
+
+              if (_hideCount == 3) {
+                _hideCount = 0;
+
+                if (widget._appStatProvider.getIsAuthorized()) {
+                  if (_showHide == false) {
+                    _calculateNumber(true);
+                  }
+
+                  setState(() {
+                    _showHide = !_showHide;
+                  });
+                }
+              }
+
+            }, icon: Icon(Icons.attach_file)),
             IconButton(
                 onPressed: () {
                   Navigator.push(
@@ -417,21 +434,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       onTap: () {
-                        _hideCount = _hideCount + 1;
-
-                        if (_hideCount == 3) {
-                          _hideCount = 0;
-
-                          if (widget._appStatProvider.getIsAuthorized()) {
-                            if (_showHide == false) {
-                              _calculateNumber(true);
-                            }
-
-                            setState(() {
-                              _showHide = !_showHide;
-                            });
-                          }
-                        }
                       },
                       onChanged: (value) {
                         _hideCount = 0;
