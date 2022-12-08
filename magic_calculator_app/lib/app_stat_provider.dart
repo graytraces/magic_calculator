@@ -25,6 +25,7 @@ class AppStatProvider extends ChangeNotifier {
 
   checkAuthKey(String authKey, UserDeviceInfo userDeviceInfo) async {
     var uri = CommonFunctions.getUri("check_key");
+    var db = DatabaseHelper.instance;
 
     var response = await http.post(uri,
         headers: {HttpHeaders.contentTypeHeader: 'application/json'},
@@ -42,6 +43,13 @@ class AppStatProvider extends ChangeNotifier {
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
             fontSize: 16.0);
+
+        if(jsonDecode(response.body)['error'].toString().contains("사용중")){
+          _isAuthorized = false;
+          _authKey = "";
+          db.deleteKeyValueMap(CommonConstants.authKeyLocalKey);
+        }
+
         return;
       } else {
         Fluttertoast.showToast(
@@ -56,7 +64,7 @@ class AppStatProvider extends ChangeNotifier {
       _isAuthorized = true;
       _authKey = authKey;
 
-      var db = DatabaseHelper.instance;
+
 
       KeyValueMap authKeyMap = await db.selectKeyValueMap(CommonConstants.authKeyLocalKey);
       if (authKeyMap.key != null) {
