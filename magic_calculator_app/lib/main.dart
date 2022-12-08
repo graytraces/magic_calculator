@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Simple Memo',
       theme: ThemeData(brightness: Brightness.dark),
+      themeMode: ThemeMode.dark,
       home: MyHomePage(Provider.of<AppStatProvider>(context, listen: false)),
     );
   }
@@ -368,14 +369,17 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(pageTitle),
+          title: Text(pageTitle, style: TextStyle(color: Colors.grey)),
           leading: IconButton(
-              onPressed: () {
-                print(11);
-              },
-              icon: Icon(Icons.arrow_back_ios)),
+            onPressed: () {
+              print(11);
+            },
+            icon: Icon(Icons.arrow_back_ios),
+            color: Colors.grey,
+          ),
           actions: [
             IconButton(onPressed: () {}, icon: greenIcon),
+            IconButton(onPressed: () {}, icon: Icon(Icons.attach_file)),
             IconButton(
                 onPressed: () {
                   Navigator.push(
@@ -383,7 +387,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     MaterialPageRoute(builder: (context) => ConfigScreen()),
                   ).then((value) => loadSavedData());
                 },
-                icon: Icon(Icons.settings))
+                icon: Icon(Icons.more_vert))
           ]),
       body: Column(
         children: [
@@ -396,7 +400,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.all(10.0),
                     child: TextField(
                       decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(width: 1, color: Colors.black),),
                       ),
                       onTap: () {
                         _hideCount = _hideCount + 1;
@@ -424,8 +428,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                       controller: _magicNumber,
                       keyboardType: TextInputType.multiline,
-                      minLines: 10,
-                      maxLines: 10,
+                      minLines: 16,
+                      maxLines: 16,
                     ),
                   ),
                   _showHide

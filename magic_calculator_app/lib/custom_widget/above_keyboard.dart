@@ -7,8 +7,7 @@ class AboveKeyboard extends StatelessWidget {
 
   _getAboveKeyboardStyle() {
     return TextButton.styleFrom(
-      foregroundColor: Colors.black,
-      backgroundColor: Colors.white,
+      foregroundColor: Colors.white,
       minimumSize: Size(40, 40),
       maximumSize: Size(40, 40),
     );
@@ -23,34 +22,29 @@ class AboveKeyboard extends StatelessWidget {
           TextButton(
             style: _getAboveKeyboardStyle(),
             onPressed: () {},
-            child: (Icon(Icons.color_lens)),
+            child: (Icon(Icons.brush)),
           ),
           TextButton(style: _getAboveKeyboardStyle(), onPressed: () {}, child: Text(redQuestionNumbers)),
           TextButton(
             style: _getAboveKeyboardStyle(),
             onPressed: () {},
-            child: (Icon(Icons.format_bold)),
+            child: (Icon(Icons.check_box_outlined)),
           ),
           TextButton(
             style: _getAboveKeyboardStyle(),
             onPressed: () {},
-            child: (Icon(Icons.format_italic)),
+            child: (Icon(Icons.format_color_text)),
           ),
           TextButton(
             style: _getAboveKeyboardStyle(),
             onPressed: () {},
-            child: (Icon(Icons.list_rounded)),
+            child: (Icon(Icons.format_line_spacing)),
           ),
           TextButton(style: _getAboveKeyboardStyle(), onPressed: () {}, child: Text(blueQuestionNumbers)),
           TextButton(
             style: _getAboveKeyboardStyle(),
             onPressed: () {},
             child: (Icon(Icons.undo)),
-          ),
-          TextButton(
-            style: _getAboveKeyboardStyle(),
-            onPressed: () {},
-            child: (Icon(Icons.redo)),
           ),
           TextButton(
             style: _getAboveKeyboardStyle(),
