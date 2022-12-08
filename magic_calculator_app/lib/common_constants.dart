@@ -3,4 +3,5 @@ class CommonConstants {
   static String deviceId = "DEVICE_ID";
   static String blackQuestionUseYn = "blackQuestionUseYn";
   static String sendMessageKeyForDB = "sendMessageKeyForDB";
+  static String maxNumberOfCaseKeyForDB = "maxNumberOfCaseKeyForDB";
 }

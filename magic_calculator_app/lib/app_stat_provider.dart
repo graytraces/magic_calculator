@@ -14,11 +14,20 @@ class AppStatProvider extends ChangeNotifier {
   bool _isAuthorized = false;
   String _authKey = "";
   String _sendMessage = "";
+  int _maxNumberOfCase = 1;
 
   bool getIsAuthorized() => _isAuthorized;
+  int getMaxNumberOfCase() => _maxNumberOfCase;
 
   String getAuthKey() => _authKey;
   String getSendMessage() => _sendMessage;
+
+
+  setMaxNumberOfCase(int paramNumberOfCase){
+    _maxNumberOfCase = paramNumberOfCase;
+  }
+
+
   setSendMessage(String sendMessage){
     _sendMessage = sendMessage;
   }

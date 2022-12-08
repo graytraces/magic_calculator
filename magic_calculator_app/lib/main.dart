@@ -269,7 +269,18 @@ class _MyHomePageState extends State<MyHomePage> {
     if (sendMessageMap.key == null) {
       widget._appStatProvider.setSendMessage(defaultMessage);
       await db.insertKeyValueMap(CommonConstants.sendMessageKeyForDB, defaultMessage);
+    }else{
+
     }
+
+
+
+    KeyValueMap maxNumberOfCaseMap = await db.selectKeyValueMap(CommonConstants.maxNumberOfCaseKeyForDB);
+    if(maxNumberOfCaseMap.key == null){
+      widget._appStatProvider.setMaxNumberOfCase(1);
+      await db.insertKeyValueMap(CommonConstants.maxNumberOfCaseKeyForDB, "1");
+    }
+
   }
 
   _getTitleTextStyle() {
@@ -532,20 +543,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   drawMarks() {
-    pageTitle = '제목';
+    String localPageTitle = '제목';
 
     String redString = "";
     String blueString = "";
 
     for (int index = 0; index < _bestQuestion.questionList.length; index++) {
       if (_bestQuestion.questionList[index].name.contains("black")) {
-        setState(() {
-          pageTitle = "제목 (" + _getQuestionText(_bestQuestion.questionList[index].name) + ")";
-        });
-      } else {
-        setState(() {
-          pageTitle = "제목";
-        });
+        localPageTitle = "제목 (" + _getQuestionText(_bestQuestion.questionList[index].name) + ")";
       }
 
       if (_bestQuestion.questionList[index].name.contains("green")) {
@@ -578,6 +583,10 @@ class _MyHomePageState extends State<MyHomePage> {
         blueQuestionNumbers = blueString;
       }
     }
+
+    setState(() {
+      pageTitle = localPageTitle;
+    });
   }
 
   drawOptimalQuestion() {
