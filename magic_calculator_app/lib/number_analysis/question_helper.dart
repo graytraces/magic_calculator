@@ -63,10 +63,11 @@ class QuestionMaker {
     numberStatistics.makeStatistics(pairList, 4, 4);
   }
 
-  List<QuestionCase> getBestQuestionSet(List<QuestionCase> resultList) {
+  List<QuestionCase> getBestQuestionSet(List<QuestionCase> resultList, int maxNumberOfCase) {
+    print(maxNumberOfCase);
     resultList.sort((a, b) => a.worstCount - b.worstCount);
     List<QuestionCase> bestResult =
-        List<QuestionCase>.from(resultList.where((questionCase) => questionCase.worstCount == 1));
+        List<QuestionCase>.from(resultList.where((questionCase) => questionCase.worstCount <= maxNumberOfCase));
     bestResult.sort((a, b) => a.questionList.length - b.questionList.length);
     return bestResult;
   }
@@ -135,7 +136,7 @@ class QuestionMaker {
       }
     }
   }
-  
+
   List<int> getApplyFilterArray(QuestionCase bestQuestion, List<String> answerList) {
     return numberStatistics.getApplyFilterArray(bestQuestion, answerList);
   }

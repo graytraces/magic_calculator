@@ -29,6 +29,7 @@ class ConfigScreenStateful extends StatefulWidget {
 class _ConfigScreenState extends State<ConfigScreenStateful> {
   bool _isUseBlackQuestion = false;
   bool _showHideMenu = false;
+  int _maxNumberOfCase = 1;
 
   TextEditingController _authKeyController = TextEditingController();
   TextEditingController _sendMessageController = TextEditingController();
@@ -83,6 +84,17 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
         });
       }
     }
+
+    KeyValueMap maxNumberOfCaseMap = await db.selectKeyValueMap(CommonConstants.maxNumberOfCaseKeyForDB);
+    if (maxNumberOfCaseMap.key != null) {
+      String maxNumberOfCase = maxNumberOfCaseMap.value ?? maxNumberOfCaseMap.value.toString();
+      if (maxNumberOfCase.isNotEmpty) {
+        setState(() {
+          _maxNumberOfCase = int.parse(maxNumberOfCase);
+        });
+      }
+    }
+
   }
 
   //길이 저장
@@ -117,6 +129,8 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
 
   @override
   Widget build(BuildContext context) {
+    var blackAnswerList = <String>[ '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
     return Scaffold(
         appBar: AppBar(title: Text('설정')),
         body: SingleChildScrollView(
@@ -209,6 +223,40 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                                   ],
                                 )
                               ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Text(
+                                '○ 최대 잔여 경우의수',
+                                style: _getTitleTextStyle(),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 100,
+                            height: 40,
+                            child: DropdownButton(
+                              isExpanded: true,
+                              items: blackAnswerList.map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Center(child: Text(value == "false" ? "선택" : value)),
+                                );
+                              }).toList(),
+                              value: _maxNumberOfCase.toString(),
+                              onChanged: (value) async{
+                                setState(() {
+                                  _maxNumberOfCase = int.parse(value.toString());
+                                });
+
+                                var db = DatabaseHelper.instance;
+                                db.updateKeyValueMap(CommonConstants.maxNumberOfCaseKeyForDB, value.toString());
+
+                                widget._appStatProvider.setMaxNumberOfCase(int.parse(value.toString()));
+                              },
                             ),
                           ),
                           Padding(
@@ -346,7 +394,6 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                               ),
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.fromLTRB(24, 2, 8, 2),
                             child: SizedBox(
@@ -380,14 +427,14 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(36, 2, 8, 2),
                             child: SizedBox(
-                              width: double.infinity,
-                              child: Row(
-                                children: [Icon(Icons.bookmark_border),
-                                Text('->'),
-                                  Icon(Icons.bookmark),
-                                ],
-                              )
-                            ),
+                                width: double.infinity,
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.bookmark_border),
+                                    Text('->'),
+                                    Icon(Icons.bookmark),
+                                  ],
+                                )),
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(24, 2, 8, 2),
@@ -404,17 +451,15 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                             child: SizedBox(
                                 width: double.infinity,
                                 child: Row(
-                                  children: [Icon(Icons.color_lens),
-
+                                  children: [
+                                    Icon(Icons.color_lens),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8),
                                       child: Text('14 : 1번째, 4번째 자리가 홀수?'),
                                     ),
                                   ],
-                                )
-                            ),
+                                )),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.fromLTRB(24, 2, 8, 2),
                             child: SizedBox(
@@ -430,30 +475,36 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                             child: SizedBox(
                                 width: double.infinity,
                                 child: Row(
-                                  children: [Icon(Icons.list_rounded),
-
+                                  children: [
+                                    Icon(Icons.list_rounded),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8),
                                       child: Text('5 : 5번째 숫자가 4보다 큼?'),
                                     ),
                                   ],
-                                )
-                            ),
+                                )),
                           ),
-                          SizedBox(height: 8,),
-                          Divider(thickness: 2, height: 1,),
-                          SizedBox(height: 8,),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Divider(
+                            thickness: 2,
+                            height: 1,
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 2, 8, 2),
                             child: SizedBox(
                               width: double.infinity,
-                              child: Text(
-                                '▼ 이하 내용은 계산메뉴 설명입니다.',
-                                style: const TextStyle(fontSize: 14, color: Colors.orange, fontWeight: FontWeight.bold)
-                              ),
+                              child: Text('▼ 이하 내용은 계산메뉴 설명입니다.',
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.orange,
+                                      fontWeight: FontWeight.bold)),
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.fromLTRB(16, 16, 8, 8),
                             child: SizedBox(

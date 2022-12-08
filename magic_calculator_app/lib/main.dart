@@ -180,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     for (int i = 0; i < 4; i++) {
       _questionMaker.getQuestionCase(resultList, _isUseBlackQuestion);
-      _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList);
+      _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList, widget._appStatProvider.getMaxNumberOfCase());
 
       if (_bestQuestionSet.isNotEmpty) {
         if (i == 0) {
