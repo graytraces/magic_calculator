@@ -399,8 +399,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: TextField(
+                      autofocus: true,
                       decoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(width: 1, color: Colors.black),),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(style: BorderStyle.none),
+                        ),
                       ),
                       onTap: () {
                         _hideCount = _hideCount + 1;
