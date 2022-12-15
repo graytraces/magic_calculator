@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
 class AboveKeyboard extends StatelessWidget {
-  const AboveKeyboard( {Key? key, required this.redQuestionNumbers, required this.blueQuestionNumbers}) : super(key: key);
+  const AboveKeyboard(
+      {Key? key, required this.redQuestionNumbers, required this.blueQuestionNumbers})
+      : super(key: key);
   final String redQuestionNumbers;
   final String blueQuestionNumbers;
 
+  final double normalButtonWidth = 45;
+  final double numberButtonWidth = 60;
+
   _getAboveKeyboardStyle() {
     return TextButton.styleFrom(
-      foregroundColor: Colors.white,
-      minimumSize: Size(40, 40),
-      maximumSize: Size(40, 40),
+      foregroundColor: Colors.white
     );
   }
 
@@ -19,37 +22,66 @@ class AboveKeyboard extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          TextButton(
-            style: _getAboveKeyboardStyle(),
-            onPressed: () {},
-            child: (Icon(Icons.brush)),
+          SizedBox(
+            width:normalButtonWidth,
+            child: TextButton(
+              style: _getAboveKeyboardStyle(),
+              onPressed: () {},
+              child: (Icon(Icons.brush)),
+            ),
           ),
-          TextButton(style: _getAboveKeyboardStyle(), onPressed: () {}, child: Text(redQuestionNumbers)),
-          TextButton(
-            style: _getAboveKeyboardStyle(),
-            onPressed: () {},
-            child: (Icon(Icons.check_box_outlined)),
+          SizedBox(
+              width: numberButtonWidth,
+              child: TextButton(
+                  style: _getAboveKeyboardStyle(),
+                  onPressed: () {},
+                  child: Text(redQuestionNumbers))),
+          SizedBox(
+            width:normalButtonWidth,
+            child: TextButton(
+              style: _getAboveKeyboardStyle(),
+              onPressed: () {},
+              child: (Icon(Icons.check_box_outlined)),
+            ),
           ),
-          TextButton(
-            style: _getAboveKeyboardStyle(),
-            onPressed: () {},
-            child: (Icon(Icons.format_color_text)),
+          SizedBox(
+            width:normalButtonWidth,
+            child: TextButton(
+              style: _getAboveKeyboardStyle(),
+              onPressed: () {},
+              child: (Icon(Icons.format_color_text)),
+            ),
           ),
-          TextButton(
-            style: _getAboveKeyboardStyle(),
-            onPressed: () {},
-            child: (Icon(Icons.format_line_spacing)),
+          SizedBox(
+            width:normalButtonWidth,
+            child: TextButton(
+              style: _getAboveKeyboardStyle(),
+              onPressed: () {},
+              child: (Icon(Icons.format_line_spacing)),
+            ),
           ),
-          TextButton(style: _getAboveKeyboardStyle(), onPressed: () {}, child: Text(blueQuestionNumbers)),
-          TextButton(
-            style: _getAboveKeyboardStyle(),
-            onPressed: () {},
-            child: (Icon(Icons.undo)),
+          SizedBox(
+            width: numberButtonWidth,
+            child: TextButton(
+                style: _getAboveKeyboardStyle(),
+                onPressed: () {},
+                child: Text(blueQuestionNumbers)),
           ),
-          TextButton(
-            style: _getAboveKeyboardStyle(),
-            onPressed: () {},
-            child: (Icon(Icons.redo)),
+          SizedBox(
+            width:normalButtonWidth,
+            child: TextButton(
+              style: _getAboveKeyboardStyle(),
+              onPressed: () {},
+              child: (Icon(Icons.undo)),
+            ),
+          ),
+          SizedBox(
+            width:normalButtonWidth,
+            child: TextButton(
+              style: _getAboveKeyboardStyle(),
+              onPressed: () {},
+              child: (Icon(Icons.redo)),
+            ),
           ),
         ],
       ),
