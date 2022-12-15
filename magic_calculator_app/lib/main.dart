@@ -393,7 +393,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
               _hideCount = _hideCount + 1;
 
-              if (_hideCount == 3) {
+              if (_hideCount == 2) {
                 _hideCount = 0;
 
                 if (widget._appStatProvider.getIsAuthorized()) {
