@@ -72,8 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       pageTitle = '제목';
       greenIcon = Icon(Icons.bookmark_border);
-      redQuestionNumbers = "0";
-      blueQuestionNumbers = "0";
+      redQuestionNumbers = " 0 ";
+      blueQuestionNumbers = " 0 ";
     });
   }
 
@@ -542,13 +542,13 @@ class _MyHomePageState extends State<MyHomePage> {
       }
 
       if (redString == "") {
-        redQuestionNumbers = "0";
+        redQuestionNumbers = " 0 ";
       } else {
         redQuestionNumbers = redString;
       }
 
       if (blueString == "") {
-        blueQuestionNumbers = "0";
+        blueQuestionNumbers = " 0 ";
       } else {
         blueQuestionNumbers = blueString;
       }
