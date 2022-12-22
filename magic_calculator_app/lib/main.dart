@@ -461,37 +461,37 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: drawResult(),
                               ),
                             ),
-                            SizedBox(
-                              height: 200,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text("검증용 경우의수 출력(추후삭제)", style: _getTitleTextStyle()),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: SizedBox(
-                                width: double.infinity,
-                                height: _strNumberPairList.length * 20,
-                                child: ListView.builder(
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(0.0),
-                                          child: Text("010-" +
-                                              _strNumberPairList[index][0] +
-                                              "-" +
-                                              _strNumberPairList[index][1]),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: _strNumberPairList.length,
-                                ),
-                              ),
-                            )
+                            // SizedBox(
+                            //   height: 200,
+                            // ),
+                            // Padding(
+                            //   padding: const EdgeInsets.all(10.0),
+                            //   child: Text("검증용 경우의수 출력(추후삭제)", style: _getTitleTextStyle()),
+                            // ),
+                            // Padding(
+                            //   padding: const EdgeInsets.all(10.0),
+                            //   child: SizedBox(
+                            //     width: double.infinity,
+                            //     height: _strNumberPairList.length * 20,
+                            //     child: ListView.builder(
+                            //       itemBuilder: (BuildContext context, int index) {
+                            //         return Row(
+                            //           children: [
+                            //             Padding(
+                            //               padding: const EdgeInsets.all(0.0),
+                            //               child: Text("010-" +
+                            //                   _strNumberPairList[index][0] +
+                            //                   "-" +
+                            //                   _strNumberPairList[index][1]),
+                            //             ),
+                            //           ],
+                            //         );
+                            //       },
+                            //       physics: const NeverScrollableScrollPhysics(),
+                            //       itemCount: _strNumberPairList.length,
+                            //     ),
+                            //   ),
+                            // )
                           ],
                         )
                       : SizedBox(
@@ -577,7 +577,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
