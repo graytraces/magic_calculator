@@ -341,25 +341,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return questionExplainText;
   }
 
-  _getQuestionTextStyle() {
-    return const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white);
-  }
-
   _getQuestionExplainTextStyle() {
     return const TextStyle(fontSize: 18, color: Colors.white);
-  }
-
-  Color _getQuestionBackgroundColor(String name) {
-    Color questionColor = Colors.black;
-    if (name.contains("red")) {
-      questionColor = Colors.red;
-    } else if (name.contains("blue")) {
-      questionColor = Colors.blue;
-    } else if (name.contains("green")) {
-      questionColor = Colors.green;
-    }
-
-    return questionColor;
   }
 
   void _applyFilter() {
