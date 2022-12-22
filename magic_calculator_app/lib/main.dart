@@ -323,19 +323,19 @@ class _MyHomePageState extends State<MyHomePage> {
     if (questionNumber.isNotEmpty) {
       if (questionNumber == "1") {
         //questionExplainText = "@000-0000";
-        questionExplainText = "? x x x - y y y y";
+        questionExplainText = "? 0 0 0 - 0 0 0 0";
       } else if (questionNumber == "4") {
         //questionExplainText = "000@-0000";
-        questionExplainText = "x x x ? - y y y y";
+        questionExplainText = "0 0 0 ? - 0 0 0 0";
       } else if (questionNumber == "5") {
         //questionExplainText = "0000-@000";
-        questionExplainText = "x x x x - ? y y y";
+        questionExplainText = "0 0 0 0 - ? 0 0 0";
       } else if (questionNumber == "8") {
         //questionExplainText = "0000-000@";
-        questionExplainText = "x x x x - y y y ?";
+        questionExplainText = "0 0 0 0 - 0 0 0 ?";
       }
     } else {
-      questionExplainText = "xxxx-yyyy";
+      questionExplainText = "앞자리 > 뒷자리";
     }
 
     return questionExplainText;
@@ -447,18 +447,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   _showHide
                       ? Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white24,
-                                    minimumSize: const Size(double.infinity, 40),
-                                  ),
-                                  onPressed: () {
-                                    _calculateNumber(true);
-                                  },
-                                  child: const Text('계산하기')),
-                            ),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: _strNumberPairList.length == 0
