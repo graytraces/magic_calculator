@@ -627,7 +627,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 },
                                 selectedColor: Colors.white,
                                 fillColor: Colors.white24,
-                                color: Colors.white,
+                                color: Colors.white24,
                                 constraints: const BoxConstraints(
                                   minHeight: 30.0,
                                   minWidth: 60.0,
