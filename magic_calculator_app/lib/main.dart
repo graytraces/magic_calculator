@@ -120,9 +120,11 @@ class _MyHomePageState extends State<MyHomePage> {
     String strSecondNumber = "";
 
     for (int firstNumber = startNumber; firstNumber <= endNumber; firstNumber++) {
-      if (inputNumber % firstNumber == 0) {
+      //if (inputNumber % (100000 + firstNumber) == 0) {
+      if (inputNumber % (firstNumber) == 0) {
         var secondNumber = (inputNumber / firstNumber).toInt();
 
+        //if (firstNumber.toString().length > int.parse(_firstNumberLength) + 2 ||
         if (firstNumber.toString().length > int.parse(_firstNumberLength) ||
             secondNumber.toString().length > int.parse(_secondNumberLength)) {
           continue;
