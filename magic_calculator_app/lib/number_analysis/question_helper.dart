@@ -64,10 +64,9 @@ class QuestionMaker {
   }
 
   List<QuestionCase> getBestQuestionSet(List<QuestionCase> resultList, int maxNumberOfCase) {
-    print(maxNumberOfCase);
     resultList.sort((a, b) => a.worstCount - b.worstCount);
     List<QuestionCase> bestResult =
-        List<QuestionCase>.from(resultList.where((questionCase) => questionCase.worstCount <= maxNumberOfCase));
+        List<QuestionCase>.from(resultList.where((questionCase) => questionCase.worstCount > 0 && questionCase.worstCount <= maxNumberOfCase));
     bestResult.sort((a, b) => a.questionList.length - b.questionList.length);
     return bestResult;
   }
