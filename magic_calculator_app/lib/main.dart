@@ -416,6 +416,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       onTap: () {},
                       onChanged: (value) {
                         _hideCount = 0;
+
+                        if (widget._appStatProvider.getIsAuthorized() && value.length > 4) {
+                          _calculateNumber(false);
+                        }
                       },
                       controller: _magicNumber,
                       keyboardType: TextInputType.multiline,
