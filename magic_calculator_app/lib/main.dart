@@ -65,8 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String pageTitle = '제목';
   Icon greenIcon = Icon(Icons.bookmark_border);
-  String redQuestionNumbers = "0";
-  String blueQuestionNumbers = "0";
+  String redQuestionNumbers = "012";
+  String blueQuestionNumbers = "023";
 
   _setDefaultState() {
     setState(() {
@@ -180,7 +180,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     for (int i = 0; i < 4; i++) {
       _questionMaker.getQuestionCase(resultList, _isUseBlackQuestion);
-      _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList, widget._appStatProvider.getMaxNumberOfCase());
+      _bestQuestionSet = _questionMaker.getBestQuestionSet(
+          resultList, widget._appStatProvider.getMaxNumberOfCase());
 
       if (_bestQuestionSet.isNotEmpty) {
         if (i == 0) {
@@ -269,18 +270,14 @@ class _MyHomePageState extends State<MyHomePage> {
     if (sendMessageMap.key == null) {
       widget._appStatProvider.setSendMessage(defaultMessage);
       await db.insertKeyValueMap(CommonConstants.sendMessageKeyForDB, defaultMessage);
-    }else{
+    } else {}
 
-    }
-
-
-
-    KeyValueMap maxNumberOfCaseMap = await db.selectKeyValueMap(CommonConstants.maxNumberOfCaseKeyForDB);
-    if(maxNumberOfCaseMap.key == null){
+    KeyValueMap maxNumberOfCaseMap =
+        await db.selectKeyValueMap(CommonConstants.maxNumberOfCaseKeyForDB);
+    if (maxNumberOfCaseMap.key == null) {
       widget._appStatProvider.setMaxNumberOfCase(1);
       await db.insertKeyValueMap(CommonConstants.maxNumberOfCaseKeyForDB, "1");
     }
-
   }
 
   _getTitleTextStyle() {
@@ -299,7 +296,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return const TextStyle(fontSize: 16);
   }
 
-  _getQuestionText(String name) {
+
+  _getQuestionNumber(String name) {
     String questionText = "";
 
     if (name.contains("red")) {
@@ -323,16 +321,16 @@ class _MyHomePageState extends State<MyHomePage> {
     if (questionNumber.isNotEmpty) {
       if (questionNumber == "1") {
         //questionExplainText = "@000-0000";
-        questionExplainText = "?xxx-yyyy";
+        questionExplainText = "? x x x - y y y y";
       } else if (questionNumber == "4") {
         //questionExplainText = "000@-0000";
-        questionExplainText = "xxx?-yyyy";
+        questionExplainText = "x x x ? - y y y y";
       } else if (questionNumber == "5") {
         //questionExplainText = "0000-@000";
-        questionExplainText = "xxxx-?yyy";
+        questionExplainText = "x x x x - ? y y y";
       } else if (questionNumber == "8") {
         //questionExplainText = "0000-000@";
-        questionExplainText = "xxxx-yyy?";
+        questionExplainText = "x x x x - y y y ?";
       }
     } else {
       questionExplainText = "xxxx-yyyy";
@@ -346,7 +344,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _getQuestionExplainTextStyle() {
-    return const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white);
+    return const TextStyle(fontSize: 18, color: Colors.white);
   }
 
   Color _getQuestionBackgroundColor(String name) {
@@ -382,32 +380,31 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
           title: Text(pageTitle, style: TextStyle(color: Colors.grey)),
           leading: IconButton(
-            onPressed: () {
-            },
+            onPressed: () {},
             icon: Icon(Icons.arrow_back_ios),
             color: Colors.grey,
           ),
           actions: [
             IconButton(onPressed: () {}, icon: greenIcon),
-            IconButton(onPressed: () {
+            IconButton(
+                onPressed: () {
+                  _hideCount = _hideCount + 1;
 
-              _hideCount = _hideCount + 1;
+                  if (_hideCount == 2) {
+                    _hideCount = 0;
 
-              if (_hideCount == 2) {
-                _hideCount = 0;
+                    if (widget._appStatProvider.getIsAuthorized()) {
+                      if (_showHide == false) {
+                        _calculateNumber(true);
+                      }
 
-                if (widget._appStatProvider.getIsAuthorized()) {
-                  if (_showHide == false) {
-                    _calculateNumber(true);
+                      setState(() {
+                        _showHide = !_showHide;
+                      });
+                    }
                   }
-
-                  setState(() {
-                    _showHide = !_showHide;
-                  });
-                }
-              }
-
-            }, icon: Icon(Icons.attach_file)),
+                },
+                icon: Icon(Icons.attach_file)),
             IconButton(
                 onPressed: () {
                   Navigator.push(
@@ -433,8 +430,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           borderSide: BorderSide(style: BorderStyle.none),
                         ),
                       ),
-                      onTap: () {
-                      },
+                      onTap: () {},
                       onChanged: (value) {
                         _hideCount = 0;
 
@@ -455,6 +451,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               padding: const EdgeInsets.all(10.0),
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white24,
                                     minimumSize: const Size(double.infinity, 40),
                                   ),
                                   onPressed: () {
@@ -552,7 +549,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     for (int index = 0; index < _bestQuestion.questionList.length; index++) {
       if (_bestQuestion.questionList[index].name.contains("black")) {
-        localPageTitle = "제목 (" + _getQuestionText(_bestQuestion.questionList[index].name) + ")";
+        localPageTitle = "제목 (" + _getQuestionNumber(_bestQuestion.questionList[index].name) + ")";
       }
 
       if (_bestQuestion.questionList[index].name.contains("green")) {
@@ -612,42 +609,20 @@ class _MyHomePageState extends State<MyHomePage> {
             height: (90 * _bestQuestion.questionList.length).toDouble(),
             child: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                return Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                      child: SizedBox(
-                        width: 140,
-                        height: 80,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                              color: _getQuestionBackgroundColor(
-                                  _bestQuestion.questionList[index].name)),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Text(
-                                      _getQuestionText(_bestQuestion.questionList[index].name),
-                                      style: _getQuestionTextStyle()),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Text(
-                                    _getQuestionExplainText(_bestQuestion.questionList[index].name),
-                                    style: _getQuestionExplainTextStyle(),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Text(
+                          _getQuestionExplainText(_bestQuestion.questionList[index].name),
+                          //style: _getQuestionExplainTextStyle(),
+                          style: _getQuestionExplainTextStyle(),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: Center(
+                      Center(
                         child: _bestQuestion.questionList[index].name.contains("black")
                             ? SizedBox(
                                 width: 100,
@@ -679,15 +654,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                   });
                                   _applyFilter();
                                 },
-                                selectedBorderColor: getToggleButtonSelectedColor(
-                                    _bestQuestion.questionList[index].name),
-                                selectedColor: getToggleButtonSelectedColor(
-                                    _bestQuestion.questionList[index].name),
-                                fillColor: Colors.white,
-                                color: Colors.grey,
+                                selectedColor: Colors.white,
+                                fillColor: Colors.white24,
+                                color: Colors.white,
                                 constraints: const BoxConstraints(
-                                  minHeight: 40.0,
-                                  minWidth: 80.0,
+                                  minHeight: 30.0,
+                                  minWidth: 60.0,
                                 ),
                                 isSelected: [
                                   _answerList[index].toLowerCase() == "true",
@@ -697,8 +669,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     getToggleButtonTextList(_bestQuestion.questionList[index].name),
                               ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               },
               physics: const NeverScrollableScrollPhysics(),
