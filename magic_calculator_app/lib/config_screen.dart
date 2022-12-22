@@ -159,6 +159,8 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                       ),
                     ),
                     ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white24),
                         onPressed: () async {
                           UserDeviceInfo userDeviceInfo = await CommonFunctions.getUserDeviceInfo();
                           await widget._appStatProvider
@@ -184,7 +186,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                             child: SizedBox(
                               width: double.infinity,
                               child: Text(
-                                '○ Black 질문 사용여부',
+                                '○ 한자리 직접 묻는 질문 사용여부',
                                 style: _getTitleTextStyle(),
                               ),
                             ),
@@ -295,6 +297,8 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                               child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white24),
                                   onPressed: () async {
                                     var db = DatabaseHelper.instance;
 
@@ -404,7 +408,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                                 child: SizedBox(
                                   width: double.infinity,
                                   child: Text(
-                                    '- 제목 옆에 (숫자) 가 표시되면 해당 자릿수가 무엇인지 물어야함을 의미합니다. (Black 질문)',
+                                    '- 제목 옆에 (숫자) 가 표시되면 해당 자릿수가 무엇인지 물어야함을 의미합니다.',
                                     style: _getContentTextStyle(),
                                   ),
                                 ),
@@ -424,7 +428,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                                 child: SizedBox(
                                   width: double.infinity,
                                   child: Text(
-                                    '- 북마크 버튼이 채워지면 앞자리가 큰지 뒷자리가 큰지 물어야 합니다. (Green 질문)',
+                                    '- 북마크 버튼이 채워지면 앞자리가 큰지 뒷자리가 큰지 물어야 합니다.',
                                     style: _getContentTextStyle(),
                                   ),
                                 ),
@@ -446,7 +450,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                                 child: SizedBox(
                                   width: double.infinity,
                                   child: Text(
-                                    '- 키보드 위의 아이콘 중 좌측 팔레트 옆 숫자는 홀짝을 물어야 하는 자릿수를 표시합니다. (Red질문)',
+                                    '- 키보드 위의 아이콘 중 좌측 붓 아이콘 옆 숫자는 홀짝을 물어야 하는 자릿수를 표시합니다.',
                                     style: _getContentTextStyle(),
                                   ),
                                 ),
@@ -457,7 +461,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                                     width: double.infinity,
                                     child: Row(
                                       children: [
-                                        Icon(Icons.color_lens),
+                                        Icon(Icons.brush),
                                         Padding(
                                           padding: const EdgeInsets.only(left: 8),
                                           child: Text('14 : 1번째, 4번째 자리가 홀수?'),
@@ -470,7 +474,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                                 child: SizedBox(
                                   width: double.infinity,
                                   child: Text(
-                                    '- 키보드 위의 아이콘 중 가운데 목차아이콘 옆 숫자는 4보다 큰지를 물어야 하는 자릿수를 표시합니다. (Blue질문)',
+                                    '- 키보드 위의 아이콘 중 가운데 목차아이콘 옆 숫자는 4보다 큰지를 물어야 하는 자릿수를 표시합니다.',
                                     style: _getContentTextStyle(),
                                   ),
                                 ),
@@ -481,7 +485,7 @@ class _ConfigScreenState extends State<ConfigScreenStateful> {
                                     width: double.infinity,
                                     child: Row(
                                       children: [
-                                        Icon(Icons.list_rounded),
+                                        Icon(Icons.format_line_spacing),
                                         Padding(
                                           padding: const EdgeInsets.only(left: 8),
                                           child: Text('5 : 5번째 숫자가 4보다 큼?'),
