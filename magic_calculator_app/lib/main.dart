@@ -65,8 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String pageTitle = '제목';
   Icon greenIcon = Icon(Icons.bookmark_border);
-  String redQuestionNumbers = "012";
-  String blueQuestionNumbers = "023";
+  String redQuestionNumbers = " 0 ";
+  String blueQuestionNumbers = " 0 ";
 
   _setDefaultState() {
     setState(() {
@@ -428,9 +428,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: TextField(
                       autofocus: true,
                       decoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(style: BorderStyle.none),
-                        ),
+                        border: InputBorder.none,
                       ),
                       onTap: () {},
                       onChanged: (value) {
