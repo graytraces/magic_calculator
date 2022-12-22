@@ -709,11 +709,11 @@ class _MyHomePageState extends State<MyHomePage> {
     } else if (name.contains("green")) {
       questionAnswers = <Widget>[
         Text(
-          '앞',
+          'Y',
           style: _getContentTextStyle(),
         ),
         Text(
-          '뒤',
+          'N',
           style: _getContentTextStyle(),
         )
       ];
