@@ -47,8 +47,9 @@ class QuestionCase {
   String toString() {
     String str = "";
     for (int i = 0; i < questionList.length; i++) {
-      str += questionList[i].name + " " + worstCount.toString();
+      str += questionList[i].name + " ";
     }
+    str += worstCount.toString() + " " + worstCountCount.toString() + "/";
     return str;
   }
 }
@@ -67,16 +68,36 @@ class QuestionMaker {
   List<QuestionCase> getBestQuestionSet(List<QuestionCase> resultList, int maxNumberOfCase) {
     resultList.sort((a, b) {
       int diffValue = a.worstCount - b.worstCount;
+      if (diffValue != 0) {
+        return diffValue;
+      }
+      diffValue = a.worstCountCount - b.worstCountCount;
+
       if(diffValue != 0){
         return diffValue;
       }
-      return a.worstCountCount - a.worstCountCount;
+
+      return a.questionList.length - b.questionList.length;
     });
 
     //worstCount가 목표갯수와 모두 같은 경우 (최적답을 찾은 경우)
     List<QuestionCase> bestResult =
-        List<QuestionCase>.from(resultList.where((questionCase) => questionCase.worstCount > 0 && questionCase.worstCount <= maxNumberOfCase));
-    bestResult.sort((a, b) => a.questionList.length - b.questionList.length);
+    List<QuestionCase>.from(resultList.where((questionCase) => questionCase.worstCount > 0 &&
+        questionCase.worstCount <= maxNumberOfCase));
+
+    bestResult.sort((a, b) {
+      int diffValue = a.worstCount - b.worstCount;
+      if (diffValue != 0) {
+        return diffValue;
+      }
+      diffValue = a.worstCountCount - b.worstCountCount;
+
+      if(diffValue != 0){
+        return diffValue;
+      }
+
+      return a.questionList.length - b.questionList.length;
+    });
     return bestResult;
   }
 

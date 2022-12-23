@@ -91,15 +91,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //숫자 계산
   void _calculateNumber(bool hideKeyboard) {
-    _strNumberPairList = [];  //입력값에 대한 pair String ver
-    _intNumberPairList = [];  //입력값에 대한 pair int ver
+    _strNumberPairList = []; //입력값에 대한 pair String ver
+    _intNumberPairList = []; //입력값에 대한 pair int ver
 
-    _strFilteredNumberPairList = [];  //filter 결과값
+    _strFilteredNumberPairList = []; //filter 결과값
 
-    _bestQuestionSet = [];    //최종 베스트답
+    _bestQuestionSet = []; //최종 베스트답
     _bestQuestion = QuestionCase([], 0, 0);
 
-    _answerList = [];        //입력한 답 담는곳
+    _answerList = []; //입력한 답 담는곳
 
     var inputText = _magicNumber.text;
 
@@ -184,9 +184,8 @@ class _MyHomePageState extends State<MyHomePage> {
     bool findFirstStep = false;
 
     for (int i = 0; i < 4; i++) {
-
       //resultList = 모든 케이스를 넣는다.
-      _questionMaker.getQuestionCase(resultList, _isUseBlackQuestion);  //실제 답 찾는 로직
+      _questionMaker.getQuestionCase(resultList, _isUseBlackQuestion); //실제 답 찾는 로직
       _bestQuestionSet = _questionMaker.getBestQuestionSet(
           resultList, widget._appStatProvider.getMaxNumberOfCase());
 
@@ -304,7 +303,6 @@ class _MyHomePageState extends State<MyHomePage> {
   _getContentTextStyle() {
     return const TextStyle(fontSize: 16);
   }
-
 
   _getQuestionNumber(String name) {
     String questionText = "";
@@ -526,8 +524,6 @@ class _MyHomePageState extends State<MyHomePage> {
     String blueString = "";
     bool hasGreen = false;
 
-    print(_bestQuestion.questionList);
-
     for (int index = 0; index < _bestQuestion.questionList.length; index++) {
       if (_bestQuestion.questionList[index].name.contains("black")) {
         localPageTitle = "제목 (" + _getQuestionNumber(_bestQuestion.questionList[index].name) + ")";
@@ -560,7 +556,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       pageTitle = localPageTitle;
-      if(hasGreen){
+      if (hasGreen) {
         greenIcon = Icon(Icons.bookmark);
       }
     });
