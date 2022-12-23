@@ -23,8 +23,9 @@ enum QuestionCandidate {
 class QuestionCase {
   List<QuestionCandidate> questionList;
   int worstCount;
+  int worstCountCount;
 
-  QuestionCase(this.questionList, this.worstCount);
+  QuestionCase(this.questionList, this.worstCount, this.worstCountCount);
 
   List<QuestionCandidate> getQuestionList() {
     return questionList;
@@ -64,7 +65,15 @@ class QuestionMaker {
   }
 
   List<QuestionCase> getBestQuestionSet(List<QuestionCase> resultList, int maxNumberOfCase) {
-    resultList.sort((a, b) => a.worstCount - b.worstCount);
+    resultList.sort((a, b) {
+      int diffValue = a.worstCount - b.worstCount;
+      if(diffValue != 0){
+        return diffValue;
+      }
+      return a.worstCountCount - a.worstCountCount;
+    });
+
+    //worstCount가 목표갯수와 모두 같은 경우 (최적답을 찾은 경우)
     List<QuestionCase> bestResult =
         List<QuestionCase>.from(resultList.where((questionCase) => questionCase.worstCount > 0 && questionCase.worstCount <= maxNumberOfCase));
     bestResult.sort((a, b) => a.questionList.length - b.questionList.length);
@@ -94,9 +103,10 @@ class QuestionMaker {
 
         candidateList.add(questionCandidate);
         int worstCount = numberStatistics.getWorstCount(candidateList);
+        int worstCountCount = numberStatistics.getWorstCountCount(candidateList, worstCount);
 
         //resultMap.put(candidateList, maxValue);
-        resultList.add(new QuestionCase(candidateList, worstCount));
+        resultList.add(new QuestionCase(candidateList, worstCount, worstCountCount));
       }
     } else {
       int existListLength = resultList.length;
@@ -130,7 +140,8 @@ class QuestionMaker {
           List<QuestionCandidate> candidateList = List<QuestionCandidate>.from(existList);
           candidateList.add(questionCandidate);
           int worstCount = numberStatistics.getWorstCount(candidateList);
-          resultList.add(new QuestionCase(candidateList, worstCount));
+          int worstCountCount = numberStatistics.getWorstCountCount(candidateList, worstCount);
+          resultList.add(new QuestionCase(candidateList, worstCount, worstCountCount));
         }
       }
     }

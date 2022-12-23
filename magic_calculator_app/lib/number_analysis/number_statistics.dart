@@ -113,7 +113,8 @@ class NumberStatistics {
       stringArray[i] = "";
     }
 
-    for (int i = 0; i < pairSize; i++) {
+    //matrix 변수 생성
+   for (int i = 0; i < pairSize; i++) {
       for (QuestionCandidate questionCandidate in filterList) {
         stringArray[i] += (statisticsMatrix[questionCandidate.index][i]).toString();
       }
@@ -137,6 +138,44 @@ class NumberStatistics {
     }
 
     return maxValue;
+  }
+
+
+
+
+  //주어진 filterList의 worstCount를 구한다.
+  getWorstCountCount(List<QuestionCandidate> filterList, int worstCount) {
+    List<String> stringArray = List.filled(pairSize, "");
+
+    for (int i = 0; i < pairSize; i++) {
+      stringArray[i] = "";
+    }
+
+    //matrix 변수 생성
+    for (int i = 0; i < pairSize; i++) {
+      for (QuestionCandidate questionCandidate in filterList) {
+        stringArray[i] += (statisticsMatrix[questionCandidate.index][i]).toString();
+      }
+    }
+
+    Map<String, int> counter = {};
+
+    for (int i = 0; i < pairSize; i++) {
+      if (counter.containsKey(stringArray[i]) == false) {
+        counter.addAll({stringArray[i]: 1});
+      } else {
+        counter.update(stringArray[i], (value) => (counter[stringArray[i]]! + 1));
+      }
+    }
+
+    int worstCountCount = 0;
+    for (int value in counter.values) {
+      if (worstCount == value) {
+        worstCountCount++;
+      }
+    }
+
+    return worstCountCount;
   }
 
   List<int> getApplyFilterArray(QuestionCase bestQuestion, List<String> answerList){

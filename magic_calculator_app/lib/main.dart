@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<List<int>> _intNumberPairList = [];
   List<QuestionCase> _bestQuestionSet = [];
 
-  QuestionCase _bestQuestion = QuestionCase([], 0);
+  QuestionCase _bestQuestion = QuestionCase([], 0, 0);
   List<String> _answerList = [];
   QuestionMaker _questionMaker = QuestionMaker([]);
 
@@ -91,12 +91,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //숫자 계산
   void _calculateNumber(bool hideKeyboard) {
-    _strNumberPairList = [];
-    _strFilteredNumberPairList = [];
-    _intNumberPairList = [];
-    _bestQuestionSet = [];
-    _bestQuestion = QuestionCase([], 0);
-    _answerList = [];
+    _strNumberPairList = [];  //입력값에 대한 pair String ver
+    _intNumberPairList = [];  //입력값에 대한 pair int ver
+
+    _strFilteredNumberPairList = [];  //filter 결과값
+
+    _bestQuestionSet = [];    //최종 베스트답
+    _bestQuestion = QuestionCase([], 0, 0);
+
+    _answerList = [];        //입력한 답 담는곳
 
     var inputText = _magicNumber.text;
 
@@ -166,14 +169,14 @@ class _MyHomePageState extends State<MyHomePage> {
       blackOneShotQuestion = _questionMaker.getBlackOneShotQuestion();
     }
 
-    QuestionCase blackBestQuestion = QuestionCase([], 0);
+    QuestionCase blackBestQuestion = QuestionCase([], 0, 0);
     List<QuestionCase> blackBestQuestionSet = [];
 
     if (blackOneShotQuestion != null) {
       List<QuestionCandidate> blackOneshotQuestionCandidateList = [];
       List<QuestionCase> blackOneshotQuestionCaseList = [];
       blackOneshotQuestionCandidateList.add(blackOneShotQuestion);
-      blackBestQuestion = QuestionCase(blackOneshotQuestionCandidateList, 1);
+      blackBestQuestion = QuestionCase(blackOneshotQuestionCandidateList, 1, 1);
       blackOneshotQuestionCaseList.add(blackBestQuestion);
       blackBestQuestionSet = blackOneshotQuestionCaseList;
     }
@@ -181,7 +184,9 @@ class _MyHomePageState extends State<MyHomePage> {
     bool findFirstStep = false;
 
     for (int i = 0; i < 4; i++) {
-      _questionMaker.getQuestionCase(resultList, _isUseBlackQuestion);
+
+      //resultList = 모든 케이스를 넣는다.
+      _questionMaker.getQuestionCase(resultList, _isUseBlackQuestion);  //실제 답 찾는 로직
       _bestQuestionSet = _questionMaker.getBestQuestionSet(
           resultList, widget._appStatProvider.getMaxNumberOfCase());
 
@@ -192,10 +197,12 @@ class _MyHomePageState extends State<MyHomePage> {
         break;
       } else if (i == 0) {
         if (blackOneShotQuestion != null) {
+          // 한방에 답 찾은경우
           setState(() {
             _bestQuestion = blackBestQuestion;
             _bestQuestionSet = blackBestQuestionSet;
           });
+          break;
         }
       }
     }
@@ -465,37 +472,37 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: drawResult(),
                               ),
                             ),
-                            // SizedBox(
-                            //   height: 200,
-                            // ),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(10.0),
-                            //   child: Text("검증용 경우의수 출력(추후삭제)", style: _getTitleTextStyle()),
-                            // ),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(10.0),
-                            //   child: SizedBox(
-                            //     width: double.infinity,
-                            //     height: _strNumberPairList.length * 20,
-                            //     child: ListView.builder(
-                            //       itemBuilder: (BuildContext context, int index) {
-                            //         return Row(
-                            //           children: [
-                            //             Padding(
-                            //               padding: const EdgeInsets.all(0.0),
-                            //               child: Text("010-" +
-                            //                   _strNumberPairList[index][0] +
-                            //                   "-" +
-                            //                   _strNumberPairList[index][1]),
-                            //             ),
-                            //           ],
-                            //         );
-                            //       },
-                            //       physics: const NeverScrollableScrollPhysics(),
-                            //       itemCount: _strNumberPairList.length,
-                            //     ),
-                            //   ),
-                            // )
+                            SizedBox(
+                              height: 200,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text("검증용 경우의수 출력(추후삭제)", style: _getTitleTextStyle()),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: _strNumberPairList.length * 20,
+                                child: ListView.builder(
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(0.0),
+                                          child: Text("010-" +
+                                              _strNumberPairList[index][0] +
+                                              "-" +
+                                              _strNumberPairList[index][1]),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: _strNumberPairList.length,
+                                ),
+                              ),
+                            )
                           ],
                         )
                       : SizedBox(
@@ -517,6 +524,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
     String redString = "";
     String blueString = "";
+    bool hasGreen = false;
+
+    print(_bestQuestion.questionList);
 
     for (int index = 0; index < _bestQuestion.questionList.length; index++) {
       if (_bestQuestion.questionList[index].name.contains("black")) {
@@ -524,13 +534,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
 
       if (_bestQuestion.questionList[index].name.contains("green")) {
-        setState(() {
-          greenIcon = Icon(Icons.bookmark);
-        });
-      } else {
-        setState(() {
-          greenIcon = Icon(Icons.bookmark_border);
-        });
+        hasGreen = true;
       }
 
       if (_bestQuestion.questionList[index].name.contains("red")) {
@@ -556,6 +560,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       pageTitle = localPageTitle;
+      if(hasGreen){
+        greenIcon = Icon(Icons.bookmark);
+      }
     });
   }
 
