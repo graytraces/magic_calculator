@@ -3,11 +3,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:magic_calculator_app/common_functions.dart';
 
-import 'common_constants.dart';
-import 'database_helper.dart';
-import 'key_value_map.dart';
+import '../common_constants.dart';
+import '../database_helper.dart';
+import '../key_value_map.dart';
 import 'package:provider/provider.dart';
-import 'app_stat_provider.dart';
+import '../app_stat_provider.dart';
 
 class ConfigScreen extends StatelessWidget {
   const ConfigScreen({Key? key}) : super(key: key);

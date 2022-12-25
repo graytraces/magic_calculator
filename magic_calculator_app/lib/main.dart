@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:magic_calculator_app/config_screen.dart';
+import 'package:magic_calculator_app/screens/config_screen.dart';
 
 import 'common_constants.dart';
 import 'common_functions.dart';
