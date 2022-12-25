@@ -24,7 +24,7 @@ class TutorialScreen extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 8, 8),
+                padding: const EdgeInsets.fromLTRB(16, 16, 8, 8),
                 child: SizedBox(
                   width: double.infinity,
                   child: Text(
