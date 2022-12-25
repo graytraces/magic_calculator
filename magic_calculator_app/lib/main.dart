@@ -41,6 +41,8 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+enum MenuItem { item1, item2 }
+
 class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _magicNumber = TextEditingController();
   TextEditingController _blackAnswer = TextEditingController();
@@ -395,14 +397,44 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                 },
                 icon: Icon(Icons.attach_file)),
-            IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ConfigScreen()),
-                  ).then((value) => loadSavedData());
-                },
-                icon: Icon(Icons.more_vert))
+            PopupMenuButton(
+              //don't specify icon if you want 3 dot menu
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: MenuItem.item1,
+                  child: Row(
+                    children: [
+                      Icon(Icons.settings),
+                      Text(
+                        "설정",
+                      ),
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                  value: MenuItem.item2,
+                  child: Row(
+                    children: [
+                      Icon(Icons.info_outline),
+                      Text(
+                        "앱에 대하여",
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              onSelected: (item) => {
+                if (item == MenuItem.item1)
+                  {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ConfigScreen()),
+                    ).then((value) => loadSavedData())
+                  }
+                else if (item == MenuItem.item2)
+                  {}
+              },
+            ),
           ]),
       body: Column(
         children: [
