@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:magic_calculator_app/screens/config_screen.dart';
+import 'package:magic_calculator_app/screens/tutorial_screen.dart';
 
 import 'common_constants.dart';
 import 'common_functions.dart';
@@ -432,7 +433,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     ).then((value) => loadSavedData())
                   }
                 else if (item == MenuItem.item2)
-                  {}
+                  {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TutorialScreen()),
+                    )
+                  }
               },
             ),
           ]),
