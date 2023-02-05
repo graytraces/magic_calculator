@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:magic_calculator_app/screens/video_player.dart';
 import 'package:provider/provider.dart';
 
 import '../app_stat_provider.dart';
@@ -24,7 +25,7 @@ class TutorialScreen extends StatelessWidget {
         body: SingleChildScrollView(
             child: Provider.of<AppStatProvider>(context, listen: false).getIsAuthorized()
                 ? drawAuthTutorial()
-                : drawNonAuthTutorial
+                : drawNonAuthTutorial()
         ));
   }
 
@@ -43,6 +44,7 @@ class TutorialScreen extends StatelessWidget {
   drawAuthTutorial() {
     return Column(
       children: [
+        //VideoPlayerScreen(),
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 8, 8),
           child: SizedBox(
@@ -54,7 +56,7 @@ class TutorialScreen extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(24, 2, 8, 2),
+          padding: const EdgeInsets.fromLTRB(24,                                               2, 8, 2),
           child: SizedBox(
             width: double.infinity,
             child: Text(
