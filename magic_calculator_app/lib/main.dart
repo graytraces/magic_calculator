@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:magic_calculator_app/screens/calculator_screen.dart';
 import 'package:magic_calculator_app/screens/config_screen.dart';
 import 'package:magic_calculator_app/screens/tutorial_screen.dart';
+import 'package:magic_calculator_app/viewmodels/calculator_viewmodel.dart';
+
+import 'package:magic_calculator_app/viewmodels/theme_viewmodel.dart';
 
 import 'common_constants.dart';
 import 'common_functions.dart';
@@ -16,6 +20,8 @@ import 'app_stat_provider.dart';
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (BuildContext context) => AppStatProvider()),
+    ChangeNotifierProvider(create: (_) => CalculatorViewModel()),
+    ChangeNotifierProvider(create: (_) => ThemeViewModel()),
   ], child: const MyApp()));
 }
 
@@ -42,7 +48,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-enum MenuItem { item1, item2 }
+enum MenuItem { item1, item2, item3 }
 
 class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _magicNumber = TextEditingController();
@@ -423,6 +429,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 ),
+                PopupMenuItem(
+                  value: MenuItem.item3,
+                  child: Row(
+                    children: [
+                      Icon(Icons.info_outline),
+                      Text(
+                        "그냥계산기",
+                      ),
+                    ],
+                  ),
+                ),
               ],
               onSelected: (item) => {
                 if (item == MenuItem.item1)
@@ -439,6 +456,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       MaterialPageRoute(builder: (context) => TutorialScreen()),
                     )
                   }
+                else if (item == MenuItem.item3)
+                    {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CalculatorScreen()),
+                      )
+                    }
               },
             ),
           ]),
