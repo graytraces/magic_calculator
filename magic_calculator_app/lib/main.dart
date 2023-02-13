@@ -5,6 +5,7 @@ import 'package:magic_calculator_app/screens/tutorial_screen.dart';
 import 'package:magic_calculator_app/viewmodels/calculator_viewmodel.dart';
 
 import 'package:magic_calculator_app/viewmodels/theme_viewmodel.dart';
+import 'package:magic_calculator_app/widgets/explain_text.dart';
 
 import 'common_constants.dart';
 import 'common_functions.dart';
@@ -329,36 +330,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return questionText;
   }
 
-  _getQuestionExplainText(String name) {
-    String questionExplainText = "";
-
-    String questionNumber = name.replaceAll(RegExp("[^0-9]"), "");
-
-    if (questionNumber.isNotEmpty) {
-      if (questionNumber == "1") {
-        //questionExplainText = "@000-0000";
-        questionExplainText = "? 0 0 0 - 0 0 0 0";
-      } else if (questionNumber == "4") {
-        //questionExplainText = "000@-0000";
-        questionExplainText = "0 0 0 ? - 0 0 0 0";
-      } else if (questionNumber == "5") {
-        //questionExplainText = "0000-@000";
-        questionExplainText = "0 0 0 0 - ? 0 0 0";
-      } else if (questionNumber == "8") {
-        //questionExplainText = "0000-000@";
-        questionExplainText = "0 0 0 0 - 0 0 0 ?";
-      }
-    } else {
-      questionExplainText = "앞자리 > 뒷자리";
-    }
-
-    return questionExplainText;
-  }
-
-  _getQuestionExplainTextStyle() {
-    return const TextStyle(fontSize: 18, color: Colors.white);
-  }
-
   void _applyFilter() {
     setState(() {
       _strFilteredNumberPairList = [];
@@ -652,11 +623,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: Text(
-                          _getQuestionExplainText(_bestQuestion.questionList[index].name),
-                          //style: _getQuestionExplainTextStyle(),
-                          style: _getQuestionExplainTextStyle(),
-                        ),
+                        child: ExplainText(_bestQuestion.questionList[index].name),
                       ),
                       Center(
                         child: _bestQuestion.questionList[index].name.contains("black")
