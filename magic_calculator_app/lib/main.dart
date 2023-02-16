@@ -5,6 +5,7 @@ import 'package:magic_calculator_app/screens/tutorial_screen.dart';
 import 'package:magic_calculator_app/viewmodels/calculator_viewmodel.dart';
 
 import 'package:magic_calculator_app/viewmodels/theme_viewmodel.dart';
+import 'package:magic_calculator_app/widgets/explain_result.dart';
 import 'package:magic_calculator_app/widgets/explain_text.dart';
 
 import 'common_constants.dart';
@@ -12,7 +13,6 @@ import 'common_functions.dart';
 import 'custom_widget/above_keyboard.dart';
 import 'database_helper.dart';
 import 'key_value_map.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'number_analysis/question_helper.dart';
 import 'package:provider/provider.dart';
@@ -496,13 +496,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: drawOptimalQuestion(),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: drawResult(),
-                              ),
-                            ),
+                            ExplainResult(_strFilteredNumberPairList, widget._appStatProvider),
                             SizedBox(
                               height: 200,
                             ),
@@ -682,20 +676,6 @@ class _MyHomePageState extends State<MyHomePage> {
           );
   }
 
-  getToggleButtonSelectedColor(String name) {
-    Color returnColor = Colors.white;
-
-    if (name.contains("red")) {
-      returnColor = Colors.red;
-    } else if (name.contains("blue")) {
-      returnColor = Colors.blue;
-    } else if (name.contains("green")) {
-      returnColor = Colors.green;
-    } else if (name.contains("black")) {}
-
-    return returnColor;
-  }
-
   getToggleButtonTextList(String name) {
     List<Widget> questionAnswers = [];
 
@@ -735,55 +715,5 @@ class _MyHomePageState extends State<MyHomePage> {
     } else if (name.contains("black")) {}
 
     return questionAnswers;
-  }
-
-  drawResult() {
-    return _strFilteredNumberPairList.isEmpty
-        ? Text(
-            "답변이 잘못 입력되었습니다.",
-            style: _getContentTextStyle(),
-          )
-        : SizedBox(
-            width: double.infinity,
-            height: (20 * _strFilteredNumberPairList.length).toDouble(),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: Text("010-" +
-                            _strFilteredNumberPairList[index][0] +
-                            "-" +
-                            _strFilteredNumberPairList[index][1]),
-                      ),
-                      SizedBox(
-                        height: 20,
-                        child: IconButton(
-                            padding: const EdgeInsets.all(0),
-                            onPressed: () async {
-                              String sendNum = "010-" +
-                                  _strFilteredNumberPairList[index][0] +
-                                  "-" +
-                                  _strFilteredNumberPairList[index][1];
-                              Uri sms = Uri.parse('sms:' +
-                                  sendNum +
-                                  '?body=' +
-                                  widget._appStatProvider.getSendMessage());
-                              await launchUrl(sms);
-                            },
-                            icon: const Icon(Icons.sms)),
-                      )
-                    ],
-                  );
-                },
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _strFilteredNumberPairList.length,
-              ),
-            ),
-          );
   }
 }
