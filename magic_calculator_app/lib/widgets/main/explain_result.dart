@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../app_stat_provider.dart';
+import '../../app_stat_provider.dart';
 
 class ExplainResult extends StatelessWidget {
   const ExplainResult(List<List<String>> this._strFilteredNumberPairList, this._appStatProvider, {Key? key}) : super(key: key);

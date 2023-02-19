@@ -5,8 +5,8 @@ import 'package:magic_calculator_app/screens/tutorial_screen.dart';
 import 'package:magic_calculator_app/viewmodels/calculator_viewmodel.dart';
 
 import 'package:magic_calculator_app/viewmodels/theme_viewmodel.dart';
-import 'package:magic_calculator_app/widgets/explain_result.dart';
-import 'package:magic_calculator_app/widgets/explain_text.dart';
+import 'package:magic_calculator_app/widgets/main/explain_result.dart';
+import 'package:magic_calculator_app/widgets/main/explain_text.dart';
 
 import 'common_constants.dart';
 import 'common_functions.dart';
