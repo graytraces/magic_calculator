@@ -4,6 +4,10 @@ import 'package:flutter/services.dart';
 class CalculatorHomeScreen extends StatelessWidget {
   const CalculatorHomeScreen({Key? key}) : super(key: key);
 
+  _getQuestionExplainTextStyle() {
+    return const TextStyle(fontSize: 12, color: Colors.white);
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive); //풀스크린
@@ -118,7 +122,12 @@ class CalculatorHomeScreen extends StatelessWidget {
               ),
               Container(
                 color: Colors.lightGreen,
-                child: Text(''),
+                child: Column(
+                  children: [
+                    Image.asset("assets/images/kakao_icon_ver2.png", height: 70,),
+                    Text('카카오톡', style: _getQuestionExplainTextStyle(),)
+                  ],
+                ),
               ),
             ]));
   }
