@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:magic_calculator_app/screens/calculator_home_screen.dart';
 import 'package:magic_calculator_app/screens/calculator_screen.dart';
 import 'package:magic_calculator_app/screens/config_screen.dart';
 import 'package:magic_calculator_app/screens/tutorial_screen.dart';
@@ -49,7 +50,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-enum MenuItem { item1, item2, item3 }
+enum MenuItem { item1, item2, item3, item4 }
 
 class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _magicNumber = TextEditingController();
@@ -411,6 +412,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 ),
+                PopupMenuItem(
+                  value: MenuItem.item4,
+                  child: Row(
+                    children: [
+                      Icon(Icons.home),
+                      Text(
+                        "풀스크린",
+                      ),
+                    ],
+                  ),
+                ),
               ],
               onSelected: (item) => {
                 if (item == MenuItem.item1)
@@ -428,12 +440,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     )
                   }
                 else if (item == MenuItem.item3)
-                    {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CalculatorScreen()),
-                      )
-                    }
+                  {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CalculatorScreen()),
+                    )
+                  }
+                  else if (item == MenuItem.item4)
+                      {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => CalculatorHomeScreen()),
+                        )
+                      }
               },
             ),
           ]),
