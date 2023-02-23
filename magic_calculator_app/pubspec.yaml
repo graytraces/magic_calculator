@@ -98,4 +98,3 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
     - assets/images/kakao_icon.png
-    - assets/images/kakao_icon_ver2.png
