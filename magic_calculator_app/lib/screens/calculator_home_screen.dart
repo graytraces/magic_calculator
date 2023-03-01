@@ -14,7 +14,8 @@ class CalculatorHomeScreen extends StatelessWidget {
 
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge); 풀스크린 해제
 
-    var mySystemTheme= SystemUiOverlayStyle.light.copyWith(systemNavigationBarColor: Colors.transparent);
+    var mySystemTheme =
+        SystemUiOverlayStyle.light.copyWith(systemNavigationBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(mySystemTheme);
 
     //근데 둘다 필요 없는거 같다.
@@ -33,105 +34,323 @@ class CalculatorHomeScreen extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 1'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 2'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 3'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 4'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 5'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 6'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 7'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 8'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 1'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 2'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 3'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 4'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 5'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 6'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 7'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 8'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 1'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 2'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 3'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 4'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 5'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 6'),
-                ),
-                Container(
-                  color: Colors.lightGreen,
-                  child: Text(' Item : 7'),
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                            child: Image.asset(
+                              "assets/images/kakao_icon.png",
+                              height: 70,
+                            ),
+                          ),
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(child: Text('10')),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '카카오톡',
+                        style: _getQuestionExplainTextStyle(),
+                      )
+                    ],
+                  ),
+                ),Container(
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                            child: Image.asset(
+                              "assets/images/kakao_icon.png",
+                              height: 70,
+                            ),
+                          ),
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(child: Text('10')),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '카카오톡',
+                        style: _getQuestionExplainTextStyle(),
+                      )
+                    ],
+                  ),
+                ),Container(
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                            child: Image.asset(
+                              "assets/images/kakao_icon.png",
+                              height: 70,
+                            ),
+                          ),
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(child: Text('10')),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '카카오톡',
+                        style: _getQuestionExplainTextStyle(),
+                      )
+                    ],
+                  ),
+                ),Container(
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                            child: Image.asset(
+                              "assets/images/kakao_icon.png",
+                              height: 70,
+                            ),
+                          ),
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(child: Text('10')),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '카카오톡',
+                        style: _getQuestionExplainTextStyle(),
+                      )
+                    ],
+                  ),
+                ),Container(
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                            child: Image.asset(
+                              "assets/images/kakao_icon.png",
+                              height: 70,
+                            ),
+                          ),
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(child: Text('10')),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '카카오톡',
+                        style: _getQuestionExplainTextStyle(),
+                      )
+                    ],
+                  ),
+                ),Container(
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                            child: Image.asset(
+                              "assets/images/kakao_icon.png",
+                              height: 70,
+                            ),
+                          ),
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(child: Text('10')),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '카카오톡',
+                        style: _getQuestionExplainTextStyle(),
+                      )
+                    ],
+                  ),
+                ),Container(
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                            child: Image.asset(
+                              "assets/images/kakao_icon.png",
+                              height: 70,
+                            ),
+                          ),
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(child: Text('10')),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '카카오톡',
+                        style: _getQuestionExplainTextStyle(),
+                      )
+                    ],
+                  ),
+                ),Container(
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                            child: Image.asset(
+                              "assets/images/kakao_icon.png",
+                              height: 70,
+                            ),
+                          ),
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(child: Text('10')),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '카카오톡',
+                        style: _getQuestionExplainTextStyle(),
+                      )
+                    ],
+                  ),
+                ),Container(
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                            child: Image.asset(
+                              "assets/images/kakao_icon.png",
+                              height: 70,
+                            ),
+                          ),
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(child: Text('10')),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '카카오톡',
+                        style: _getQuestionExplainTextStyle(),
+                      )
+                    ],
+                  ),
+                ),Container(
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                            child: Image.asset(
+                              "assets/images/kakao_icon.png",
+                              height: 70,
+                            ),
+                          ),
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(child: Text('10')),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '카카오톡',
+                        style: _getQuestionExplainTextStyle(),
+                      )
+                    ],
+                  ),
                 ),
                 Container(
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom:5),
-                        child: Image.asset("assets/images/kakao_icon.png", height: 70,),
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                            child: Image.asset(
+                              "assets/images/kakao_icon.png",
+                              height: 70,
+                            ),
+                          ),
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(child: Text('10')),
+                          ),
+                        ],
                       ),
-                      Text('카카오톡', style: _getQuestionExplainTextStyle(),)
+                      Text(
+                        '카카오톡',
+                        style: _getQuestionExplainTextStyle(),
+                      )
                     ],
                   ),
                 ),
