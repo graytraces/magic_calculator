@@ -98,3 +98,28 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
     - assets/images/kakao_icon.png
+    - assets/images/Amazon.png
+    - assets/images/Discord.png
+    - assets/images/Fitness.png
+    - assets/images/Gmail.png
+    - assets/images/Google-Chrome.png
+    - assets/images/Google-Maps.png
+    - assets/images/Google.png
+    - assets/images/Instagram.png
+    - assets/images/LinkedIn.png
+    - assets/images/Lyft.png
+    - assets/images/Mail.png
+    - assets/images/Messages.png
+    - assets/images/Messenger.png
+    - assets/images/Netflix.png
+    - assets/images/Settings.png
+    - assets/images/Spotify.png
+    - assets/images/Starbucks.png
+    - assets/images/TikTok.png
+    - assets/images/Tinder.png
+    - assets/images/Weather.png
+    - assets/images/YouTube.png
+    - assets/images/Zoom.png
+    - assets/images/Camera.png
+    - assets/images/Phone.png
+
