@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CalculatorHomeScreen extends StatelessWidget {
   const CalculatorHomeScreen({Key? key}) : super(key: key);
@@ -356,28 +357,34 @@ class CalculatorHomeScreen extends StatelessWidget {
                 Container(
                   child: Column(
                     children: [
-                      Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(
-                                "assets/images/Messages.png",
-                                height: 70,
+                      GestureDetector(
+                        onTap: () async {
+                          Uri sms = Uri.parse('sms:');
+                          await launchUrl(sms);
+                        },
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.asset(
+                                  "assets/images/Messages.png",
+                                  height: 70,
+                                ),
                               ),
                             ),
-                          ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
+                            Container(
+                              width: 24,
+                              height: 24,
+                              decoration: new BoxDecoration(
+                                color: Colors.red,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(child: Text('10')),
                             ),
-                            child: Center(child: Text('10')),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -675,28 +682,34 @@ class CalculatorHomeScreen extends StatelessWidget {
                 Container(
                   child: Column(
                     children: [
-                      Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(
-                                "assets/images/Phone.png",
-                                height: 70,
+                      GestureDetector(
+                        onTap: () async {
+                          Uri sms = Uri.parse('tel:');
+                          await launchUrl(sms);
+                        },
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.asset(
+                                  "assets/images/Phone.png",
+                                  height: 70,
+                                ),
                               ),
                             ),
-                          ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
+                            Container(
+                              width: 24,
+                              height: 24,
+                              decoration: new BoxDecoration(
+                                color: Colors.red,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(child: Text('10')),
                             ),
-                            child: Center(child: Text('10')),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
