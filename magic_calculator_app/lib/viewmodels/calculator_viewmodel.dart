@@ -11,6 +11,9 @@ const _kMaxDecimalLength = 5;
 class CalculatorViewModel extends ChangeNotifier {
   String _inputExpression = '';
   double result = 0;
+  List<String> _splitResult = [];
+
+  List<String> get splitResult => _splitResult;
 
   String get inputHeaderText => _inputExpression.isEmpty
       ? _doubleToDisplayText(result)
@@ -123,6 +126,10 @@ class CalculatorViewModel extends ChangeNotifier {
 
   void _updateExpression() {
     try {
+      String removeNumber = _inputExpression.replaceAll(RegExp('\\D'), " ");
+      _splitResult = removeNumber.split(' ');
+      print(_splitResult);
+
       Expression exp = Parser().parse(_inputExpression);
       var eval = exp.evaluate(EvaluationType.REAL, ContextModel());
       result = eval;
