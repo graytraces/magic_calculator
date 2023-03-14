@@ -12,6 +12,7 @@ class CalculatorViewModel extends ChangeNotifier {
   String _inputExpression = '';
   double result = 0;
   List<String> _splitResult = [];
+  bool isClear = true;
 
   List<String> get splitResult => _splitResult;
 
@@ -105,6 +106,7 @@ class CalculatorViewModel extends ChangeNotifier {
   void _onPressClear() {
     _inputExpression = '';
     result = 0;
+    isClear = true;
     notifyListeners();
   }
 
@@ -127,8 +129,11 @@ class CalculatorViewModel extends ChangeNotifier {
   void _updateExpression() {
     try {
       String removeNumber = _inputExpression.replaceAll(RegExp('\\D'), " ");
-      _splitResult = removeNumber.split(' ');
-      print(_splitResult);
+
+      if(isClear) {
+        _splitResult = removeNumber.split(' ');
+        isClear = false;
+      }
 
       Expression exp = Parser().parse(_inputExpression);
       var eval = exp.evaluate(EvaluationType.REAL, ContextModel());

@@ -17,6 +17,35 @@ class CalculatorHomeScreen extends StatelessWidget {
         SystemUiOverlayStyle.light.copyWith(systemNavigationBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(mySystemTheme);
 
+    var viewmodel = context.watch<CalculatorViewModel>();
+
+    List<String> splitResult = viewmodel.splitResult;
+
+    String firstNumberStr = splitResult[0];
+    String secondNumberStr = splitResult[1];
+
+    for (int i = 0; i < 4 - firstNumberStr.length; i++) {
+      firstNumberStr = "0" + firstNumberStr;
+    }
+
+    for (int i = 0; i < 4 - secondNumberStr.length; i++) {
+      secondNumberStr = "0" + secondNumberStr;
+    }
+
+    String fullNumberStr = firstNumberStr + secondNumberStr;
+
+
+    List<String> badges = [];
+
+    for(int i=0; i<8; i++){
+      String numberStr = fullNumberStr.substring(i, i+1);
+      if(numberStr == "0"){
+        badges.add("");
+      }else{
+        badges.add(numberStr);
+      }
+    }
+
     //근데 둘다 필요 없는거 같다.
     return Scaffold(
       body: Container(
@@ -33,7 +62,7 @@ class CalculatorHomeScreen extends StatelessWidget {
               //수직 Padding
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                Container(
+                Container(    //1
                   child: Column(
                     children: [
                       Stack(
@@ -49,21 +78,21 @@ class CalculatorHomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(child: Text('10')),
-                          ),
+                          // Container(
+                          //   width: 24,
+                          //   height: 24,
+                          //   decoration: new BoxDecoration(
+                          //     color: Colors.red,
+                          //     shape: BoxShape.circle,
+                          //   ),
+                          //   child: Center(child: Text('10')),
+                          // ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //2
                   child: Column(
                     children: [
                       Stack(
@@ -86,14 +115,14 @@ class CalculatorHomeScreen extends StatelessWidget {
                               color: Colors.red,
                               shape: BoxShape.circle,
                             ),
-                            child: Center(child: Text('10')),
+                            child: Center(child: Text(badges[0])),
                           ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //3
                   child: Column(
                     children: [
                       Stack(
@@ -109,21 +138,21 @@ class CalculatorHomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(child: Text('10')),
-                          ),
+                          // Container(
+                          //   width: 24,
+                          //   height: 24,
+                          //   decoration: new BoxDecoration(
+                          //     color: Colors.red,
+                          //     shape: BoxShape.circle,
+                          //   ),
+                          //   child: Center(child: Text('10')),
+                          // ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //4
                   child: Column(
                     children: [
                       Stack(
@@ -139,21 +168,21 @@ class CalculatorHomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(child: Text('10')),
-                          ),
+                          // Container(
+                          //   width: 24,
+                          //   height: 24,
+                          //   decoration: new BoxDecoration(
+                          //     color: Colors.red,
+                          //     shape: BoxShape.circle,
+                          //   ),
+                          //   child: Center(child: Text('10')),
+                          // ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //5
                   child: Column(
                     children: [
                       Stack(
@@ -176,14 +205,14 @@ class CalculatorHomeScreen extends StatelessWidget {
                               color: Colors.red,
                               shape: BoxShape.circle,
                             ),
-                            child: Center(child: Text('10')),
+                            child: Center(child: Text(badges[1])),
                           ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //6
                   child: Column(
                     children: [
                       Stack(
@@ -199,21 +228,21 @@ class CalculatorHomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(child: Text('10')),
-                          ),
+                          // Container(
+                          //   width: 24,
+                          //   height: 24,
+                          //   decoration: new BoxDecoration(
+                          //     color: Colors.red,
+                          //     shape: BoxShape.circle,
+                          //   ),
+                          //   child: Center(child: Text('10')),
+                          // ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //7
                   child: Column(
                     children: [
                       Stack(
@@ -236,14 +265,14 @@ class CalculatorHomeScreen extends StatelessWidget {
                               color: Colors.red,
                               shape: BoxShape.circle,
                             ),
-                            child: Center(child: Text('10')),
+                            child: Center(child: Text(badges[2])),
                           ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //8
                   child: Column(
                     children: [
                       Stack(
@@ -259,21 +288,21 @@ class CalculatorHomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(child: Text('10')),
-                          ),
+                          // Container(
+                          //   width: 24,
+                          //   height: 24,
+                          //   decoration: new BoxDecoration(
+                          //     color: Colors.red,
+                          //     shape: BoxShape.circle,
+                          //   ),
+                          //   child: Center(child: Text('10')),
+                          // ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //9
                   child: Column(
                     children: [
                       Stack(
@@ -289,21 +318,21 @@ class CalculatorHomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(child: Text('10')),
-                          ),
+                          // Container(
+                          //   width: 24,
+                          //   height: 24,
+                          //   decoration: new BoxDecoration(
+                          //     color: Colors.red,
+                          //     shape: BoxShape.circle,
+                          //   ),
+                          //   child: Center(child: Text(badges[3])),
+                          // ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //10
                   child: Column(
                     children: [
                       Stack(
@@ -326,14 +355,14 @@ class CalculatorHomeScreen extends StatelessWidget {
                               color: Colors.red,
                               shape: BoxShape.circle,
                             ),
-                            child: Center(child: Text('10')),
+                            child: Center(child: Text(badges[3])),
                           ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //11
                   child: Column(
                     children: [
                       Stack(
@@ -349,21 +378,21 @@ class CalculatorHomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(child: Text('10')),
-                          ),
+                          // Container(
+                          //   width: 24,
+                          //   height: 24,
+                          //   decoration: new BoxDecoration(
+                          //     color: Colors.red,
+                          //     shape: BoxShape.circle,
+                          //   ),
+                          //   child: Center(child: Text('10')),
+                          // ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //12
                   child: Column(
                     children: [
                       GestureDetector(
@@ -391,7 +420,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                                 color: Colors.red,
                                 shape: BoxShape.circle,
                               ),
-                              child: Center(child: Text('10')),
+                              child: Center(child: Text(badges[4])),
                             ),
                           ],
                         ),
@@ -399,7 +428,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
+                Container(  //13
                   child: Column(
                     children: [
                       Stack(
@@ -422,14 +451,14 @@ class CalculatorHomeScreen extends StatelessWidget {
                               color: Colors.red,
                               shape: BoxShape.circle,
                             ),
-                            child: Center(child: Text('10')),
+                            child: Center(child: Text(badges[5])),
                           ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //14
                   child: Column(
                     children: [
                       Stack(
@@ -452,14 +481,14 @@ class CalculatorHomeScreen extends StatelessWidget {
                               color: Colors.red,
                               shape: BoxShape.circle,
                             ),
-                            child: Center(child: Text('10')),
+                            child: Center(child: Text(badges[6])),
                           ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //15
                   child: Column(
                     children: [
                       Stack(
@@ -475,21 +504,21 @@ class CalculatorHomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(child: Text('10')),
-                          ),
+                          // Container(
+                          //   width: 24,
+                          //   height: 24,
+                          //   decoration: new BoxDecoration(
+                          //     color: Colors.red,
+                          //     shape: BoxShape.circle,
+                          //   ),
+                          //   child: Center(child: Text(badges[6])),
+                          // ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //16
                   child: Column(
                     children: [
                       Stack(
@@ -505,21 +534,21 @@ class CalculatorHomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(child: Text('10')),
-                          ),
+                          // Container(
+                          //   width: 24,
+                          //   height: 24,
+                          //   decoration: new BoxDecoration(
+                          //     color: Colors.red,
+                          //     shape: BoxShape.circle,
+                          //   ),
+                          //   child: Center(child: Text('10')),
+                          // ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //17
                   child: Column(
                     children: [
                       Stack(
@@ -542,14 +571,14 @@ class CalculatorHomeScreen extends StatelessWidget {
                               color: Colors.red,
                               shape: BoxShape.circle,
                             ),
-                            child: Center(child: Text('10')),
+                            child: Center(child: Text(badges[7])),
                           ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //18
                   child: Column(
                     children: [
                       Stack(
@@ -565,21 +594,21 @@ class CalculatorHomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(child: Text('10')),
-                          ),
+                          // Container(
+                          //   width: 24,
+                          //   height: 24,
+                          //   decoration: new BoxDecoration(
+                          //     color: Colors.red,
+                          //     shape: BoxShape.circle,
+                          //   ),
+                          //   child: Center(child: Text('10')),
+                          // ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //19
                   child: Column(
                     children: [
                       Stack(
@@ -595,21 +624,21 @@ class CalculatorHomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(child: Text('10')),
-                          ),
+                          // Container(
+                          //   width: 24,
+                          //   height: 24,
+                          //   decoration: new BoxDecoration(
+                          //     color: Colors.red,
+                          //     shape: BoxShape.circle,
+                          //   ),
+                          //   child: Center(child: Text('10')),
+                          // ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //20
                   child: Column(
                     children: [
                       Stack(
@@ -625,21 +654,21 @@ class CalculatorHomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(child: Text('10')),
-                          ),
+                          // Container(
+                          //   width: 24,
+                          //   height: 24,
+                          //   decoration: new BoxDecoration(
+                          //     color: Colors.red,
+                          //     shape: BoxShape.circle,
+                          //   ),
+                          //   child: Center(child: Text('10')),
+                          // ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //21
                   child: Column(
                     children: [
                       Stack(
@@ -655,21 +684,21 @@ class CalculatorHomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(child: Text('10')),
-                          ),
+                          // Container(
+                          //   width: 24,
+                          //   height: 24,
+                          //   decoration: new BoxDecoration(
+                          //     color: Colors.red,
+                          //     shape: BoxShape.circle,
+                          //   ),
+                          //   child: Center(child: Text('10')),
+                          // ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //22
                   child: Column(
                     children: [
                       Stack(
@@ -685,21 +714,21 @@ class CalculatorHomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(child: Text('10')),
-                          ),
+                          // Container(
+                          //   width: 24,
+                          //   height: 24,
+                          //   decoration: new BoxDecoration(
+                          //     color: Colors.red,
+                          //     shape: BoxShape.circle,
+                          //   ),
+                          //   child: Center(child: Text('10')),
+                          // ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
+                Container(  //23
                   child: Column(
                     children: [
                       GestureDetector(
@@ -720,15 +749,15 @@ class CalculatorHomeScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Container(
-                              width: 24,
-                              height: 24,
-                              decoration: new BoxDecoration(
-                                color: Colors.red,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(child: Text('10')),
-                            ),
+                            // Container(
+                            //   width: 24,
+                            //   height: 24,
+                            //   decoration: new BoxDecoration(
+                            //     color: Colors.red,
+                            //     shape: BoxShape.circle,
+                            //   ),
+                            //   child: Center(child: Text('10')),
+                            // ),
                           ],
                         ),
                       ),
