@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:magic_calculator_app/viewmodels/calculator_viewmodel.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CalculatorHomeScreen extends StatelessWidget {
   const CalculatorHomeScreen({Key? key}) : super(key: key);
-
-  _getQuestionExplainTextStyle() {
-    return const TextStyle(fontSize: 12, color: Colors.white);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +37,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -68,6 +67,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -97,6 +97,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -126,6 +127,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -155,6 +157,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -184,6 +187,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -213,6 +217,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -242,6 +247,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -271,6 +277,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -300,6 +307,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -329,6 +337,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -363,6 +372,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                           await launchUrl(sms);
                         },
                         child: Stack(
+                          alignment: AlignmentDirectional.topEnd,
                           children: [
                             Padding(
                               padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -393,6 +403,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -422,6 +433,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -451,6 +463,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -480,6 +493,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -509,6 +523,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -538,6 +553,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -567,6 +583,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -596,6 +613,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -625,6 +643,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -654,6 +673,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Stack(
+                        alignment: AlignmentDirectional.topEnd,
                         children: [
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
@@ -688,6 +708,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                           await launchUrl(sms);
                         },
                         child: Stack(
+                          alignment: AlignmentDirectional.topEnd,
                           children: [
                             Padding(
                               padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
