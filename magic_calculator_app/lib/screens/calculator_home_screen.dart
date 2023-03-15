@@ -19,32 +19,11 @@ class CalculatorHomeScreen extends StatelessWidget {
 
     var viewmodel = context.watch<CalculatorViewModel>();
 
-    List<String> splitResult = viewmodel.splitResult;
+    List<String> imageList = [];
+    makeImageList(imageList);
+    imageList.shuffle();
 
-    String firstNumberStr = splitResult[0];
-    String secondNumberStr = splitResult[1];
-
-    for (int i = 0; i < 4 - firstNumberStr.length; i++) {
-      firstNumberStr = "0" + firstNumberStr;
-    }
-
-    for (int i = 0; i < 4 - secondNumberStr.length; i++) {
-      secondNumberStr = "0" + secondNumberStr;
-    }
-
-    String fullNumberStr = firstNumberStr + secondNumberStr;
-
-
-    List<String> badges = [];
-
-    for(int i=0; i<8; i++){
-      String numberStr = fullNumberStr.substring(i, i+1);
-      if(numberStr == "0"){
-        badges.add("");
-      }else{
-        badges.add(numberStr);
-      }
-    }
+    List<String> badges = markBadge(viewmodel);
 
     //근데 둘다 필요 없는거 같다.
     return Scaffold(
@@ -73,7 +52,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Amazon.png",
+                                imageList[0],
                                 height: 70,
                               ),
                             ),
@@ -103,7 +82,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Discord.png",
+                                imageList[1],
                                 height: 70,
                               ),
                             ),
@@ -133,7 +112,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Fitness.png",
+                                imageList[2],
                                 height: 70,
                               ),
                             ),
@@ -163,7 +142,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Gmail.png",
+                                imageList[3],
                                 height: 70,
                               ),
                             ),
@@ -193,7 +172,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Google-Chrome.png",
+                                imageList[4],
                                 height: 70,
                               ),
                             ),
@@ -223,7 +202,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Google-Maps.png",
+                                imageList[5],
                                 height: 70,
                               ),
                             ),
@@ -253,7 +232,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Google.png",
+                                imageList[6],
                                 height: 70,
                               ),
                             ),
@@ -283,7 +262,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Instagram.png",
+                                imageList[7],
                                 height: 70,
                               ),
                             ),
@@ -313,7 +292,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/LinkedIn.png",
+                                imageList[8],
                                 height: 70,
                               ),
                             ),
@@ -343,7 +322,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Lyft.png",
+                                imageList[9],
                                 height: 70,
                               ),
                             ),
@@ -373,7 +352,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Mail.png",
+                                imageList[10],
                                 height: 70,
                               ),
                             ),
@@ -408,7 +387,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.asset(
-                                  "assets/images/Messages.png",
+                                  imageList[11],
                                   height: 70,
                                 ),
                               ),
@@ -439,7 +418,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Messenger.png",
+                                imageList[12],
                                 height: 70,
                               ),
                             ),
@@ -469,7 +448,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Netflix.png",
+                                imageList[13],
                                 height: 70,
                               ),
                             ),
@@ -499,7 +478,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Settings.png",
+                                imageList[14],
                                 height: 70,
                               ),
                             ),
@@ -529,7 +508,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Spotify.png",
+                                imageList[15],
                                 height: 70,
                               ),
                             ),
@@ -559,7 +538,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Starbucks.png",
+                                imageList[16],
                                 height: 70,
                               ),
                             ),
@@ -589,7 +568,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Tinder.png",
+                                imageList[17],
                                 height: 70,
                               ),
                             ),
@@ -619,7 +598,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Weather.png",
+                                imageList[18],
                                 height: 70,
                               ),
                             ),
@@ -649,7 +628,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/YouTube.png",
+                                imageList[19],
                                 height: 70,
                               ),
                             ),
@@ -679,7 +658,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Zoom.png",
+                                imageList[20],
                                 height: 70,
                               ),
                             ),
@@ -709,7 +688,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
-                                "assets/images/Camera.png",
+                                imageList[21],
                                 height: 70,
                               ),
                             ),
@@ -744,7 +723,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.asset(
-                                  "assets/images/Phone.png",
+                                  imageList[22],
                                   height: 70,
                                 ),
                               ),
@@ -766,5 +745,61 @@ class CalculatorHomeScreen extends StatelessWidget {
                 ),
               ])),
     );
+  }
+
+  void makeImageList(List<String> imageList) {
+    imageList.add("assets/images/Amazon.png");
+    imageList.add("assets/images/Discord.png");
+    imageList.add("assets/images/Fitness.png");
+    imageList.add("assets/images/Gmail.png");
+    imageList.add("assets/images/Google-Chrome.png");
+    imageList.add("assets/images/Google-Maps.png");
+    imageList.add("assets/images/Google.png");
+    imageList.add("assets/images/Instagram.png");
+    imageList.add("assets/images/LinkedIn.png");
+    imageList.add("assets/images/Lyft.png");
+    imageList.add("assets/images/Mail.png");
+    imageList.add("assets/images/Messages.png");
+    imageList.add("assets/images/Messenger.png");
+    imageList.add("assets/images/Netflix.png");
+    imageList.add("assets/images/Settings.png");
+    imageList.add("assets/images/Spotify.png");
+    imageList.add("assets/images/Starbucks.png");
+    imageList.add("assets/images/Tinder.png");
+    imageList.add("assets/images/Weather.png");
+    imageList.add("assets/images/YouTube.png");
+    imageList.add("assets/images/Zoom.png");
+    imageList.add("assets/images/Camera.png");
+    imageList.add("assets/images/Phone.png");
+  }
+
+  List<String> markBadge(CalculatorViewModel viewmodel) {
+    List<String> splitResult = viewmodel.splitResult;
+
+    String firstNumberStr = splitResult[0];
+    String secondNumberStr = splitResult[1];
+
+    for (int i = 0; i < 4 - firstNumberStr.length; i++) {
+      firstNumberStr = "0" + firstNumberStr;
+    }
+
+    for (int i = 0; i < 4 - secondNumberStr.length; i++) {
+      secondNumberStr = "0" + secondNumberStr;
+    }
+
+    String fullNumberStr = firstNumberStr + secondNumberStr;
+
+
+    List<String> badges = [];
+
+    for(int i=0; i<8; i++){
+      String numberStr = fullNumberStr.substring(i, i+1);
+      if(numberStr == "0"){
+        badges.add("");
+      }else{
+        badges.add(numberStr);
+      }
+    }
+    return badges;
   }
 }
