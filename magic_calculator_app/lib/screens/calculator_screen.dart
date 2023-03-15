@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:magic_calculator_app/widgets/header_display.dart';
 import 'package:magic_calculator_app/widgets/input_pad.dart';
-import 'package:magic_calculator_app/widgets/theme_app_bar.dart';
 
 const kSidePadding = 14.0;
 
