@@ -11,7 +11,6 @@ class CalculatorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ThemeAppBar.getAppBar(context),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: _buildBody(),
