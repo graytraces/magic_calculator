@@ -32,7 +32,7 @@ class InputButton extends StatelessWidget {
         textColor: _getForegroundColor(context),
         onPressed: () => _onPressButton(context),
         padding: EdgeInsets.zero,
-        highlightColor: _getHighlightColor(context),
+        //highlightColor: _getHighlightColor(context),
         color: _getButtonColor(context),
         highlightElevation: 0,
         elevation: 0,
@@ -140,33 +140,28 @@ class InputButton extends StatelessWidget {
   Color _getButtonColor(BuildContext context) {
     switch (_getColorType()) {
       case _InputButtonColorType.primary:
-        return Theme.of(context).colorScheme.primary;
+        //return Theme.of(context).colorScheme.primary;
+        return Colors.orangeAccent;
       case _InputButtonColorType.secondary:
-        return Theme.of(context).colorScheme.secondary;
+        //return Theme.of(context).colorScheme.secondary;
+        return Colors.white60;
       case _InputButtonColorType.normal:
-        return Theme.of(context).colorScheme.surfaceVariant;
-    }
-  }
-
-  Color _getHighlightColor(BuildContext context) {
-    switch (_getColorType()) {
-      case _InputButtonColorType.primary:
-        return Theme.of(context).colorScheme.primaryContainer;
-      case _InputButtonColorType.secondary:
-        return Theme.of(context).colorScheme.secondaryContainer;
-      case _InputButtonColorType.normal:
-        return Theme.of(context).colorScheme.tertiaryContainer;
+        //return Theme.of(context).colorScheme.surfaceVariant;
+        return Colors.white10;
     }
   }
 
   Color _getForegroundColor(BuildContext context) {
     switch (_getColorType()) {
       case _InputButtonColorType.primary:
-        return Theme.of(context).colorScheme.onPrimary;
+        //return Theme.of(context).colorScheme.onPrimary;
+        return Colors.white;
       case _InputButtonColorType.secondary:
-        return Theme.of(context).colorScheme.onSecondary;
+        //return Theme.of(context).colorScheme.onSecondary;
+        return Colors.black;
       case _InputButtonColorType.normal:
-        return Theme.of(context).colorScheme.onSurfaceVariant;
+        //return Theme.of(context).colorScheme.onSurfaceVariant;
+        return Colors.white;
     }
   }
 }

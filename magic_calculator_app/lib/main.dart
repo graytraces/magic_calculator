@@ -5,7 +5,6 @@ import 'package:magic_calculator_app/screens/config_screen.dart';
 import 'package:magic_calculator_app/screens/tutorial_screen.dart';
 import 'package:magic_calculator_app/viewmodels/calculator_viewmodel.dart';
 
-import 'package:magic_calculator_app/viewmodels/theme_viewmodel.dart';
 import 'package:magic_calculator_app/widgets/main/explain_result.dart';
 import 'package:magic_calculator_app/widgets/main/explain_text.dart';
 
@@ -23,7 +22,6 @@ void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (BuildContext context) => AppStatProvider()),
     ChangeNotifierProvider(create: (_) => CalculatorViewModel()),
-    ChangeNotifierProvider(create: (_) => ThemeViewModel()),
   ], child: const MyApp()));
 }
 
@@ -34,8 +32,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Simple Memo',
-      theme: ThemeData(brightness: Brightness.dark),
+      theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(brightness: Brightness.dark, seedColor: Colors.cyan)),
       themeMode: ThemeMode.dark,
       home: MyHomePage(Provider.of<AppStatProvider>(context, listen: false)),
     );
@@ -446,13 +444,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       MaterialPageRoute(builder: (context) => CalculatorScreen()),
                     )
                   }
-                  else if (item == MenuItem.item4)
-                      {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => CalculatorHomeScreen()),
-                        )
-                      }
+                else if (item == MenuItem.item4)
+                  {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CalculatorHomeScreen()),
+                    )
+                  }
               },
             ),
           ]),
