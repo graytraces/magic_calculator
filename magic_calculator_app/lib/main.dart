@@ -411,17 +411,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 ),
-                PopupMenuItem(
-                  value: MenuItem.item4,
-                  child: Row(
-                    children: [
-                      Icon(Icons.home),
-                      Text(
-                        "풀스크린",
-                      ),
-                    ],
-                  ),
-                ),
               ],
               onSelected: (item) => {
                 if (item == MenuItem.item1)
