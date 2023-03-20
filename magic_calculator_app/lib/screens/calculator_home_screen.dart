@@ -41,7 +41,8 @@ class CalculatorHomeScreen extends StatelessWidget {
               //수직 Padding
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                Container(    //1
+                Container(
+                  //1
                   child: Column(
                     children: [
                       Stack(
@@ -71,7 +72,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //2
+                Container(
+                  //2
                   child: Column(
                     children: [
                       Stack(
@@ -101,7 +103,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //3
+                Container(
+                  //3
                   child: Column(
                     children: [
                       Stack(
@@ -131,7 +134,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //4
+                Container(
+                  //4
                   child: Column(
                     children: [
                       Stack(
@@ -161,7 +165,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //5
+                Container(
+                  //5
                   child: Column(
                     children: [
                       Stack(
@@ -191,7 +196,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //6
+                Container(
+                  //6
                   child: Column(
                     children: [
                       Stack(
@@ -221,7 +227,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //7
+                Container(
+                  //7
                   child: Column(
                     children: [
                       Stack(
@@ -251,7 +258,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //8
+                Container(
+                  //8
                   child: Column(
                     children: [
                       Stack(
@@ -281,7 +289,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //9
+                Container(
+                  //9
                   child: Column(
                     children: [
                       Stack(
@@ -311,7 +320,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //10
+                Container(
+                  //10
                   child: Column(
                     children: [
                       Stack(
@@ -341,7 +351,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //11
+                Container(
+                  //11
                   child: Column(
                     children: [
                       Stack(
@@ -371,7 +382,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //12
+                Container(
+                  //12
                   child: Column(
                     children: [
                       GestureDetector(
@@ -407,7 +419,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //13
+                Container(
+                  //13
                   child: Column(
                     children: [
                       Stack(
@@ -437,7 +450,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //14
+                Container(
+                  //14
                   child: Column(
                     children: [
                       Stack(
@@ -467,7 +481,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //15
+                Container(
+                  //15
                   child: Column(
                     children: [
                       Stack(
@@ -497,7 +512,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //16
+                Container(
+                  //16
                   child: Column(
                     children: [
                       Stack(
@@ -527,7 +543,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //17
+                Container(
+                  //17
                   child: Column(
                     children: [
                       Stack(
@@ -557,7 +574,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //18
+                Container(
+                  //18
                   child: Column(
                     children: [
                       Stack(
@@ -587,7 +605,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //19
+                Container(
+                  //19
                   child: Column(
                     children: [
                       Stack(
@@ -617,7 +636,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //20
+                Container(
+                  //20
                   child: Column(
                     children: [
                       Stack(
@@ -647,7 +667,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //21
+                Container(
+                  //21
                   child: Column(
                     children: [
                       Stack(
@@ -677,7 +698,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //22
+                Container(
+                  //22
                   child: Column(
                     children: [
                       Stack(
@@ -707,7 +729,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(  //23
+                Container(
+                  //23
                   child: Column(
                     children: [
                       GestureDetector(
@@ -776,27 +799,33 @@ class CalculatorHomeScreen extends StatelessWidget {
   List<String> markBadge(CalculatorViewModel viewmodel) {
     List<String> splitResult = viewmodel.splitResult;
 
+    if (splitResult.isEmpty) {
+      splitResult = ["0", "0"];
+    }
+
     String firstNumberStr = splitResult[0];
     String secondNumberStr = splitResult[1];
 
-    for (int i = 0; i < 4 - firstNumberStr.length; i++) {
+    int maxIter = firstNumberStr.length;
+
+    for (int i = 0; i < 4 - maxIter; i++) {
       firstNumberStr = "0" + firstNumberStr;
     }
 
-    for (int i = 0; i < 4 - secondNumberStr.length; i++) {
+    maxIter = secondNumberStr.length;
+    for (int i = 0; i < 4 - maxIter; i++) {
       secondNumberStr = "0" + secondNumberStr;
     }
 
     String fullNumberStr = firstNumberStr + secondNumberStr;
 
-
     List<String> badges = [];
 
-    for(int i=0; i<8; i++){
-      String numberStr = fullNumberStr.substring(i, i+1);
-      if(numberStr == "0"){
+    for (int i = 0; i < 8; i++) {
+      String numberStr = fullNumberStr.substring(i, i + 1);
+      if (numberStr == "0") {
         badges.add("");
-      }else{
+      } else {
         badges.add(numberStr);
       }
     }
