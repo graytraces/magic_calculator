@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:magic_calculator_app/screens/calculator_home_screen.dart';
-import 'package:magic_calculator_app/screens/calculator_screen.dart';
-import 'package:magic_calculator_app/screens/config_screen.dart';
-import 'package:magic_calculator_app/screens/tutorial_screen.dart';
-
-import 'package:magic_calculator_app/widgets/main/explain_result.dart';
-import 'package:magic_calculator_app/widgets/main/explain_text.dart';
-
+import 'package:magic_calculator_app/app_stat_provider.dart';
 import 'package:magic_calculator_app/common_constants.dart';
 import 'package:magic_calculator_app/common_functions.dart';
 import 'package:magic_calculator_app/custom_widget/above_keyboard.dart';
 import 'package:magic_calculator_app/database_helper.dart';
 import 'package:magic_calculator_app/key_value_map.dart';
-
 import 'package:magic_calculator_app/number_analysis/question_helper.dart';
-import 'package:provider/provider.dart';
-import 'package:magic_calculator_app/app_stat_provider.dart';
+import 'package:magic_calculator_app/screens/calculator_home_screen.dart';
+import 'package:magic_calculator_app/screens/calculator_screen.dart';
+import 'package:magic_calculator_app/screens/config_screen.dart';
+import 'package:magic_calculator_app/screens/tutorial_screen.dart';
+import 'package:magic_calculator_app/widgets/main/explain_result.dart';
+import 'package:magic_calculator_app/widgets/main/explain_text.dart';
 
 class NoteLikeScreen extends StatefulWidget {
   const NoteLikeScreen(this._appStatProvider, {Key? key}) : super(key: key);
