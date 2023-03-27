@@ -107,6 +107,7 @@ class CalculatorViewModel extends ChangeNotifier {
     _inputExpression = '';
     result = 0;
     isClear = true;
+    _splitResult = [];
     notifyListeners();
   }
 
