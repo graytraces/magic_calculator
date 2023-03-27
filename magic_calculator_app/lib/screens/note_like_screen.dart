@@ -12,10 +12,10 @@ import 'package:magic_calculator_app/screens/config_screen.dart';
 import 'package:magic_calculator_app/screens/tutorial_screen.dart';
 import 'package:magic_calculator_app/widgets/main/explain_result.dart';
 import 'package:magic_calculator_app/widgets/main/explain_text.dart';
+import 'package:provider/provider.dart';
 
 class NoteLikeScreen extends StatefulWidget {
-  const NoteLikeScreen(this._appStatProvider, {Key? key}) : super(key: key);
-  final AppStatProvider _appStatProvider;
+  const NoteLikeScreen({Key? key}) : super(key: key);
 
   @override
   State<NoteLikeScreen> createState() => _NoteLikeScreenState();
@@ -61,7 +61,10 @@ class _NoteLikeScreenState extends State<NoteLikeScreen> {
 
   @override
   void initState() {
-    loadSavedData();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      AppStatProvider appStatProvider = context.read<AppStatProvider>();
+      loadSavedData(appStatProvider);
+    });
   }
 
   @override
@@ -72,7 +75,7 @@ class _NoteLikeScreenState extends State<NoteLikeScreen> {
   }
 
   //숫자 계산
-  void _calculateNumber(bool hideKeyboard) {
+  void _calculateNumber(bool hideKeyboard, AppStatProvider appStatProvider) {
     _strNumberPairList = []; //입력값에 대한 pair String ver
     _intNumberPairList = []; //입력값에 대한 pair int ver
 
@@ -169,7 +172,7 @@ class _NoteLikeScreenState extends State<NoteLikeScreen> {
       //resultList = 모든 케이스를 넣는다.
       _questionMaker.getQuestionCase(resultList, _isUseBlackQuestion); //실제 답 찾는 로직
       _bestQuestionSet = _questionMaker.getBestQuestionSet(
-          resultList, widget._appStatProvider.getMaxNumberOfCase());
+          resultList, appStatProvider.getMaxNumberOfCase());
 
       if (_bestQuestionSet.isNotEmpty) {
         if (i == 0) {
@@ -237,7 +240,7 @@ class _NoteLikeScreenState extends State<NoteLikeScreen> {
   }
 
   //저장된 길이 세팅
-  loadSavedData() async {
+  loadSavedData(AppStatProvider appStatProvider) async {
     var db = DatabaseHelper.instance;
 
     KeyValueMap blackKeyValueMap = await db.selectKeyValueMap(CommonConstants.blackQuestionUseYn);
@@ -250,7 +253,7 @@ class _NoteLikeScreenState extends State<NoteLikeScreen> {
       String authKey = authKeyMap.value ?? authKeyMap.value.toString();
       if (authKey.isNotEmpty) {
         UserDeviceInfo userDeviceInfo = await CommonFunctions.getUserDeviceInfo();
-        await widget._appStatProvider.checkAuthKey(authKey, userDeviceInfo);
+        await appStatProvider.checkAuthKey(authKey, userDeviceInfo);
       }
     }
 
@@ -258,14 +261,14 @@ class _NoteLikeScreenState extends State<NoteLikeScreen> {
 
     var defaultMessage = "안녕하세요";
     if (sendMessageMap.key == null) {
-      widget._appStatProvider.setSendMessage(defaultMessage);
+      appStatProvider.setSendMessage(defaultMessage);
       await db.insertKeyValueMap(CommonConstants.sendMessageKeyForDB, defaultMessage);
     } else {}
 
     KeyValueMap maxNumberOfCaseMap =
     await db.selectKeyValueMap(CommonConstants.maxNumberOfCaseKeyForDB);
     if (maxNumberOfCaseMap.key == null) {
-      widget._appStatProvider.setMaxNumberOfCase(1);
+      appStatProvider.setMaxNumberOfCase(1);
       await db.insertKeyValueMap(CommonConstants.maxNumberOfCaseKeyForDB, "1");
     }
   }
@@ -318,6 +321,8 @@ class _NoteLikeScreenState extends State<NoteLikeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    AppStatProvider appStatProvider = context.read<AppStatProvider>();
     return Scaffold(
       appBar: AppBar(
           title: Text(pageTitle, style: TextStyle(color: Colors.grey)),
@@ -335,9 +340,9 @@ class _NoteLikeScreenState extends State<NoteLikeScreen> {
                   if (_hideCount == 2) {
                     _hideCount = 0;
 
-                    if (widget._appStatProvider.getIsAuthorized()) {
+                    if (appStatProvider.getIsAuthorized()) {
                       if (_showHide == false) {
-                        _calculateNumber(true);
+                        _calculateNumber(true, appStatProvider);
                       }
 
                       setState(() {
@@ -390,7 +395,7 @@ class _NoteLikeScreenState extends State<NoteLikeScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => ConfigScreen()),
-                    ).then((value) => loadSavedData())
+                    ).then((value) => loadSavedData(appStatProvider))
                   }
                 else if (item == MenuItem.item2)
                   {
@@ -434,8 +439,8 @@ class _NoteLikeScreenState extends State<NoteLikeScreen> {
                       onChanged: (value) {
                         _hideCount = 0;
 
-                        if (widget._appStatProvider.getIsAuthorized() && value.length > 4) {
-                          _calculateNumber(false);
+                        if (appStatProvider.getIsAuthorized() && value.length > 4) {
+                          _calculateNumber(false, appStatProvider);
                         }
                       },
                       controller: _magicNumber,
@@ -475,7 +480,7 @@ class _NoteLikeScreenState extends State<NoteLikeScreen> {
                           child: drawOptimalQuestion(),
                         ),
                       ),
-                      ExplainResult(_strFilteredNumberPairList, widget._appStatProvider),
+                      ExplainResult(_strFilteredNumberPairList, appStatProvider),
                       SizedBox(
                         height: 200,
                       ),

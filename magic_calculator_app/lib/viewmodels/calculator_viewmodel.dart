@@ -12,9 +12,11 @@ class CalculatorViewModel extends ChangeNotifier {
   String _inputExpression = '';
   double result = 0;
   List<String> _splitResult = [];
-  bool isClear = true;
+  bool _isClear = true;
+  int _zeroCounter = 0;
 
   List<String> get splitResult => _splitResult;
+  int get zeroCounter => _zeroCounter;
 
   String get inputHeaderText => _inputExpression.isEmpty
       ? _doubleToDisplayText(result)
@@ -28,6 +30,9 @@ class CalculatorViewModel extends ChangeNotifier {
   }) {
     switch (inputType) {
       case InputType.number0:
+        _zeroCounter++;
+        var number = inputType.name.replaceFirst('number', '');
+        return _onAddExpression(input: number, onTextOverflow: onTextOverflow);
       case InputType.number1:
       case InputType.number2:
       case InputType.number3:
@@ -37,6 +42,7 @@ class CalculatorViewModel extends ChangeNotifier {
       case InputType.number7:
       case InputType.number8:
       case InputType.number9:
+        _zeroCounter = 0;
         var number = inputType.name.replaceFirst('number', '');
         return _onAddExpression(input: number, onTextOverflow: onTextOverflow);
       case InputType.point:
@@ -106,7 +112,7 @@ class CalculatorViewModel extends ChangeNotifier {
   void _onPressClear() {
     _inputExpression = '';
     result = 0;
-    isClear = true;
+    _isClear = true;
     _splitResult = [];
     notifyListeners();
   }
@@ -131,9 +137,9 @@ class CalculatorViewModel extends ChangeNotifier {
     try {
       String removeNumber = _inputExpression.replaceAll(RegExp('\\D'), " ");
 
-      if(isClear) {
+      if(_isClear) {
         _splitResult = removeNumber.split(' ');
-        isClear = false;
+        _isClear = false;
       }
 
       Expression exp = Parser().parse(_inputExpression);

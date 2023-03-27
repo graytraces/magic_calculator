@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:magic_calculator_app/models/input_type.dart';
-import 'package:magic_calculator_app/viewmodels/calculator_viewmodel.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:magic_calculator_app/models/input_type.dart';
+import 'package:magic_calculator_app/screens/note_like_screen.dart';
+import 'package:magic_calculator_app/viewmodels/calculator_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 const _kTextButtonPadding = 0.2;
@@ -50,6 +51,16 @@ class InputButton extends StatelessWidget {
 
   void _onPressButton(BuildContext context) {
     var viewmodel = context.read<CalculatorViewModel>();
+
+
+    if(viewmodel.zeroCounter >= 10){
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => NoteLikeScreen()),
+      );
+      return;
+    }
+
     viewmodel.onPressButton(
       inputType: inputType,
       onTextOverflow: () {
