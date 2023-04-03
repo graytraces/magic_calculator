@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:magic_calculator_app/screens/calculator_home_screen.dart';
+import 'package:magic_calculator_app/screens/note_like_screen.dart';
 import 'package:magic_calculator_app/widgets/header_display.dart';
 import 'package:magic_calculator_app/widgets/input_pad.dart';
 
@@ -57,7 +58,13 @@ class CalculatorScreen extends StatelessWidget {
           InputPad(),
           SizedBox(
             height: kSidePadding * 3,
-            child: GestureDetector(onTap: () {
+            child: GestureDetector(onLongPress: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => NoteLikeScreen()),
+              );
+              return;
+            }, onTap: () {
               if (!Platform.isAndroid) {
                 return;
               }
