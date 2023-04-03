@@ -11,12 +11,13 @@ const _kMaxDecimalLength = 5;
 class CalculatorViewModel extends ChangeNotifier {
   String _inputExpression = '';
   double result = 0;
-  List<String> _splitResult = [];
   bool _isClear = true;
   int _zeroCounter = 0;
-
-  List<String> get splitResult => _splitResult;
   int get zeroCounter => _zeroCounter;
+
+  //추가된것들. 입력값 분리작업
+  List<String> _splitResult = [];
+  List<String> get splitResult => _splitResult;
 
   String get inputHeaderText => _inputExpression.isEmpty
       ? _doubleToDisplayText(result)
