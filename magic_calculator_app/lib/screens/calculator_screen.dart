@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
 import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:magic_calculator_app/screens/calculator_home_screen.dart';
-import 'package:magic_calculator_app/screens/note_like_screen.dart';
+import 'package:magic_calculator_app/screens/case_calculator_screen.dart';
 import 'package:magic_calculator_app/widgets/header_display.dart';
 import 'package:magic_calculator_app/widgets/input_pad.dart';
 
@@ -58,35 +59,39 @@ class CalculatorScreen extends StatelessWidget {
           InputPad(),
           SizedBox(
             height: kSidePadding * 3,
-            child: GestureDetector(onLongPress: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => NoteLikeScreen()),
-              );
-              return;
-            }, onTap: () {
-              if (!Platform.isAndroid) {
-                return;
-              }
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CalculatorHomeScreen()),
-              );
-              return;
-            }, onVerticalDragUpdate: (details) {
-              if (!Platform.isIOS) {
-                return;
-              }
-              double sensitivity = 1.0;
-              if (details.delta.dy < -sensitivity) {
+            child: GestureDetector(
+              onTap: () {
+                if (!Platform.isAndroid) {
+                  return;
+                }
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => CalculatorHomeScreen()),
                 );
                 return;
-                //Up Swipe
-              }
-            }),
+              },
+              onVerticalDragUpdate: (details) {
+                if (!Platform.isIOS) {
+                  return;
+                }
+                double sensitivity = 1.0;
+                if (details.delta.dy < -sensitivity) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CalculatorHomeScreen()),
+                  );
+                  return;
+                  //Up Swipe
+                }
+              },
+              onLongPress: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CaseCalculatorScreen()),
+                );
+                return;
+              },
+            ),
           ),
         ],
       ),
