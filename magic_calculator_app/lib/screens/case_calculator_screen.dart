@@ -14,6 +14,8 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
   TextEditingController inputNumberController = TextEditingController();
   CaseCalculator calculator = CaseCalculator();
 
+  String _caseNumber = '0';
+
   @override
   void dispose() {
     super.dispose();
@@ -49,7 +51,10 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                     onPressed: () {
-                      calculator.getCaseResultText(inputNumberController.text);
+                      setState(() {
+                        _caseNumber = calculator.getCaseResultText(inputNumberController.text);
+                      });
+                      print(111);
                     },
                     child: Text('계산하기')),
               ),
@@ -59,7 +64,7 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
               SizedBox(
                   width: double.infinity,
                   height: 20,
-                  child: Text("○ 경우의수 : " + calculator._intNumberPairList.length.toString() + " 가지",
+                  child: Text("○ 경우의수 : " + _caseNumber + " 가지",
                       style: _getContentTextStyle())),
             ],
           ),
@@ -162,12 +167,7 @@ class CaseCalculator {
 
     calculateNumber(number);
 
-
-    print(_intNumberPairList.length.toString());
-
-    //계산하기 버튼에 의해서 트리거 된다.
-    String resultString = '1';
-    return resultString;
+    return _intNumberPairList.length.toString();
   }
 
   int getFirstQuestion() {
