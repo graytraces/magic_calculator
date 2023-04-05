@@ -12,9 +12,8 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
   final double _verticalPaddingBetweenWidget = 20;
 
   TextEditingController inputNumberController = TextEditingController();
-  CaseCalculator calculator = CaseCalculator();
 
-  String _caseNumber = '0';
+  int _caseNumber = 0;
 
   @override
   void dispose() {
@@ -51,10 +50,7 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                     onPressed: () {
-                      setState(() {
-                        _caseNumber = calculator.getCaseResultText(inputNumberController.text);
-                      });
-                      print(111);
+                      getCaseResultText(inputNumberController.text);
                     },
                     child: Text('계산하기')),
               ),
@@ -64,7 +60,7 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
               SizedBox(
                   width: double.infinity,
                   height: 20,
-                  child: Text("○ 경우의수 : " + _caseNumber + " 가지",
+                  child: Text("○ 경우의수 : " + _caseNumber.toString() + " 가지",
                       style: _getContentTextStyle())),
             ],
           ),
@@ -72,9 +68,8 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
       ),
     );
   }
-}
 
-class CaseCalculator {
+
   List<List<String>> _strNumberPairList = [];
   List<List<String>> _strFilteredNumberPairList = [];
 
@@ -85,7 +80,7 @@ class CaseCalculator {
   List<String> _answerList = [];
   QuestionMaker _questionMaker = QuestionMaker([]);
 
-  //숫자인지 검사
+
   bool isInt(String inputStr) {
     if (inputStr == null) {
       return false;
@@ -132,8 +127,12 @@ class CaseCalculator {
         var secondNumber = (inputNumber / firstNumber).toInt();
 
         //if (firstNumber.toString().length > int.parse(_firstNumberLength) + 2 ||
-        if (firstNumber.toString().length > int.parse(_firstNumberLength) ||
-            secondNumber.toString().length > int.parse(_secondNumberLength)) {
+        if (firstNumber
+            .toString()
+            .length > int.parse(_firstNumberLength) ||
+            secondNumber
+                .toString()
+                .length > int.parse(_secondNumberLength)) {
           continue;
         }
 
@@ -158,13 +157,40 @@ class CaseCalculator {
     }
 
     if (_strNumberPairList.isEmpty) {
-      _resultMessage = "계산결과값이 없습니다";
+      setState(() {
+        _caseNumber = 0;
+      });
+
       return;
     }
+
+    setState(() {
+      _caseNumber = _strNumberPairList.length;
+    });
+
+
+
+    List<QuestionCase> resultList = [];
+    _questionMaker = QuestionMaker(_intNumberPairList);
+
+    _questionMaker.getQuestionCase(resultList, true); //실제 답 찾는 로직
+    _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList, 1);
+
+
+    for (QuestionCase qCase in _bestQuestionSet) {
+      qCase.questionList.sort((a, b) => a.index - b.index);
+    }
+
+
+    setState(() {
+      _bestQuestion = _bestQuestionSet[0];
+      _answerList = List.filled(_bestQuestion.questionList.length, "false");
+    });
+
+    print(_bestQuestion);
   }
 
   String getCaseResultText(String number) {
-
     calculateNumber(number);
 
     return _intNumberPairList.length.toString();
@@ -196,4 +222,5 @@ class CaseCalculator {
     //네번째 질문의 답에 의해서 트리거 된다.
     return 10;
   }
+
 }
