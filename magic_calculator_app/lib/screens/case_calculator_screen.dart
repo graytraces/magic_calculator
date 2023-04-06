@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:magic_calculator_app/app_stat_provider.dart';
 import 'package:magic_calculator_app/number_analysis/question_helper.dart';
+import 'package:magic_calculator_app/widgets/main/explain_result.dart';
+import 'package:magic_calculator_app/widgets/main/explain_text.dart';
+import 'package:provider/provider.dart';
 
 class CaseCalculatorScreen extends StatefulWidget {
   const CaseCalculatorScreen({Key? key}) : super(key: key);
@@ -27,6 +31,8 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AppStatProvider appStatProvider = context.read<AppStatProvider>();
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -62,6 +68,14 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
                   height: 20,
                   child: Text("○ 경우의수 : " + _caseNumber.toString() + " 가지",
                       style: _getContentTextStyle())),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: drawOptimalQuestion(),
+                ),
+              ),
+              ExplainResult(_strFilteredNumberPairList, appStatProvider),
             ],
           ),
         ),
@@ -222,5 +236,163 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
     //네번째 질문의 답에 의해서 트리거 된다.
     return 10;
   }
+
+
+
+
+
+
+  _getAlertTextStyle() {
+    return const TextStyle(
+        fontSize: 20,
+        backgroundColor: Colors.yellowAccent,
+        color: Colors.red,
+        fontWeight: FontWeight.bold);
+  }
+
+  drawOptimalQuestion() {
+    var blackAnswerList = <String>['false', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+    return _bestQuestionSet.isEmpty
+        ? SizedBox(
+        width: double.infinity,
+        height: 90,
+        child: Center(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text("최적질문이 없습니다", style: _getAlertTextStyle()),
+                ),
+              ],
+            )))
+        : SizedBox(
+      width: double.infinity,
+      height: (90 * _bestQuestion.questionList.length).toDouble(),
+      child: ListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: ExplainText(_bestQuestion.questionList[index].name),
+                ),
+                Center(
+                  child: _bestQuestion.questionList[index].name.contains("black")
+                      ? SizedBox(
+                    width: 100,
+                    height: 40,
+                    child: DropdownButton(
+                      isExpanded: true,
+                      items:
+                      blackAnswerList.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Center(child: Text(value == "false" ? "선택" : value)),
+                        );
+                      }).toList(),
+                      value: _answerList[index],
+                      onChanged: (String? newValue) async {
+                        setState(() {
+                          _answerList[index] = newValue!;
+                        });
+                        _applyFilter();
+                      },
+                    ),
+                  )
+                      : ToggleButtons(
+                    direction: Axis.horizontal,
+                    onPressed: (int toggleIndex) {
+                      setState(() {
+                        // The button that is tapped is set to true, and the others to false.
+                        _answerList[index] = (0 == toggleIndex).toString();
+                      });
+                      _applyFilter();
+                    },
+                    selectedColor: Colors.white,
+                    fillColor: Colors.white24,
+                    color: Colors.white24,
+                    constraints: const BoxConstraints(
+                      minHeight: 30.0,
+                      minWidth: 60.0,
+                    ),
+                    isSelected: [
+                      _answerList[index].toLowerCase() == "true",
+                      _answerList[index].toLowerCase() == "false"
+                    ],
+                    children:
+                    getToggleButtonTextList(_bestQuestion.questionList[index].name),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: _bestQuestion.questionList.length,
+      ),
+    );
+  }
+
+  getToggleButtonTextList(String name) {
+    List<Widget> questionAnswers = [];
+
+    if (name.contains("red")) {
+      questionAnswers = <Widget>[
+        Text(
+          '홀',
+          style: _getContentTextStyle(),
+        ),
+        Text(
+          '짝',
+          style: _getContentTextStyle(),
+        )
+      ];
+    } else if (name.contains("blue")) {
+      questionAnswers = <Widget>[
+        Text(
+          '0~4',
+          style: _getContentTextStyle(),
+        ),
+        Text(
+          '5~9',
+          style: _getContentTextStyle(),
+        )
+      ];
+    } else if (name.contains("green")) {
+      questionAnswers = <Widget>[
+        Text(
+          'Y',
+          style: _getContentTextStyle(),
+        ),
+        Text(
+          'N',
+          style: _getContentTextStyle(),
+        )
+      ];
+    } else if (name.contains("black")) {}
+
+    return questionAnswers;
+  }
+
+
+
+  void _applyFilter() {
+    setState(() {
+      _strFilteredNumberPairList = [];
+    });
+
+    List<int> applyFilterArray = _questionMaker.getApplyFilterArray(_bestQuestion, _answerList);
+
+    for (int i = 0; i < applyFilterArray.length; i++) {
+      setState(() {
+        _strFilteredNumberPairList.add(_strNumberPairList[applyFilterArray[i]]);
+      });
+    }
+  }
+
 
 }
