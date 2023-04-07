@@ -17,7 +17,10 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
 
   TextEditingController inputNumberController = TextEditingController();
 
-  int _caseNumber = 0;
+  String _resultMessage = "";
+  String _firstNumberLength = "4";
+  String _secondNumberLength = "4";
+
 
   @override
   void dispose() {
@@ -64,10 +67,23 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
               SizedBox(
                 height: _verticalPaddingBetweenWidget,
               ),
-              SizedBox(
+              _strNumberPairList.length == 0
+                  ? SizedBox(
+                  width: double.infinity,
+                  height: 40,
+                  child: Center(
+                      child: Column(
+                        children: [
+                          Text(_resultMessage, style: _getAlertTextStyle()),
+                        ],
+                      )))
+                  : SizedBox(
                   width: double.infinity,
                   height: 20,
-                  child: Text("○ 경우의수 : " + _caseNumber.toString() + " 가지",
+                  child: Text(
+                      "○ 경우의수 : " +
+                          _strNumberPairList.length.toString() +
+                          " 가지",
                       style: _getContentTextStyle())),
               Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -105,10 +121,6 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
 
   //숫자 계산
   void calculateNumber(String inputText) {
-    String _resultMessage = "";
-    String _firstNumberLength = "4";
-    String _secondNumberLength = "4";
-
     _strNumberPairList = []; //입력값에 대한 pair String ver
     _intNumberPairList = []; //입력값에 대한 pair int ver
 
@@ -173,17 +185,11 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
 
     if (_strNumberPairList.isEmpty) {
       setState(() {
-        _caseNumber = 0;
+        _resultMessage = "계산결과값이 없습니다";
       });
 
       return;
     }
-
-    setState(() {
-      _caseNumber = _strNumberPairList.length;
-    });
-
-
 
     List<QuestionCase> resultList = [];
     _questionMaker = QuestionMaker(_intNumberPairList);
