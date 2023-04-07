@@ -196,13 +196,17 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
       qCase.questionList.sort((a, b) => a.index - b.index);
     }
 
+    if (_bestQuestionSet.isEmpty) {
+      _bestQuestionSet.add(resultList[0]);
+      setState(() {
+        _bestQuestionSet[0].questionList.sort((a, b) => a.index - b.index);
+      });
+    }
 
     setState(() {
       _bestQuestion = _bestQuestionSet[0];
       _answerList = List.filled(_bestQuestion.questionList.length, "false");
     });
-
-    print(_bestQuestion);
   }
 
   String getCaseResultText(String number) {
