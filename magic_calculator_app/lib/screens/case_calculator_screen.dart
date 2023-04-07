@@ -60,7 +60,7 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                     onPressed: () {
-                      getCaseResultText(inputNumberController.text);
+                      getFirstQuestion();
                     },
                     child: Text('계산하기')),
               ),
@@ -215,14 +215,11 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
     });
   }
 
-  String getCaseResultText(String number) {
-    calculateNumber(number);
-
-    return _intNumberPairList.length.toString();
-  }
-
   int getFirstQuestion() {
+
+    String number = inputNumberController.text;
     //계산하기 버튼에 의해서 트리거 된다.
+    calculateNumber(number);
 
     //경우의 수 계산 + 질문추천1번 만들기
     return 10;
@@ -392,6 +389,7 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
 
 
   void _applyFilter() {
+
     setState(() {
       _strFilteredNumberPairList = [];
     });
