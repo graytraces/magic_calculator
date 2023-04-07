@@ -34,6 +34,7 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
     AppStatProvider appStatProvider = context.read<AppStatProvider>();
 
     return Scaffold(
+      appBar: AppBar(title: Text('경우의 수 계산기')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
