@@ -227,6 +227,8 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
 
   int getSecondQuestion() {
     //첫번째 질문의 답에 의해서 트리거된다.
+
+    //filtered array를 넣고 최적값을 구해야하네...
     return 10;
   }
 
@@ -400,6 +402,26 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
       setState(() {
         _strFilteredNumberPairList.add(_strNumberPairList[applyFilterArray[i]]);
       });
+    }
+
+
+    if(_strFilteredNumberPairList.length == 1){
+      return;
+    }
+
+    switch(_answerList.length){
+      case 1:
+        getSecondQuestion();
+        break;
+      case 2:
+        getThirdQuestion();
+        break;
+      case 3:
+        getFourthQuestion();
+        break;
+      case 4:
+        getFifthQuestion();
+        break;
     }
   }
 
