@@ -5,14 +5,14 @@ import 'package:magic_calculator_app/widgets/main/explain_result.dart';
 import 'package:magic_calculator_app/widgets/main/explain_text.dart';
 import 'package:provider/provider.dart';
 
-class CaseCalculatorScreen extends StatefulWidget {
-  const CaseCalculatorScreen({Key? key}) : super(key: key);
+class CaseCalculatorScreenOld extends StatefulWidget {
+  const CaseCalculatorScreenOld({Key? key}) : super(key: key);
 
   @override
-  _CaseCalculatorScreenState createState() => _CaseCalculatorScreenState();
+  _CaseCalculatorScreenOldState createState() => _CaseCalculatorScreenOldState();
 }
 
-class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
+class _CaseCalculatorScreenOldState extends State<CaseCalculatorScreenOld> {
   final double _verticalPaddingBetweenWidget = 20;
 
   TextEditingController inputNumberController = TextEditingController();
@@ -20,6 +20,7 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
   String _resultMessage = "";
   String _firstNumberLength = "4";
   String _secondNumberLength = "4";
+  bool _isUseBlackQuestion = true;
 
 
   @override
@@ -37,7 +38,7 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
     AppStatProvider appStatProvider = context.read<AppStatProvider>();
 
     return Scaffold(
-      appBar: AppBar(title: Text('경우의 수 계산기')),
+      appBar: AppBar(title: Text('경우의 수 계산기(구버전)')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -194,9 +195,47 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
     List<QuestionCase> resultList = [];
     _questionMaker = QuestionMaker(_intNumberPairList);
 
-    _questionMaker.getQuestionCase(resultList, true); //실제 답 찾는 로직
-    _bestQuestionSet = _questionMaker.getBestQuestionSet(resultList, 1);
+    QuestionCandidate? blackOneShotQuestion;
+    if (_isUseBlackQuestion) {
+      blackOneShotQuestion = _questionMaker.getBlackOneShotQuestion();
+    }
 
+    QuestionCase blackBestQuestion = QuestionCase([], 0, 0);
+    List<QuestionCase> blackBestQuestionSet = [];
+
+    if (blackOneShotQuestion != null) {
+      List<QuestionCandidate> blackOneshotQuestionCandidateList = [];
+      List<QuestionCase> blackOneshotQuestionCaseList = [];
+      blackOneshotQuestionCandidateList.add(blackOneShotQuestion);
+      blackBestQuestion = QuestionCase(blackOneshotQuestionCandidateList, 1, 1);
+      blackOneshotQuestionCaseList.add(blackBestQuestion);
+      blackBestQuestionSet = blackOneshotQuestionCaseList;
+    }
+
+    bool findFirstStep = false;
+
+    for (int i = 0; i < 4; i++) {
+      //resultList = 모든 케이스를 넣는다.
+      _questionMaker.getQuestionCase(resultList, _isUseBlackQuestion); //실제 답 찾는 로직
+      _bestQuestionSet = _questionMaker.getBestQuestionSet(
+          resultList, 1);
+
+      if (_bestQuestionSet.isNotEmpty) {
+        if (i == 0) {
+          findFirstStep = true;
+        }
+        break;
+      } else if (i == 0) {
+        if (blackOneShotQuestion != null) {
+          // 한방에 답 찾은경우
+          setState(() {
+            _bestQuestion = blackBestQuestion;
+            _bestQuestionSet = blackBestQuestionSet;
+          });
+          break;
+        }
+      }
+    }
 
     for (QuestionCase qCase in _bestQuestionSet) {
       qCase.questionList.sort((a, b) => a.index - b.index);
@@ -207,6 +246,23 @@ class _CaseCalculatorScreenState extends State<CaseCalculatorScreen> {
       setState(() {
         _bestQuestionSet[0].questionList.sort((a, b) => a.index - b.index);
       });
+    } else {
+      //한방에 찾았고, black을 안쓸수 있는지 확인해본다.
+      if (findFirstStep) {
+        QuestionCase qCase = _bestQuestionSet[_bestQuestionSet.length - 1];
+
+        if (!qCase.questionList[0].name.contains("black")) {
+          //black 외에 질문이 존재함
+
+          for (int i = 0; i < _bestQuestionSet.length; i++) {
+            QuestionCase qCase2 = _bestQuestionSet[i];
+            if (qCase2.questionList[0].name.contains("black")) {
+              _bestQuestionSet.remove(qCase2);
+              i--;
+            }
+          }
+        }
+      }
     }
 
     setState(() {

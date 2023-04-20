@@ -14,10 +14,20 @@ class CalculatorViewModel extends ChangeNotifier {
   bool _isClear = true;
   int _zeroCounter = 0;
   int get zeroCounter => _zeroCounter;
+  int _prevCounter = 0;
 
   //추가된것들. 입력값 분리작업
   List<String> _splitResult = [];
   List<String> get splitResult => _splitResult;
+
+  int get prevCounter => _prevCounter;
+  addPrevCounter(){
+    _prevCounter++;
+  }
+
+  clearPrevCounter(){
+    _prevCounter = 0;
+  }
 
   String get inputHeaderText => _inputExpression.isEmpty
       ? _doubleToDisplayText(result)

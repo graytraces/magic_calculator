@@ -17,7 +17,7 @@ class CalculatorHomeScreen extends StatelessWidget {
         SystemUiOverlayStyle.light.copyWith(systemNavigationBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(mySystemTheme);
 
-    var viewmodel = context.watch<CalculatorViewModel>();
+    CalculatorViewModel viewmodel = context.watch<CalculatorViewModel>();
 
     List<String> imageList = [];
     makeImageList(imageList);
@@ -43,13 +43,13 @@ class CalculatorHomeScreen extends StatelessWidget {
       return badge;
     }
 
-    StatelessWidget makeGridItem(int index) {
+    StatelessWidget makeGridItem(BuildContext context, int index, CalculatorViewModel viewmodel) {
       return Container(
         child: Column(
           children: [
             GestureDetector(
               onTap: () async {
-                await launchIconAction(imageList[index]);
+                await launchIconAction(context, imageList[index], viewmodel);
               },
               child: Stack(
                 alignment: AlignmentDirectional.topEnd,
@@ -92,18 +92,24 @@ class CalculatorHomeScreen extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: 23,
               itemBuilder: (BuildContext context, int index) {
-                return makeGridItem(index);
+                return makeGridItem(context, index, viewmodel);
               })),
     );
   }
 
-  Future<void> launchIconAction(String imageName) async {
+  Future<void> launchIconAction(BuildContext context, String imageName, CalculatorViewModel viewmodel) async {
     if (imageName.contains("Phone")) {
       Uri sms = Uri.parse('tel:');
       await launchUrl(sms);
     } else if (imageName.contains("Messages")) {
       Uri sms = Uri.parse('sms:');
       await launchUrl(sms);
+    }else{
+      viewmodel.addPrevCounter();
+      if( viewmodel.prevCounter == 5 ){
+        Navigator.pop(context);
+        viewmodel.clearPrevCounter();
+      }
     }
   }
 

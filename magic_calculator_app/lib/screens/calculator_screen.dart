@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:magic_calculator_app/screens/calculator_home_screen.dart';
 import 'package:magic_calculator_app/screens/case_calculator_screen.dart';
+import 'package:magic_calculator_app/screens/case_calculator_screen_old.dart';
 import 'package:magic_calculator_app/widgets/header_display.dart';
 import 'package:magic_calculator_app/widgets/input_pad.dart';
 
@@ -87,7 +88,7 @@ class CalculatorScreen extends StatelessWidget {
               onLongPress: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CaseCalculatorScreen()),
+                  MaterialPageRoute(builder: (context) => CaseCalculatorScreenOld()),
                 );
                 return;
               },

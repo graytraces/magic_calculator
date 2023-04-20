@@ -12,7 +12,6 @@ class AboveKeyboard extends StatelessWidget {
 
   _getAboveKeyboardStyle() {
     return TextButton.styleFrom(
-      foregroundColor: Colors.white
     );
   }
 
