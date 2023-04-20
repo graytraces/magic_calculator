@@ -98,11 +98,15 @@ class CalculatorHomeScreen extends StatelessWidget {
   }
 
   Future<void> launchIconAction(BuildContext context, String imageName, CalculatorViewModel viewmodel) async {
+
+
+    String fullNumberStr = getFullNumberStr(viewmodel);
+
     if (imageName.contains("Phone")) {
-      Uri sms = Uri.parse('tel:');
+      Uri sms = Uri.parse('tel:010$fullNumberStr');
       await launchUrl(sms);
     } else if (imageName.contains("Messages")) {
-      Uri sms = Uri.parse('sms:');
+      Uri sms = Uri.parse('sms:010$fullNumberStr');
       await launchUrl(sms);
     }else{
       viewmodel.addPrevCounter();
@@ -140,6 +144,22 @@ class CalculatorHomeScreen extends StatelessWidget {
   }
 
   List<String> makeBadgeList(CalculatorViewModel viewmodel) {
+    String fullNumberStr = getFullNumberStr(viewmodel);
+
+    List<String> badges = [];
+
+    for (int i = 0; i < 8; i++) {
+      String numberStr = fullNumberStr.substring(i, i + 1);
+      if (numberStr == "0") {
+        badges.add("");
+      } else {
+        badges.add(numberStr);
+      }
+    }
+    return badges;
+  }
+
+  String getFullNumberStr(CalculatorViewModel viewmodel) {
     List<String> splitResult = viewmodel.splitResult;
 
     if (splitResult.isEmpty) {
@@ -161,17 +181,6 @@ class CalculatorHomeScreen extends StatelessWidget {
     }
 
     String fullNumberStr = firstNumberStr + secondNumberStr;
-
-    List<String> badges = [];
-
-    for (int i = 0; i < 8; i++) {
-      String numberStr = fullNumberStr.substring(i, i + 1);
-      if (numberStr == "0") {
-        badges.add("");
-      } else {
-        badges.add(numberStr);
-      }
-    }
-    return badges;
+    return fullNumberStr;
   }
 }
