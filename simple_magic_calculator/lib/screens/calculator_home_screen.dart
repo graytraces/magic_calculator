@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:simple_magic_calculator/viewmodels/calculator_viewmodel.dart';
@@ -13,6 +15,8 @@ class CalculatorHomeScreen extends StatelessWidget {
 
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge); 풀스크린 해제
 
+    List<int> markPostion = [Random().nextInt(8), Random().nextInt(8)+10];
+
     var mySystemTheme =
         SystemUiOverlayStyle.light.copyWith(systemNavigationBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(mySystemTheme);
@@ -27,7 +31,7 @@ class CalculatorHomeScreen extends StatelessWidget {
 
     StatelessWidget makeBadge(int index) {
       StatelessWidget badge = Container();
-      List<int> markPostion = [2, 5, 7, 8, 11, 12, 14, 17];
+
       if (markPostion.contains(index)) {
         badge = Container(
           width: 24,
@@ -146,10 +150,12 @@ class CalculatorHomeScreen extends StatelessWidget {
   List<String> makeBadgeList(CalculatorViewModel viewmodel) {
     String fullNumberStr = getFullNumberStr(viewmodel);
 
+    String last2Chars = fullNumberStr.substring(fullNumberStr.length-2); //끝에 2개만 띄우게 수정
+
     List<String> badges = [];
 
-    for (int i = 0; i < 8; i++) {
-      String numberStr = fullNumberStr.substring(i, i + 1);
+    for (int i = 0; i < 2; i++) {
+      String numberStr = last2Chars.substring(i, i + 1);
       if (numberStr == "0") {
         badges.add("");
       } else {
