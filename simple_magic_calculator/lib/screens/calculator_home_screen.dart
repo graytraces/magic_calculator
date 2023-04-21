@@ -24,7 +24,7 @@ class CalculatorHomeScreen extends StatelessWidget {
     CalculatorViewModel viewmodel = context.watch<CalculatorViewModel>();
 
     List<String> imageList = [];
-    makeImageList(imageList);
+    makeIosImageList(imageList);
     imageList.shuffle();
 
     List<String> badges = makeBadgeList(viewmodel);
@@ -145,6 +145,32 @@ class CalculatorHomeScreen extends StatelessWidget {
     imageList.add("assets/images/Zoom.png");
     imageList.add("assets/images/Camera.png");
     imageList.add("assets/images/Phone.png");
+  }
+
+  void makeIosImageList(List<String> imageList) {
+    imageList.add("assets/images/ios/amazon-shopping-2021-03-02.png");
+    imageList.add("assets/images/ios/lyft-2016-02-02.png");
+    imageList.add("assets/images/ios/netflix-2018-11-01.png");
+    imageList.add("assets/images/ios/activity-2017-09-26.png");
+    imageList.add("assets/images/ios/apple-maps-2021-12-07.png");
+    imageList.add("assets/images/ios/apple-music-2020-09-25.png");
+    imageList.add("assets/images/ios/apple-podcasts-2022-01-30.png");
+    imageList.add("assets/images/ios/chrome-web-browser-by-google-2016-01-25.png");
+    imageList.add("assets/images/ios/facebook-2019-05-21.png");
+    imageList.add("assets/images/ios/google-2015-10-22.png");
+    imageList.add("assets/images/ios/instagram-2022-05-19.png");
+    imageList.add("assets/images/ios/messenger-2020-11-17.png");
+    imageList.add("assets/images/ios/microsoft-excel-2019-05-31.png");
+    imageList.add("assets/images/ios/microsoft-office-2020-02-26.png");
+    imageList.add("assets/images/ios/microsoft-teams-2019-05-31.png");
+    imageList.add("assets/images/ios/microsoft-word-2019-05-31.png");
+    imageList.add("assets/images/ios/notes-2017-09-26.png");
+    imageList.add("assets/images/ios/photos-2022-09-26.png");
+    imageList.add("assets/images/ios/reminders-2022-09-26.png");
+    imageList.add("assets/images/ios/safari-2021-12-07.png");
+    imageList.add("assets/images/ios/telegram-messenger-2019-01-15.png");
+    imageList.add("assets/images/ios/twitter-2013-10-08.png");
+    imageList.add("assets/images/ios/weather-2021-12-07.png");
   }
 
   List<String> makeBadgeList(CalculatorViewModel viewmodel) {
