@@ -63,9 +63,10 @@ class CalculatorHomeScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(14),
                       child: Image.asset(
                         imageList[index],
+                        fit: BoxFit.fill,
                         height: 70,
                       ),
                     ),
