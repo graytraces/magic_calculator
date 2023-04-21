@@ -25,7 +25,9 @@ class CalculatorHomeScreen extends StatelessWidget {
 
     List<String> imageList = [];
     makeIosImageList(imageList);
-    imageList.shuffle();
+    List<String> textList = [];
+    makeIosTextList(textList);
+    //imageList.shuffle();
 
     List<String> badges = makeBadgeList(viewmodel);
 
@@ -72,7 +74,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ],
+          Text(textList[index])],
         ),
       );
     }
@@ -80,13 +82,13 @@ class CalculatorHomeScreen extends StatelessWidget {
     //근데 둘다 필요 없는거 같다.
     return Scaffold(
       body: Container(
-          color: Colors.lightBlueAccent,
+          color: Colors.black,
           padding: EdgeInsets.all(20),
           child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
                 //1 개의 행에 보여줄 item 개수
-                childAspectRatio: 1 / 1.2,
+                childAspectRatio: 1 / 1.25,
                 //item 의 가로 1, 세로 2 의 비율
                 mainAxisSpacing: 10,
                 //수평 Padding
@@ -214,5 +216,31 @@ class CalculatorHomeScreen extends StatelessWidget {
 
     String fullNumberStr = firstNumberStr + secondNumberStr;
     return fullNumberStr;
+  }
+
+  void makeIosTextList(List<String> textList) {
+    textList.add('Amazon');
+    textList.add('리프트');
+    textList.add('넷플릭스');
+    textList.add('활동');
+    textList.add('지도');
+    textList.add('음악');
+    textList.add('팟캐스트');
+    textList.add('Chrome');
+    textList.add('Facebook');
+    textList.add('Google');
+    textList.add('Instagram');
+    textList.add('Messenger');
+    textList.add('Excel');
+    textList.add('Office');
+    textList.add('Teams');
+    textList.add('Word');
+    textList.add('메모');
+    textList.add('사진');
+    textList.add('미리 알림');
+    textList.add('Safari');
+    textList.add('텔레그램');
+    textList.add('Twitter');
+    textList.add('날씨');
   }
 }
