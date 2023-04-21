@@ -15,7 +15,7 @@ class CalculatorHomeScreen extends StatelessWidget {
 
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge); 풀스크린 해제
 
-    List<int> markPostion = [Random().nextInt(8), Random().nextInt(8)+10];
+    List<int> markPostion = [Random().nextInt(8), Random().nextInt(8) + 10];
 
     var mySystemTheme =
         SystemUiOverlayStyle.light.copyWith(systemNavigationBarColor: Colors.transparent);
@@ -61,7 +61,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                 alignment: AlignmentDirectional.topEnd,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                    padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(14),
                       child: Image.asset(
@@ -75,7 +75,8 @@ class CalculatorHomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-          Text(textList[index])],
+            Text(textList[index])
+          ],
         ),
       );
     }
@@ -83,30 +84,98 @@ class CalculatorHomeScreen extends StatelessWidget {
     //근데 둘다 필요 없는거 같다.
     return Scaffold(
       body: Container(
-          color: Colors.black,
-          padding: EdgeInsets.all(20),
-          child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                //1 개의 행에 보여줄 item 개수
-                childAspectRatio: 1 / 1.25,
-                //item 의 가로 1, 세로 2 의 비율
-                mainAxisSpacing: 10,
-                //수평 Padding
-                crossAxisSpacing: 10,
-                //수직 Padding
-              ),
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 23,
-              itemBuilder: (BuildContext context, int index) {
-                return makeGridItem(context, index, viewmodel);
-              })),
+        color: Colors.black,
+        child: SafeArea(
+          child: Column(
+            children: [
+              Flexible(
+                  flex: 1,
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                    child: GridView.builder(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          //1 개의 행에 보여줄 item 개수
+                          childAspectRatio: 1 / 1.2,
+                          //item 의 가로 1, 세로 2 의 비율
+                          mainAxisSpacing: 10,
+                          //수평 Padding
+                          crossAxisSpacing: 10,
+                          //수직 Padding
+                        ),
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: 19,
+                        itemBuilder: (BuildContext context, int index) {
+                          return makeGridItem(context, index, viewmodel);
+                        }),
+                  )),
+              Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: Container(
+                        color: Color(0xFFFFFFFF).withOpacity(0.5),
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 90,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(14),
+                          child: Image.asset(
+                            imageList[0],
+                            fit: BoxFit.fill,
+                            height: 70,
+                          ),
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(14),
+                          child: Image.asset(
+                            imageList[0],
+                            fit: BoxFit.fill,
+                            height: 70,
+                          ),
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(14),
+                          child: Image.asset(
+                            imageList[0],
+                            fit: BoxFit.fill,
+                            height: 70,
+                          ),
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(14),
+                          child: Image.asset(
+                            imageList[0],
+                            fit: BoxFit.fill,
+                            height: 70,
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 
-  Future<void> launchIconAction(BuildContext context, String imageName, CalculatorViewModel viewmodel) async {
-
-
+  Future<void> launchIconAction(
+      BuildContext context, String imageName, CalculatorViewModel viewmodel) async {
     String fullNumberStr = getFullNumberStr(viewmodel);
 
     if (imageName.contains("Phone")) {
@@ -115,9 +184,9 @@ class CalculatorHomeScreen extends StatelessWidget {
     } else if (imageName.contains("Messages")) {
       Uri sms = Uri.parse('sms:010$fullNumberStr');
       await launchUrl(sms);
-    }else{
+    } else {
       viewmodel.addPrevCounter();
-      if( viewmodel.prevCounter == 5 ){
+      if (viewmodel.prevCounter == 5) {
         Navigator.pop(context);
         viewmodel.clearPrevCounter();
       }
@@ -179,7 +248,7 @@ class CalculatorHomeScreen extends StatelessWidget {
   List<String> makeBadgeList(CalculatorViewModel viewmodel) {
     String fullNumberStr = getFullNumberStr(viewmodel);
 
-    String last2Chars = fullNumberStr.substring(fullNumberStr.length-2); //끝에 2개만 띄우게 수정
+    String last2Chars = fullNumberStr.substring(fullNumberStr.length - 2); //끝에 2개만 띄우게 수정
 
     List<String> badges = [];
 
