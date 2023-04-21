@@ -128,12 +128,12 @@ class CalculatorHomeScreen extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(14),
                           child: Image.asset(
-                            imageList[0],
+                            'assets/images/ios/ios_call.png',
                             fit: BoxFit.fill,
                             height: 70,
                           ),
@@ -141,7 +141,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(14),
                           child: Image.asset(
-                            imageList[0],
+                            'assets/images/ios/ios_message.png',
                             fit: BoxFit.fill,
                             height: 70,
                           ),
@@ -149,15 +149,7 @@ class CalculatorHomeScreen extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(14),
                           child: Image.asset(
-                            imageList[0],
-                            fit: BoxFit.fill,
-                            height: 70,
-                          ),
-                        ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(14),
-                          child: Image.asset(
-                            imageList[0],
+                            'assets/images/ios/safari-2021-12-07.png',
                             fit: BoxFit.fill,
                             height: 70,
                           ),
