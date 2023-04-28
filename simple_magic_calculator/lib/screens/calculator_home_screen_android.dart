@@ -12,7 +12,6 @@ class CalculatorHomeScreenAndroid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive); //풀스크린
 
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge); 풀스크린 해제
@@ -120,20 +119,34 @@ class CalculatorHomeScreenAndroid extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(14),
-                          child: Image.asset(
-                            'assets/images/ios/ios_call.png',
-                            fit: BoxFit.fill,
-                            height: _iconSize,
+                        GestureDetector(
+                          onTap: () async {
+                            String fullNumberStr = getFullNumberStr(viewmodel);
+                            Uri call = Uri.parse('tel:010$fullNumberStr');
+                            await launchUrl(call);
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(14),
+                            child: Image.asset(
+                              'assets/images/ios/ios_call.png',
+                              fit: BoxFit.fill,
+                              height: _iconSize,
+                            ),
                           ),
                         ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(14),
-                          child: Image.asset(
-                            'assets/images/ios/ios_message.png',
-                            fit: BoxFit.fill,
-                            height: _iconSize,
+                        GestureDetector(
+                          onTap: () async {
+                            String fullNumberStr = getFullNumberStr(viewmodel);
+                            Uri sms = Uri.parse('sms:010$fullNumberStr');
+                            await launchUrl(sms);
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(14),
+                            child: Image.asset(
+                              'assets/images/ios/ios_message.png',
+                              fit: BoxFit.fill,
+                              height: _iconSize,
+                            ),
                           ),
                         ),
                         ClipRRect(
@@ -158,21 +171,12 @@ class CalculatorHomeScreenAndroid extends StatelessWidget {
 
   Future<void> launchIconAction(
       BuildContext context, String imageName, CalculatorViewModel viewmodel) async {
-    String fullNumberStr = getFullNumberStr(viewmodel);
 
-    if (imageName.contains("Phone")) {
-      Uri sms = Uri.parse('tel:010$fullNumberStr');
-      await launchUrl(sms);
-    } else if (imageName.contains("Messages")) {
-      Uri sms = Uri.parse('sms:010$fullNumberStr');
-      await launchUrl(sms);
-    } else {
       viewmodel.addPrevCounter();
       if (viewmodel.prevCounter == 5) {
         Navigator.pop(context);
         viewmodel.clearPrevCounter();
       }
-    }
   }
 
   void makeImageList(List<String> imageList) {

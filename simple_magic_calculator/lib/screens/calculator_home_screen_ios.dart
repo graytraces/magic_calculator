@@ -132,20 +132,34 @@ class CalculatorHomeScreenIos extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(14),
-                          child: Image.asset(
-                            'assets/images/ios/ios_call.png',
-                            fit: BoxFit.fill,
-                            height: _iconSize,
+                        GestureDetector(
+                          onTap: () async {
+                            String fullNumberStr = getFullNumberStr(viewmodel);
+                            Uri call = Uri.parse('tel:010$fullNumberStr');
+                            await launchUrl(call);
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(14),
+                            child: Image.asset(
+                              'assets/images/ios/ios_call.png',
+                              fit: BoxFit.fill,
+                              height: _iconSize,
+                            ),
                           ),
                         ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(14),
-                          child: Image.asset(
-                            'assets/images/ios/ios_message.png',
-                            fit: BoxFit.fill,
-                            height: _iconSize,
+                        GestureDetector(
+                          onTap: () async {
+                            String fullNumberStr = getFullNumberStr(viewmodel);
+                            Uri sms = Uri.parse('sms:010$fullNumberStr');
+                            await launchUrl(sms);
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(14),
+                            child: Image.asset(
+                              'assets/images/ios/ios_message.png',
+                              fit: BoxFit.fill,
+                              height: _iconSize,
+                            ),
                           ),
                         ),
                         ClipRRect(
