@@ -8,9 +8,11 @@ import 'package:url_launcher/url_launcher.dart';
 
 class CalculatorHomeScreenAndroid extends StatelessWidget {
   const CalculatorHomeScreenAndroid({Key? key}) : super(key: key);
+  final double _iconSize = 60;
 
   @override
   Widget build(BuildContext context) {
+
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive); //풀스크린
 
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge); 풀스크린 해제
@@ -67,7 +69,7 @@ class CalculatorHomeScreenAndroid extends StatelessWidget {
                       child: Image.asset(
                         imageList[index],
                         fit: BoxFit.fill,
-                        height: 70,
+                        height: _iconSize,
                       ),
                     ),
                   ),
@@ -96,11 +98,11 @@ class CalculatorHomeScreenAndroid extends StatelessWidget {
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4,
                           //1 개의 행에 보여줄 item 개수
-                          childAspectRatio: 1 / 1.2,
+                          childAspectRatio: 1 / 1.25,
                           //item 의 가로 1, 세로 2 의 비율
-                          mainAxisSpacing: 10,
+                          mainAxisSpacing: 20,
                           //수평 Padding
-                          crossAxisSpacing: 10,
+                          crossAxisSpacing: 20,
                           //수직 Padding
                         ),
                         physics: const NeverScrollableScrollPhysics(),
@@ -113,19 +115,6 @@ class CalculatorHomeScreenAndroid extends StatelessWidget {
                 alignment: AlignmentDirectional.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: Container(
-                        color: Color(0xFFFFFFFF).withOpacity(0.5),
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: 90,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
                     padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -135,7 +124,7 @@ class CalculatorHomeScreenAndroid extends StatelessWidget {
                           child: Image.asset(
                             'assets/images/ios/ios_call.png',
                             fit: BoxFit.fill,
-                            height: 70,
+                            height: _iconSize,
                           ),
                         ),
                         ClipRRect(
@@ -143,7 +132,7 @@ class CalculatorHomeScreenAndroid extends StatelessWidget {
                           child: Image.asset(
                             'assets/images/ios/ios_message.png',
                             fit: BoxFit.fill,
-                            height: 70,
+                            height: _iconSize,
                           ),
                         ),
                         ClipRRect(
@@ -151,7 +140,7 @@ class CalculatorHomeScreenAndroid extends StatelessWidget {
                           child: Image.asset(
                             'assets/images/ios/safari-2021-12-07.png',
                             fit: BoxFit.fill,
-                            height: 70,
+                            height: _iconSize,
                           ),
                         )
                       ],

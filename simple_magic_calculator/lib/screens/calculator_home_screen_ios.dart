@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class CalculatorHomeScreenIos extends StatelessWidget {
   const CalculatorHomeScreenIos({Key? key}) : super(key: key);
+  final double _iconSize = 60;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +68,7 @@ class CalculatorHomeScreenIos extends StatelessWidget {
                       child: Image.asset(
                         imageList[index],
                         fit: BoxFit.fill,
-                        height: 70,
+                        height: _iconSize,
                       ),
                     ),
                   ),
@@ -98,9 +99,9 @@ class CalculatorHomeScreenIos extends StatelessWidget {
                           //1 개의 행에 보여줄 item 개수
                           childAspectRatio: 1 / 1.2,
                           //item 의 가로 1, 세로 2 의 비율
-                          mainAxisSpacing: 10,
+                          mainAxisSpacing: 20,
                           //수평 Padding
-                          crossAxisSpacing: 10,
+                          crossAxisSpacing: 20,
                           //수직 Padding
                         ),
                         physics: const NeverScrollableScrollPhysics(),
@@ -135,7 +136,7 @@ class CalculatorHomeScreenIos extends StatelessWidget {
                           child: Image.asset(
                             'assets/images/ios/ios_call.png',
                             fit: BoxFit.fill,
-                            height: 70,
+                            height: _iconSize,
                           ),
                         ),
                         ClipRRect(
@@ -143,7 +144,7 @@ class CalculatorHomeScreenIos extends StatelessWidget {
                           child: Image.asset(
                             'assets/images/ios/ios_message.png',
                             fit: BoxFit.fill,
-                            height: 70,
+                            height: _iconSize,
                           ),
                         ),
                         ClipRRect(
@@ -151,7 +152,7 @@ class CalculatorHomeScreenIos extends StatelessWidget {
                           child: Image.asset(
                             'assets/images/ios/safari-2021-12-07.png',
                             fit: BoxFit.fill,
-                            height: 70,
+                            height: _iconSize,
                           ),
                         )
                       ],
