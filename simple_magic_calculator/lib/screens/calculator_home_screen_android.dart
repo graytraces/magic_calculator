@@ -6,8 +6,8 @@ import 'package:simple_magic_calculator/viewmodels/calculator_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class CalculatorHomeScreen extends StatelessWidget {
-  const CalculatorHomeScreen({Key? key}) : super(key: key);
+class CalculatorHomeScreenAndroid extends StatelessWidget {
+  const CalculatorHomeScreenAndroid({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

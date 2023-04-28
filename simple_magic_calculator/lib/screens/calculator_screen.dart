@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:simple_magic_calculator/screens/calculator_home_screen.dart';
+import 'package:simple_magic_calculator/screens/calculator_home_screen_android.dart';
+import 'package:simple_magic_calculator/screens/calculator_home_screen_ios.dart';
 import 'package:simple_magic_calculator/widgets/header_display.dart';
 import 'package:simple_magic_calculator/widgets/input_pad.dart';
 
@@ -65,7 +66,7 @@ class CalculatorScreen extends StatelessWidget {
                 }
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CalculatorHomeScreen()),
+                  MaterialPageRoute(builder: (context) => CalculatorHomeScreenAndroid()),
                 );
                 return;
               },
@@ -77,7 +78,7 @@ class CalculatorScreen extends StatelessWidget {
                 if (details.delta.dy < -sensitivity) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CalculatorHomeScreen()),
+                    MaterialPageRoute(builder: (context) => CalculatorHomeScreenIos()),
                   );
                   return;
                   //Up Swipe
