@@ -53,6 +53,7 @@ class CalculatorHomeScreenIos extends StatelessWidget {
     StatelessWidget makeGridItem(BuildContext context, int index, CalculatorViewModel viewmodel) {
       return Container(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             GestureDetector(
               onTap: () async {
@@ -62,7 +63,7 @@ class CalculatorHomeScreenIos extends StatelessWidget {
                 alignment: AlignmentDirectional.topEnd,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
+                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(14),
                       child: Image.asset(
@@ -99,9 +100,9 @@ class CalculatorHomeScreenIos extends StatelessWidget {
                           //1 개의 행에 보여줄 item 개수
                           childAspectRatio: 1 / 1.2,
                           //item 의 가로 1, 세로 2 의 비율
-                          mainAxisSpacing: 20,
+                          mainAxisSpacing: 10,
                           //수평 Padding
-                          crossAxisSpacing: 20,
+                          crossAxisSpacing: 10,
                           //수직 Padding
                         ),
                         physics: const NeverScrollableScrollPhysics(),
