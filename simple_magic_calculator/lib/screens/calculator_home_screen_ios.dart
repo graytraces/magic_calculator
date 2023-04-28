@@ -18,10 +18,6 @@ class CalculatorHomeScreenIos extends StatelessWidget {
 
     List<int> markPostion = [Random().nextInt(8), Random().nextInt(8) + 10];
 
-    var mySystemTheme =
-        SystemUiOverlayStyle.light.copyWith(systemNavigationBarColor: Colors.transparent);
-    SystemChrome.setSystemUIOverlayStyle(mySystemTheme);
-
     CalculatorViewModel viewmodel = context.watch<CalculatorViewModel>();
 
     List<String> imageList = [];
